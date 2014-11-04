@@ -4,5 +4,19 @@
     <string name="app_name">XoSoKienThiet</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_date_picker">Chọn ngày</string>
+    <string name="title_activity_schedule_rolling">Lịch Quay</string>
+
+    <string-array name="list_day_in_week">
+        <item>Chủ Nhật</item>
+        <item>Thứ Hai</item>
+        <item>Thứ Ba</item>
+        <item>Thứ Tư</item>
+        <item>Thứ Năm</item>
+        <item>Thứ Sáu</item>
+        <item>Thứ Bảy</item>
+    </string-array>
+
+    <string name="title_activity_try_play">TryPlayActivity</string>
 
 </resources>
