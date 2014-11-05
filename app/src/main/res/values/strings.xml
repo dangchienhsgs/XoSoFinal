@@ -17,6 +17,7 @@
         <item>Thứ Bảy</item>
     </string-array>
 
-    <string name="title_activity_try_play">TryPlayActivity</string>
+    <string name="title_activity_try_play">Try Play Activity</string>
+    <string name="title_activity_dream_book">DreamBookActivity</string>
 
 </resources>

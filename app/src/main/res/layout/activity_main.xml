@@ -1,11 +1,67 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    tools:context=".MainActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/button_result"
+        android:text="Kết quả"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/button_statistic"
+        android:layout_alignStart="@+id/button_statistic"
+        android:layout_marginTop="74dp" />
+
+    <Button
+        android:onClick="onClick"
+        android:id="@+id/button_rolling_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lịch quay"
+        android:layout_below="@+id/button_result"
+        android:layout_alignRight="@+id/button_statistic"
+        android:layout_alignEnd="@+id/button_statistic" />
+
+    <Button
+        android:onClick="onClick"
+        android:id="@+id/button_statistic"
+        android:text="Thống kê"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="47dp"
+        android:layout_below="@+id/button_result"
+        android:layout_alignLeft="@+id/button_try_play"
+        android:layout_alignStart="@+id/button_try_play" />
+    <Button
+        android:onClick="onClick"
+        android:id="@+id/button_search"
+        android:text="Tra cứu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_try_play"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:onClick="onClick"
+        android:id="@+id/button_try_play"
+        android:text="Chơi thử"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_statistic"
+        android:layout_centerHorizontal="true"        />
+    <Button
+        android:id="@+id/button_dream_book"
+        android:onClick="onClick"
+        android:text="Sổ mơ"
+        android:layout_below="@+id/button_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"        />
 
 </RelativeLayout>
