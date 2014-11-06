@@ -3,16 +3,14 @@ package fiveplay.dangchienhsgs.com.xosokienthiet;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import fiveplay.dangchienhsgs.com.xosokienthiet.view.DatePickerActivity;
 import fiveplay.dangchienhsgs.com.xosokienthiet.view.DreamBookActivity;
 import fiveplay.dangchienhsgs.com.xosokienthiet.view.ScheduleRollingActivity;
-import fiveplay.dangchienhsgs.com.xosokienthiet.view.TryPlayActivity;
+import fiveplay.dangchienhsgs.com.xosokienthiet.play.TryPlayActivity;
 
 
 public class MainActivity extends Activity implements Button.OnClickListener{

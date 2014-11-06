@@ -20,4 +20,15 @@
     <string name="title_activity_try_play">Try Play Activity</string>
     <string name="title_activity_dream_book">DreamBookActivity</string>
 
+    <string-array name="prize_name">
+        <item>Giải đặc biệt</item>
+        <item>Giải nhất</item>
+        <item>Giải nhì</item>
+        <item>Giải ba</item>
+        <item>Giải tư</item>
+        <item>Giải năm</item>
+        <item>Giải sáu</item>
+        <item>Giải bảy</item>
+    </string-array>
+
 </resources>

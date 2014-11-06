@@ -4,15 +4,48 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="fiveplay.dangchienhsgs.com.xosokienthiet.view.TryPlayActivity">
+    tools:context="fiveplay.dangchienhsgs.com.xosokienthiet.play.TryPlayActivity">
+    <Spinner
+        android:id="@+id/spinner_lotto_companies"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        </Spinner>
 
+    <LinearLayout
+        android:id="@+id/layout_image_numbers"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_lotto_companies">
+        <TextView
+            android:id="@+id/text_result"
+            android:text="00000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_image_desciption"
+        android:text="Quay giải nhất"
+        android:layout_below="@+id/layout_image_numbers"
+        android:gravity="center_horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quay số"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
+        android:id="@+id/button_play"
+        android:layout_below="@+id/text_image_desciption"
+        android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_prize_and_value"
+        android:layout_below="@+id/button_play"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="175dp" />
+        android:choiceMode="none" />
+
 </RelativeLayout>
