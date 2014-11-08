@@ -22,7 +22,11 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 
 public class TryPlayActivity extends Activity implements Button.OnClickListener{
-    private ListView listPrizeValue;
+    private final String TAG="Try Play Activity";
+
+    private ListView listResultView;
+    private TextView textResult;
+
     private PrizeValueArrayAdapter mAdapter;
 
     private List<String> listValue;
@@ -35,7 +39,7 @@ public class TryPlayActivity extends Activity implements Button.OnClickListener{
 
     private boolean isPlaying=false;
 
-    private TextView textResult;
+    private int currentPlayPosition=0;
 
     private RandomTask randomTask;
 
@@ -44,24 +48,24 @@ public class TryPlayActivity extends Activity implements Button.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_try_play);
 
+        initComponent();
+        initData();
+
+    }
+
+    public void initComponent(){
         //Get ListView of the table
-        listPrizeValue=(ListView) findViewById(R.id.list_prize_and_value);
+        listResultView =(ListView) findViewById(R.id.list_prize_and_value);
         textResult =(TextView) findViewById(R.id.text_result);
         buttonPlay=(Button) findViewById(R.id.button_play);
+    }
 
-        //Create the adapter
-        mAdapter=new PrizeValueArrayAdapter(
-                getApplicationContext(),
-                R.layout.layout_row_list_prize_and_value
-        );
+    public void initData(){
 
-        //get prize's name list from resource
         listPrize= Arrays.asList(getResources().getStringArray(R.array.prize_name));
-
-        //init the value list by all elements are equal '-----' at the first time
         listValue=new ArrayList<String>();
-        String initValue="-";
 
+        String initValue="-";
         for (int i=1; i<Common.NUMBER_DIGIT_LOTTO_VALUE; i++){
             initValue=initValue+"-";
         }
@@ -69,40 +73,19 @@ public class TryPlayActivity extends Activity implements Button.OnClickListener{
             listValue.add(initValue);
         }
 
-        // Set adapter 's list prize and values
-        mAdapter.setListPrizeName(listPrize);
-        mAdapter.setListPrizeValue(listValue);
+        //Create the adapter
+        mAdapter=new PrizeValueArrayAdapter(
+                getApplicationContext(),
+                R.layout.layout_row_list_prize_and_value,
+                listPrize,
+                listValue
+        );
 
         // Set adapter for list prize
-        listPrizeValue.setAdapter(mAdapter);
+        listResultView.setAdapter(mAdapter);
 
         // Set Button Play Listener
         buttonPlay.setOnClickListener(this);
-
-        //
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_try_play, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -111,15 +94,25 @@ public class TryPlayActivity extends Activity implements Button.OnClickListener{
             randomTask=new RandomTask();
             randomNumbers=new int[Common.NUMBER_DIGIT_LOTTO_VALUE];
             isPlaying=true;
-            Log.d("asdasd", isPlaying+"");
             randomTask.execute();
         } else {
             randomTask.cancel(true);
             isPlaying=false;
-            Log.d("ASdasd", isPlaying+"");
+            Log.d(TAG, "Stop play");
+
+            // Update Table
+
+            Log.d(TAG, "Update list value");
+            listValue.add(currentPlayPosition, textResult.getText().toString());
+            mAdapter.notifyDataSetChanged();
+
+            Log.d(TAG, "Finish update list value");
         }
     }
 
+    /**
+     * Background Task do random and update it to the views
+     */
     private class RandomTask extends AsyncTask<Void, String, Void>{
         private final String TAG="Random Task";
 
@@ -166,5 +159,28 @@ public class TryPlayActivity extends Activity implements Button.OnClickListener{
             textResult.setText(results[0]);
             Log.d(TAG, results[0]);
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_try_play, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

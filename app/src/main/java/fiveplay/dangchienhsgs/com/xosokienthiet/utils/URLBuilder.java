@@ -1,4 +1,4 @@
-package fiveplay.dangchienhsgs.com.xosokienthiet.service;
+package fiveplay.dangchienhsgs.com.xosokienthiet.utils;
 
 public class URLBuilder {
     // List all urls which provide data from server
@@ -7,6 +7,9 @@ public class URLBuilder {
     public static final String URL_THONG_KE_IT_NHIEU="http://play.dommedia.vn/appapi/api_xoso/thongke_itnhieu";
     public static final String URL_THONG_KE_00_99="http://play.dommedia.vn/appapi/api_xoso/thongke_0099";
     public static final String URL_THONG_KE_LO_GAN="http://play.dommedia.vn/appapi/api_xoso/thongke_logan";
+
+
+
 
     private String url;
 
@@ -36,6 +39,7 @@ public class URLBuilder {
             return this;
         } else {
             url=url+"?"+key+"="+value;
+            isModified=true;
             return this;
         }
     }

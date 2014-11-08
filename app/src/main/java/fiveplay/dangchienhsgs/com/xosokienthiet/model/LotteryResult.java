@@ -118,4 +118,17 @@ public class LotteryResult {
             return null;
         }
     }
+
+
+    public List<String> getPrize() {
+        return prize;
+    }
+
+    public List<String> getLottoHeadTail() {
+        return lottoHeadTail;
+    }
+
+    public List<String> getLottoTailHead() {
+        return lottoTailHead;
+    }
 }

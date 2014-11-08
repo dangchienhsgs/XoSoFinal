@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fiveplay.dangchienhsgs.com.xosokienthiet.results.ResultFragment">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <Spinner
+                android:id="@+id/spinner_lotto_companies"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xem"
+                android:id="@+id/button_view_result"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/datePicker"
+                android:layout_toEndOf="@+id/datePicker"
+                android:layout_below="@+id/spinner_lotto_companies" />
+
+            <Button
+                android:id="@+id/button_day"
+                android:text="Thu 5, 20/11/1994"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinner_lotto_companies"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/button_view_result"
+                android:layout_toStartOf="@+id/button_view_result" />
+
+
+            <TextView
+                android:id="@+id/text_result"
+                android:text="Kết quả xổ số"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/button_view_result"/>
+            <ListView
+                android:id="@+id/list_result"
+                android:layout_below="@+id/text_result"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"></ListView>
+            <TextView
+                android:id="@+id/text_head_tail"
+                android:layout_below="@+id/list_result"
+                android:text="Bảng đầu đuôi"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+            <ListView
+                android:id="@+id/list_head_tail"
+                android:layout_below="@+id/text_head_tail"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"></ListView>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

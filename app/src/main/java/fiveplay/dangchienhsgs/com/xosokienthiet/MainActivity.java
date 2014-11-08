@@ -1,25 +1,68 @@
 package fiveplay.dangchienhsgs.com.xosokienthiet;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import fiveplay.dangchienhsgs.com.xosokienthiet.view.DreamBookActivity;
-import fiveplay.dangchienhsgs.com.xosokienthiet.view.ScheduleRollingActivity;
-import fiveplay.dangchienhsgs.com.xosokienthiet.play.TryPlayActivity;
+import fiveplay.dangchienhsgs.com.xosokienthiet.view.TabsPagerAdapter;
 
 
-public class MainActivity extends Activity implements Button.OnClickListener{
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener{
     private String TAG="Main Activity";
+
+    private ViewPager mViewPager;
+    private ActionBar actionBar;
+    private TabsPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initTabs();
+    }
+
+    private void initTabs(){
+        actionBar=getActionBar();
+        mViewPager=(ViewPager) findViewById(R.id.view_pager);
+
+        adapter=new TabsPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(adapter);
+
+
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setHomeButtonEnabled(false);
+
+        String[] titles=getResources().getStringArray(R.array.tab_titles);
+
+        for (String title:titles){
+            ActionBar.Tab tab=actionBar.newTab();
+
+            tab.setText(title);
+            tab.setTabListener(this);
+            actionBar.addTab(tab);
+        }
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                getActionBar().setSelectedNavigationItem(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
     }
 
@@ -47,23 +90,17 @@ public class MainActivity extends Activity implements Button.OnClickListener{
     }
 
     @Override
-    public void onClick(View view) {
-        int id=view.getId();
-        Intent intent;
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        int position=tab.getPosition();
+        mViewPager.setCurrentItem(position);
+    }
 
-        switch (id){
-            case R.id.button_dream_book:
-                intent=new Intent(getApplicationContext(), DreamBookActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.button_rolling_schedule:
-                intent=new Intent(getApplicationContext(), ScheduleRollingActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.button_try_play:
-                intent=new Intent(getApplicationContext(), TryPlayActivity.class);
-                startActivity(intent);
-                break;
-        }
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
     }
 }
