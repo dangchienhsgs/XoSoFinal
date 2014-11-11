@@ -27,7 +27,7 @@ public class TryPlayActivity extends Activity implements Button.OnClickListener{
     private ListView listResultView;
     private TextView textResult;
 
-    private PrizeValueArrayAdapter mAdapter;
+    private TwoColumnArrayAdapter mAdapter;
 
     private List<String> listValue;
     private List<String> listPrize;
@@ -74,9 +74,9 @@ public class TryPlayActivity extends Activity implements Button.OnClickListener{
         }
 
         //Create the adapter
-        mAdapter=new PrizeValueArrayAdapter(
+        mAdapter=new TwoColumnArrayAdapter(
                 getApplicationContext(),
-                R.layout.layout_row_list_prize_and_value,
+                R.layout.layout_row_two_columns,
                 listPrize,
                 listValue
         );

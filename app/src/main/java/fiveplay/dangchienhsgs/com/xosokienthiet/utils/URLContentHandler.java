@@ -8,6 +8,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Created by dangchienhsgs on 9/8/14.
  */
@@ -37,29 +44,76 @@ public class URLContentHandler {
         }
     }
 
-    public static String getURLFirstLine(String link) {
-        try {
-            URL url = new URL(link);
-            URLConnection connection = url.openConnection();
-            InputStream inputStream = connection.getInputStream();
+    public static String sendGet(String url, String parameter)  {
+        try{
 
-            Scanner scanner = new Scanner(inputStream);
-            String result=null;
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            if (scanner.hasNextLine()) result=scanner.nextLine();
+            // optional default is GET
+            con.setRequestMethod("GET");
 
-            scanner.close();
-            return result;
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
+            // Send get request
+            if (parameter!=null){
+                con.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                wr.writeBytes(parameter);
+                wr.flush();
+                wr.close();
+            }
+
+            // Get response
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            return response.toString();
+
+
+        } catch (IOException e){
             return null;
         }
     }
+
+    // HTTP POST request
+    public static String sendPost(String url, String urlParameters) throws Exception {
+
+        URL obj = new URL(url);
+        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+
+        //add request header
+        con.setRequestMethod("POST");
+
+        // Send post request
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(urlParameters);
+        wr.flush();
+        wr.close();
+
+        // Read response
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        return response.toString();
+
+    }
+
     public static void main(String args[]){
-        System.out.println (new URLContentHandler().
-                getURLFirstLine("http://staticsurvey.herobo.com//service.php?data={username:chien,password:hello}&username=dangchienhsgs&password=chien1994&action=update_user_info"));
+        System.out.println (sendGet("www.google.com",null));
     }
 }

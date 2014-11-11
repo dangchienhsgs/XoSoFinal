@@ -19,7 +19,7 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.LotteryResult;
-import fiveplay.dangchienhsgs.com.xosokienthiet.play.PrizeValueArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.play.TwoColumnArrayAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLContentHandler;
 
@@ -61,9 +61,9 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLottoHost.setAdapter(spinnerAdapter);
 
-        /*PrizeValueArrayAdapter listAdapter=new PrizeValueArrayAdapter(
+        /*TwoColumnArrayAdapter listAdapter=new TwoColumnArrayAdapter(
                 getActivity(),
-                R.layout.layout_row_list_prize_and_value,
+                R.layout.layout_row_two_columns,
                 null, // list prize
                 null  // list value
         );*/
@@ -115,9 +115,9 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
             Log.d(TAG, result);
 
             LotteryResult lottoResult=new LotteryResult(result);
-            PrizeValueArrayAdapter resultAdapter=new PrizeValueArrayAdapter(
+            TwoColumnArrayAdapter resultAdapter=new TwoColumnArrayAdapter(
                     getActivity(),
-                    R.layout.layout_row_list_prize_and_value,
+                    R.layout.layout_row_two_columns,
                     Arrays.asList(Common.PRIZE_NAME),
                     lottoResult.getPrize()
             );

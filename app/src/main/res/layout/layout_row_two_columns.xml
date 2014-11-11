@@ -2,21 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
     <TextView
-        android:text="name"
-        android:id="@+id/text_prize_name"
+        android:text="Column 1"
+        android:id="@+id/text_first_column"
         android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:text="number"
+        android:text="Column 2"
         android:layout_marginLeft="5dp"
-        android:layout_toLeftOf="@+id/text_prize_name"
+        android:layout_toLeftOf="@+id/text_first_column"
         android:layout_alignParentRight="true"
-        android:id="@+id/text_prize_value"
+        android:id="@+id/text_second_column"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/text_prize_name"
-        android:layout_toEndOf="@+id/text_prize_name" />
+        android:layout_toRightOf="@+id/text_first_column"
+        android:layout_toEndOf="@+id/text_first_column" />
 
 </RelativeLayout>
