@@ -20,6 +20,7 @@ import java.util.Random;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
+import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TwoColumnArrayAdapter;
 
 public class TryPlayActivity extends Activity implements Button.OnClickListener{
     private final String TAG="Try Play Activity";

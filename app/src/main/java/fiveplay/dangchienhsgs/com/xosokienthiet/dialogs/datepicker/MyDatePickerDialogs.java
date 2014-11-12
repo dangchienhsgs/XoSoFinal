@@ -1,17 +1,13 @@
 package fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
-
-import java.util.Date;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 
@@ -32,7 +28,7 @@ public class MyDatePickerDialogs extends DialogFragment {
 
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
 
-        View view= LayoutInflater.from(getActivity()).inflate(R.layout.layout_dialog_date_picker, null);
+        View view= LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date_picker, null);
 
         final DatePicker datePicker=(DatePicker) view.findViewById(R.id.date_picker);
 

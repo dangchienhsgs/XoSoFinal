@@ -1,8 +1,5 @@
 package fiveplay.dangchienhsgs.com.xosokienthiet.service;
 
-/**
- * Created by dangchienhsgs on 04/11/2014.
- */
 
 import android.util.Log;
 

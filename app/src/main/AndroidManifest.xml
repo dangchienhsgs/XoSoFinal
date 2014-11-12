@@ -24,16 +24,20 @@
             android:label="@string/title_activity_date_picker" >
         </activity>
         <activity
-            android:name="fiveplay.dangchienhsgs.com.xosokienthiet.view.ScheduleRollingActivity"
+            android:name=".ScheduleFragment"
             android:label="@string/title_activity_schedule_rolling" >
         </activity>
         <activity
-            android:name=".play.TryPlayActivity"
+            android:name="fiveplay.dangchienhsgs.com.xosokienthiet.play.TryPlayActivity"
             android:label="@string/title_activity_try_play" >
         </activity>
         <activity
-            android:name="fiveplay.dangchienhsgs.com.xosokienthiet.view.DreamBookActivity"
+            android:name=".view.DreamBookFragment"
             android:label="@string/title_activity_dream_book" >
+        </activity>
+        <activity
+            android:name=".VanTrinhFragment"
+            android:label="@string/title_activity_van_trinh" >
         </activity>
     </application>
 

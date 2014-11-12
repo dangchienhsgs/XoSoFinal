@@ -1,4 +1,4 @@
-package fiveplay.dangchienhsgs.com.xosokienthiet.play;
+package fiveplay.dangchienhsgs.com.xosokienthiet.adapter;
 
 import android.content.Context;
 import android.util.Log;

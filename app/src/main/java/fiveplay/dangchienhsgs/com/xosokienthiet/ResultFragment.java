@@ -1,4 +1,4 @@
-package fiveplay.dangchienhsgs.com.xosokienthiet.results;
+package fiveplay.dangchienhsgs.com.xosokienthiet;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.LotteryResult;
-import fiveplay.dangchienhsgs.com.xosokienthiet.play.TwoColumnArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TwoColumnArrayAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLContentHandler;
 

@@ -1,18 +1,17 @@
 package fiveplay.dangchienhsgs.com.xosokienthiet.view;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,13 +21,13 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 import fiveplay.dangchienhsgs.com.xosokienthiet.data.DreamBookAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.data.DreamBookReader;
 
-public class DreamBookActivity extends Activity {
+public class DreamBookFragment extends Fragment {
     private final String TAG="Dream Book Activity";
 
     private ListView listView;
     private EditText editSearch;
 
-    private DreamBookReader mReader=new DreamBookReader(this);
+    private DreamBookReader bookReader;
     private DreamBookAdapter mDreamAdapter;
 
     private List<String> listAllContent;
@@ -39,33 +38,40 @@ public class DreamBookActivity extends Activity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dream_book);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view=inflater.inflate(R.layout.fragment_dream_book, container, false);
 
-        listView=(ListView) findViewById(R.id.list_dream);
-        editSearch=(EditText) findViewById(R.id.edit_search);
+        listView=(ListView) getView().findViewById(R.id.list_dream);
+        editSearch=(EditText) getView().findViewById(R.id.edit_search);
 
-        mReader.reader("");
-        listAllContent=mReader.getDreamsListContent();
-        listAllNumber=mReader.getDreamsListNumber();
+        // get all data from asset/dream_book.txt
+        // No filter
+        bookReader =new DreamBookReader(getActivity());
+        bookReader.reader("");
+
+        listAllContent= bookReader.getDreamsListContent();
+        listAllNumber= bookReader.getDreamsListNumber();
 
         listSearchContent=listAllContent;
         listSearchNumber=listAllNumber;
 
+        // Create adapter
         mDreamAdapter=new DreamBookAdapter(
-                this,
-                R.layout.layout_row_list_dreams,
+                getActivity(),
+                R.layout.row_list_dreams,
                 R.id.list_item_dream_content,
                 listAllContent
         );
 
+
+        // Set Adapter
         listView.setAdapter(mDreamAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String dreamNumber=mReader.getDreamsListNumber().get(i);
-                Toast.makeText(getApplicationContext(), dreamNumber, Toast.LENGTH_SHORT).show();
+                String dreamNumber= bookReader.getDreamsListNumber().get(i);
+                Toast.makeText(getActivity(), dreamNumber, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -100,28 +106,7 @@ public class DreamBookActivity extends Activity {
             }
         });
 
+        return view;
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_dream_book, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

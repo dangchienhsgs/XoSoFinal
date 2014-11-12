@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight">
+    <TextView
+        android:text="First"
+        android:id="@+id/text_first_column"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent" />
+    <TextView
+        android:text="Second"
+        android:layout_toRightOf="@+id/text_first_column"
+        android:id="@+id/text_second_column"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

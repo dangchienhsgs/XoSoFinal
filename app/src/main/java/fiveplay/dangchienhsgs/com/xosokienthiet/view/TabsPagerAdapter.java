@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import fiveplay.dangchienhsgs.com.xosokienthiet.results.ResultFragment;
+import fiveplay.dangchienhsgs.com.xosokienthiet.ResultFragment;
 
 /**
  * Created by dangchienbn on 08/11/2014.
