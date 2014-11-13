@@ -20,6 +20,7 @@ import java.util.Scanner;
 public class ServiceUtilities {
     private static final String TAG="Service Utilities";
 
+    // HTTP GET request
     public static String sendGet(String url, String parameter)  {
         try{
 
@@ -99,6 +100,7 @@ public class ServiceUtilities {
         }
     }
 
+    //
     private static JsonObject getData(String data){
         try{
             JsonParser jsonParser=new JsonParser();
@@ -130,6 +132,7 @@ public class ServiceUtilities {
 
         return sendPost(url, getData(data).toString());
     }
+
     public static void main(String args[]){
         System.out.println (getVanTrinh(10, 10, 2013));
     }

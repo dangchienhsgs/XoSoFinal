@@ -10,14 +10,17 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TabsPagerAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MyDatePickerDialogs.DatePickerListener {
     private String TAG = "Main Activity";
 
     private ViewPager mViewPager;
     private ActionBar actionBar;
     private TabsPagerAdapter adapter;
+
+    private ResultFragment resultFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             tab.setTabListener(this);
             actionBar.addTab(tab);
         }
+
+        ActionBar.Tab utilTab = actionBar.newTab();
+        utilTab.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_more));
+        utilTab.setTabListener(this);
+        actionBar.addTab(utilTab);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -85,9 +93,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_calendar:
+                MyDatePickerDialogs dialogs = new MyDatePickerDialogs();
+                dialogs.setDatePickerListener((ResultFragment) adapter.getItem(0));
+                dialogs.show(getSupportFragmentManager(), "DatePicker");
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -105,6 +117,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onDatePickerReturn(int year, int month, int day) {
 
     }
 }

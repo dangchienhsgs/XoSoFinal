@@ -22,6 +22,28 @@ public class Common {
             "hochiminh"
     };
 
+    public static final String[] COMPANIES_IN_NORTH = {
+            "Quảng Ninh",
+            "Hà Nội",
+            "Bắc Ninh"
+    };
+
+    public static final String[] COMPANIES_IN_MIDDLE = {
+            "Bắc Kinh",
+            "Quảng Ninh",
+            "Hà Nội",
+            "Bắc Ninh",
+            "Thanh Hóa"
+    };
+
+    public static final String[] COMPANIES_IN_SOUTH = {
+            "Bình Phước",
+            "Quảng Ninh",
+            "Hà Nội",
+            "Bắc Ninh",
+            "Quảng Bình"
+    };
+
     public static final String PRIZE_NAME[]={
             "prize0",
             "prize1",
@@ -93,6 +115,15 @@ public class Common {
             "Ha Noi \n Hai Phong",
             "Bac Ninh \n Lao Cai",
             "Bac Ninh \n Lao Cai",
+    };
+
+
+    public static final String[] UTILITIES = {
+            "Chơi thử",
+            "Giá vàng",
+            "Xem Vận Trình",
+            "Xem Ngũ Hành",
+            "Truyện Cười",
     };
 
 

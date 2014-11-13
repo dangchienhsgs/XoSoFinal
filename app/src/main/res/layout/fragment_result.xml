@@ -9,56 +9,65 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-            <Spinner
-                android:id="@+id/spinner_lotto_companies"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
 
-            <Button
+            <RelativeLayout
+                android:id="@+id/layout_group_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Xem"
-                android:id="@+id/button_view_result"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/datePicker"
-                android:layout_toEndOf="@+id/datePicker"
-                android:layout_below="@+id/spinner_lotto_companies" />
+                android:layout_centerHorizontal="true">
 
-            <Button
-                android:id="@+id/button_day"
-                android:text="Thu 5, 20/11/1994"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/spinner_lotto_companies"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_toLeftOf="@+id/button_view_result"
-                android:layout_toStartOf="@+id/button_view_result" />
+                <Button
+                    android:id="@+id/button_area_north"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="Miền Bắc" />
+
+                <Button
+                    android:id="@+id/button_area_middle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_toRightOf="@+id/button_area_north"
+                    android:text="Miền Trung" />
+
+                <Button
+                    android:id="@+id/button_area_south"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_toRightOf="@+id/button_area_middle"
+                    android:text="Miền Nam" />
+            </RelativeLayout>
 
 
-            <TextView
-                android:id="@+id/text_result"
-                android:text="Kết quả xổ số"
+            <HorizontalScrollView
+                android:id="@+id/horizontal_companies_view"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/button_view_result"/>
+                android:layout_height="?android:attr/listPreferredItemHeight"
+                android:layout_below="@+id/layout_group_area">
+
+                <LinearLayout
+                    android:id="@+id/layout_group_companies"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
             <ListView
-                android:id="@+id/list_result"
-                android:layout_below="@+id/text_result"
+                android:id="@+id/list_prize_and_value"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"></ListView>
-            <TextView
-                android:id="@+id/text_head_tail"
-                android:layout_below="@+id/list_result"
-                android:text="Bảng đầu đuôi"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/horizontal_companies_view"></ListView>
+
             <ListView
-                android:id="@+id/list_head_tail"
-                android:layout_below="@+id/text_head_tail"
+                android:id="@+id/list_lotto_head_tail"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"></ListView>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list_prize_and_value"></ListView>
         </RelativeLayout>
     </ScrollView>
 

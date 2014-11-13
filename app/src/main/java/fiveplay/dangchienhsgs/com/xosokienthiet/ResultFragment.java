@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -20,14 +23,15 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.LotteryResult;
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TwoColumnArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
-import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLContentHandler;
 
-public class ResultFragment extends Fragment implements MyDatePickerDialogs.DatePickerListener{
-    private Spinner spinnerLottoHost;
+public class ResultFragment extends Fragment implements MyDatePickerDialogs.DatePickerListener, Button.OnClickListener {
+    private Button buttonNorth;
+    private Button buttonMiddle;
+    private Button buttonSouth;
 
-    private Button buttonResult;
-    private Button buttonDay;
+    private LinearLayout layoutGroupCompanies;
 
     private ListView listResult;
     private ListView listHeadTail;
@@ -36,6 +40,12 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
     private int day;
     private int month;
     private int year;
+
+    private int choosingButton = 0;
+
+    private String choosingArea;
+    private String choosingCompany;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,67 +56,82 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
     }
 
     public void initComponents(View view){
-        spinnerLottoHost=(Spinner) view.findViewById(R.id.spinner_lotto_companies);
-        buttonDay=(Button) view.findViewById(R.id.button_day);
-        buttonResult=(Button) view.findViewById(R.id.button_view_result);
-        listResult=(ListView) view.findViewById(R.id.list_result);
-        listHeadTail=(ListView)view.findViewById(R.id.list_head_tail);
+
+        buttonNorth = (Button) view.findViewById(R.id.button_area_north);
+        buttonMiddle = (Button) view.findViewById(R.id.button_area_middle);
+        buttonSouth = (Button) view.findViewById(R.id.button_area_south);
+
+        buttonNorth.setOnClickListener(this);
+        buttonMiddle.setOnClickListener(this);
+        buttonSouth.setOnClickListener(this);
 
 
-        ArrayAdapter<String> spinnerAdapter=new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_list_item_1,
-                Common.LOTTO_HOST
-        );
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLottoHost.setAdapter(spinnerAdapter);
+        layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
 
-        /*TwoColumnArrayAdapter listAdapter=new TwoColumnArrayAdapter(
-                getActivity(),
-                R.layout.layout_row_two_columns,
-                null, // list prize
-                null  // list value
-        );*/
+        listResult = (ListView) view.findViewById(R.id.list_prize_and_value);
+        listHeadTail = (ListView) view.findViewById(R.id.list_lotto_head_tail);
 
-        buttonDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSelectedDay(view);
-            }
-        });
-
-
-        buttonResult.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new DownloadResultTask().execute();
-            }
-        });
     }
 
     @Override
     public void onDatePickerReturn(int year, int month, int day) {
-
+        Toast.makeText(getActivity(), "" + year + month + day, Toast.LENGTH_SHORT).show();
     }
 
-    public void onSelectedDay(View view){
-        Log.d("asd, ", "Clicked");
-        MyDatePickerDialogs dialogs=new MyDatePickerDialogs();
-        dialogs.setDatePickerListener(this);
-        dialogs.show(getFragmentManager(), "Nothing");
+    @Override
+    public void onClick(View view) {
+        String[] companies = Common.COMPANIES_IN_NORTH;
+        switch (view.getId()) {
+            case R.id.button_area_north:
+                choosingButton = 0;
+                companies = Common.COMPANIES_IN_NORTH;
+                break;
+            case R.id.button_area_middle:
+                choosingButton = 1;
+                companies = Common.COMPANIES_IN_MIDDLE;
+                break;
+            case R.id.button_area_south:
+                choosingButton = 2;
+                companies = Common.COMPANIES_IN_SOUTH;
+                break;
+        }
+
+        layoutGroupCompanies.removeAllViews();
+        for (final String company : companies) {
+            Button button = new Button(getActivity());
+            button.setText(company);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    // Reset title for the activity
+                    getActivity().getActionBar().setTitle(company);
+                    choosingCompany = company;
+
+                    // load Result
+                    loadResult();
+                }
+            });
+
+            layoutGroupCompanies.addView(button);
+        }
     }
 
-    class DownloadResultTask extends AsyncTask<Void,String, String>{
-        private static final String TAG="Download Result Task";
+    public void loadResult(){
+        new DownloadResultTask().execute();
+    }
+
+    class DownloadResultTask extends AsyncTask<Void, String, String> {
+        private static final String TAG = "Download Result Task";
 
         @Override
         protected String doInBackground(Void... voids) {
-            URLBuilder urlBuilder=new URLBuilder(URLBuilder.URL_KET_QUA);
+            URLBuilder urlBuilder = new URLBuilder(URLBuilder.URL_KET_QUA);
             urlBuilder.append(Common.LOCATION_CODE, "mienbac");
             urlBuilder.append(Common.DATE, "2014-10-1");
 
-            String url=urlBuilder.create();
-            String result= URLContentHandler.getURLContent(url);
+            String url = urlBuilder.create();
+            String result = ServiceUtilities.sendGet(url, null);
             return result;
         }
 
@@ -114,8 +139,8 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
         protected void onPostExecute(String result) {
             Log.d(TAG, result);
 
-            LotteryResult lottoResult=new LotteryResult(result);
-            TwoColumnArrayAdapter resultAdapter=new TwoColumnArrayAdapter(
+            LotteryResult lottoResult = new LotteryResult(result);
+            TwoColumnArrayAdapter resultAdapter = new TwoColumnArrayAdapter(
                     getActivity(),
                     R.layout.row_two_columns,
                     R.id.text_first_column,
@@ -128,5 +153,4 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
             resultAdapter.notifyDataSetChanged();
         }
     }
-
 }
