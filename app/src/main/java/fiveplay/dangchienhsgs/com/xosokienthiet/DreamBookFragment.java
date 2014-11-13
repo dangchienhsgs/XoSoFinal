@@ -1,4 +1,4 @@
-package fiveplay.dangchienhsgs.com.xosokienthiet.view;
+package fiveplay.dangchienhsgs.com.xosokienthiet;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,7 +22,7 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.data.DreamBookAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.data.DreamBookReader;
 
 public class DreamBookFragment extends Fragment {
-    private final String TAG="Dream Book Activity";
+    private final String TAG = "Dream Book Activity";
 
     private ListView listView;
     private EditText editSearch;
@@ -40,24 +40,24 @@ public class DreamBookFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view=inflater.inflate(R.layout.fragment_dream_book, container, false);
+        View view = inflater.inflate(R.layout.fragment_dream_book, container, false);
 
-        listView=(ListView) getView().findViewById(R.id.list_dream);
-        editSearch=(EditText) getView().findViewById(R.id.edit_search);
+        listView = (ListView) getView().findViewById(R.id.list_dream);
+        editSearch = (EditText) getView().findViewById(R.id.edit_search);
 
         // get all data from asset/dream_book.txt
         // No filter
-        bookReader =new DreamBookReader(getActivity());
+        bookReader = new DreamBookReader(getActivity());
         bookReader.reader("");
 
-        listAllContent= bookReader.getDreamsListContent();
-        listAllNumber= bookReader.getDreamsListNumber();
+        listAllContent = bookReader.getDreamsListContent();
+        listAllNumber = bookReader.getDreamsListNumber();
 
-        listSearchContent=listAllContent;
-        listSearchNumber=listAllNumber;
+        listSearchContent = listAllContent;
+        listSearchNumber = listAllNumber;
 
         // Create adapter
-        mDreamAdapter=new DreamBookAdapter(
+        mDreamAdapter = new DreamBookAdapter(
                 getActivity(),
                 R.layout.row_list_dreams,
                 R.id.list_item_dream_content,
@@ -70,7 +70,7 @@ public class DreamBookFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String dreamNumber= bookReader.getDreamsListNumber().get(i);
+                String dreamNumber = bookReader.getDreamsListNumber().get(i);
                 Toast.makeText(getActivity(), dreamNumber, Toast.LENGTH_SHORT).show();
             }
         });
@@ -78,19 +78,19 @@ public class DreamBookFragment extends Fragment {
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                listSearchContent=new ArrayList<String>();
-                listSearchNumber=new ArrayList<String>();
+                listSearchContent = new ArrayList<String>();
+                listSearchNumber = new ArrayList<String>();
             }
 
             @Override
             public void onTextChanged(CharSequence text, int m, int i2, int i3) {
                 // Need to optimize the exactly result
-                String filter=editSearch.getText().toString().trim().toLowerCase();
+                String filter = editSearch.getText().toString().trim().toLowerCase();
                 Log.d(TAG, filter);
 
-                for (int i=0; i<listAllContent.size(); i++){
+                for (int i = 0; i < listAllContent.size(); i++) {
 
-                    if (listAllContent.get(i).toLowerCase().contains(filter)){
+                    if (listAllContent.get(i).toLowerCase().contains(filter)) {
                         listSearchContent.add(listAllContent.get(i));
                         listSearchNumber.add(listAllNumber.get(i));
                     }

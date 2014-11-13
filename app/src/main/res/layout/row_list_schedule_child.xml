@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="?android:attr/listPreferredItemHeight">
 
     <TextView
-        android:id="@+id/text_first_column"
+        android:id="@+id/text_area"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:text="First"
-        android:textColor="@android:color/black" />
+        android:gravity="center"
+        android:text="Mien Nam" />
 
     <TextView
-        android:id="@+id/text_second_column"
+        android:id="@+id/text_company"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/text_first_column"
-        android:text="Second"
-        android:textColor="@android:color/black" />
-
+        android:layout_toRightOf="@+id/text_area"
+        android:gravity="center"
+        android:text="Mien Bac" />
 </RelativeLayout>

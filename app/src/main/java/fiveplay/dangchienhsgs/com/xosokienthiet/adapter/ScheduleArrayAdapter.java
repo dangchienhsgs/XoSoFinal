@@ -5,93 +5,107 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 
-/**
- * Created by dangchienhsgs on 05/11/2014.
- */
-public class ScheduleArrayAdapter extends ArrayAdapter<String> {
-    private final String TAG="Schedule Array Adapter";
 
-    private TextView textDay;
+public class ScheduleArrayAdapter extends BaseExpandableListAdapter {
+    private static final String TAG = "Schedule Array Adapter";
 
-    private ListView listCompany;
 
-    private List<String> listDays;
+    private Context context;
+    private List<String> header;
+    private Map<String, List<String>> company;
 
-    private TwoColumnArrayAdapter mAdapter;
-
-    public ScheduleArrayAdapter (Context context, int resource, List<String> listDays) {
-        super(context, resource);
-        this.listDays=listDays;
+    public ScheduleArrayAdapter(Context context, List<String> header, Map<String, List<String>> company) {
+        this.context = context;
+        this.header = header;
+        this.company = company;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView==null){
-            LayoutInflater inflater=LayoutInflater.from(getContext());
-            convertView=inflater.inflate(R.layout.layout_row_two_columns, parent);
+    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
+
+        String title = header.get(i);
+
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.row_list_schedule_days, viewGroup, false);
         }
 
-        // Set Text View
-        textDay=(TextView) convertView.findViewById(R.id.text_day_name);
-        textDay.setText(listDays.get(position));
+        TextView textDay = (TextView) view.findViewById(R.id.text_day_name);
+        textDay.setText(title);
 
-
-        // Set ListView
-
-        listCompany=(ListView) convertView.findViewById(R.id.list_company);
-
-        final List<String> listValues;
-
-        switch (position){
-            case 0: listValues= Arrays.asList(Common.COMPANY_IN_MON_DAY);
-                break;
-            case 1: listValues= Arrays.asList(Common.COMPANY_IN_TUESDAY);
-                break;
-            case 2: listValues=Arrays.asList(Common.COMPANY_IN_WEDNESDAY);
-                break;
-            case 3: listValues=Arrays.asList(Common.COMPANY_IN_THURSDAY);
-                break;
-            case 4: listValues=Arrays.asList(Common.COMPANY_IN_FRIDAY);
-                break;
-            case 5: listValues=Arrays.asList(Common.COMPANY_IN_SATURDAY);
-                break;
-            case 6: listValues=Arrays.asList(Common.COMPANY_IN_SUNDAY);
-                break;
-            default: listValues=Arrays.asList(Common.COMPANY_IN_MON_DAY);
-        }
-
-        TwoColumnArrayAdapter mAdapter=new TwoColumnArrayAdapter(
-                getContext(),
-                R.layout.layout_row_two_columns,
-                Arrays.asList(Common.AREAS),
-                listValues
-        );
-
-        listCompany.setAdapter(mAdapter);
-
-        // Set OnCLick Listener for TextView
-        textDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listCompany.getVisibility()==View.VISIBLE){
-                    listCompany.setVisibility(View.INVISIBLE);
-                } else {
-                    listCompany.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        return convertView;
+        return view;
     }
+
+    @Override
+    public View getChildView(int i, int i2, boolean b, View view, ViewGroup viewGroup) {
+
+        String areaTitle = Common.AREAS[i2];
+
+        Log.d(TAG, i + " " + i2);
+        String companyTitle = company.get(header.get(i)).get(i2);
+
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.row_list_schedule_child, viewGroup, false);
+        }
+
+        TextView textArea = (TextView) view.findViewById(R.id.text_area);
+        TextView textCompany = (TextView) view.findViewById(R.id.text_company);
+
+        textArea.setText(areaTitle);
+        textCompany.setText(companyTitle);
+
+        return view;
+    }
+
+    @Override
+    public boolean isChildSelectable(int i, int i2) {
+        return false;
+    }
+
+
+    @Override
+    public int getGroupCount() {
+        return header.size();
+    }
+
+    @Override
+    public int getChildrenCount(int i) {
+        return Common.AREAS.length;
+    }
+
+    @Override
+    public Object getGroup(int i) {
+        return header.get(i);
+    }
+
+    @Override
+    public Object getChild(int i, int i2) {
+        return company.get(header.get(i)).get(i2);
+    }
+
+    @Override
+    public long getGroupId(int position) {
+        return position;
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
 }
+
+

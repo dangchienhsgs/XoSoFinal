@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fiveplay.dangchienhsgs.com.xosokienthiet" >
+    package="fiveplay.dangchienhsgs.com.xosokienthiet">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,35 +9,18 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name="fiveplay.dangchienhsgs.com.xosokienthiet.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="fiveplay.dangchienhsgs.com.xosokienthiet.view.DatePickerActivity"
-            android:label="@string/title_activity_date_picker" >
-        </activity>
-        <activity
-            android:name=".ScheduleFragment"
-            android:label="@string/title_activity_schedule_rolling" >
-        </activity>
-        <activity
-            android:name="fiveplay.dangchienhsgs.com.xosokienthiet.play.TryPlayActivity"
-            android:label="@string/title_activity_try_play" >
-        </activity>
-        <activity
-            android:name=".view.DreamBookFragment"
-            android:label="@string/title_activity_dream_book" >
-        </activity>
-        <activity
-            android:name=".VanTrinhFragment"
-            android:label="@string/title_activity_van_trinh" >
+            <meta-data
+                android:name="android.support.UI_OPTIONS"
+                android:value="splitActionBarWhenNarrow" />
         </activity>
     </application>
 

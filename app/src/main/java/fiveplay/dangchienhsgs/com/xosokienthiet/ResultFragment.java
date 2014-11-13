@@ -117,7 +117,8 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
             LotteryResult lottoResult=new LotteryResult(result);
             TwoColumnArrayAdapter resultAdapter=new TwoColumnArrayAdapter(
                     getActivity(),
-                    R.layout.layout_row_two_columns,
+                    R.layout.row_two_columns,
+                    R.id.text_first_column,
                     Arrays.asList(Common.PRIZE_NAME),
                     lottoResult.getPrize()
             );

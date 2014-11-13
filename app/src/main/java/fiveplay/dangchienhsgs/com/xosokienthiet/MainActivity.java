@@ -7,12 +7,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
-import fiveplay.dangchienhsgs.com.xosokienthiet.view.TabsPagerAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TabsPagerAdapter;
 
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener{
-    private String TAG="Main Activity";
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+    private String TAG = "Main Activity";
 
     private ViewPager mViewPager;
     private ActionBar actionBar;
@@ -26,21 +27,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         initTabs();
     }
 
-    private void initTabs(){
-        actionBar=getActionBar();
-        mViewPager=(ViewPager) findViewById(R.id.view_pager);
+    private void initTabs() {
+        actionBar = getActionBar();
 
-        adapter=new TabsPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+
+        adapter = new TabsPagerAdapter(getSupportFragmentManager());
+
+
         mViewPager.setAdapter(adapter);
 
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setHomeButtonEnabled(false);
 
-        String[] titles=getResources().getStringArray(R.array.tab_titles);
+        String[] titles = getResources().getStringArray(R.array.tab_titles);
 
-        for (String title:titles){
-            ActionBar.Tab tab=actionBar.newTab();
+        for (String title : titles) {
+            ActionBar.Tab tab = actionBar.newTab();
 
             tab.setText(title);
             tab.setTabListener(this);
@@ -91,7 +95,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        int position=tab.getPosition();
+        int position = tab.getPosition();
         mViewPager.setCurrentItem(position);
     }
 

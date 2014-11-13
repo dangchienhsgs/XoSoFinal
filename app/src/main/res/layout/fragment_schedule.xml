@@ -1,10 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    tools:context="fiveplay.dangchienhsgs.com.xosokienthiet.ScheduleFragment">
 
-    <ListView
-        android:id="@+id/list_schedule"
+    <ExpandableListView
+        android:id="@+id/list_day"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></ListView>
+        android:layout_height="fill_parent"></ExpandableListView>
 
 </RelativeLayout>
