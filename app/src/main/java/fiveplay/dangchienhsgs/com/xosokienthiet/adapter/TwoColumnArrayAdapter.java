@@ -25,6 +25,9 @@ public class TwoColumnArrayAdapter extends ArrayAdapter<String> {
         super(context, resource, textViewResourceId, listFirstColumn);
         this.listFirstColumn = listFirstColumn;
         this.listSecondColumn = listSecondColumn;
+
+        Log.d(TAG, listFirstColumn.toString());
+        Log.d(TAG, listSecondColumn.toString());
     }
 
     @Override
@@ -61,5 +64,10 @@ public class TwoColumnArrayAdapter extends ArrayAdapter<String> {
 
     public void setListSecondColumn(List<String> listSecondColumn) {
         this.listSecondColumn = listSecondColumn;
+    }
+
+    @Override
+    public int getCount() {
+        return listFirstColumn.size();
     }
 }

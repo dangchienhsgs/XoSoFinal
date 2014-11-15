@@ -3,11 +3,17 @@ package fiveplay.dangchienhsgs.com.xosokienthiet;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TabsPagerAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
@@ -20,22 +26,58 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private ActionBar actionBar;
     private TabsPagerAdapter adapter;
 
-    private ResultFragment resultFragment;
+    private List<Fragment> listFragment;
+
+    private int INDEX_RESULT_FRAGMENT = 0;
+    private int INDEX_STATISTIC_FRAGMENT = 1;
+    private int INDEX_SCHEDULE_FRAGMENT = 2;
+
+    private int day;
+
+    private int month;
+
+    private int year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initFragment();
         initTabs();
+        initDate();
+
     }
+
+
+    public void initFragment() {
+        listFragment = new ArrayList<Fragment>();
+
+        listFragment.add(new ResultFragment());
+        listFragment.add(new VanTrinhFragment());
+        listFragment.add(new ScheduleFragment());
+        listFragment.add(new UtilitiesFragment());
+
+    }
+
+    public void initDate() {
+        Calendar calendar = Calendar.getInstance();
+
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH);
+        year = calendar.get(Calendar.YEAR);
+
+        onDatePickerReturn(year, month, day);
+        Log.d(TAG, "Today: " + month + " " + year + " " + day);
+    }
+
 
     private void initTabs() {
         actionBar = getActionBar();
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
 
-        adapter = new TabsPagerAdapter(getSupportFragmentManager());
+        adapter = new TabsPagerAdapter(getSupportFragmentManager(), listFragment);
 
 
         mViewPager.setAdapter(adapter);
@@ -96,7 +138,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         switch (id) {
             case R.id.action_calendar:
                 MyDatePickerDialogs dialogs = new MyDatePickerDialogs();
-                dialogs.setDatePickerListener((ResultFragment) adapter.getItem(0));
+
+                dialogs.setInitDate(year, month, day);
+                dialogs.setDatePickerListener(this);
                 dialogs.show(getSupportFragmentManager(), "DatePicker");
                 break;
 
@@ -122,6 +166,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public void onDatePickerReturn(int year, int month, int day) {
+        this.day = day;
+        this.month = month;
+        this.year = year;
 
+        ResultFragment resultFragment = (ResultFragment) listFragment.get(INDEX_RESULT_FRAGMENT);
+        resultFragment.setDate(year, month, day);
     }
 }

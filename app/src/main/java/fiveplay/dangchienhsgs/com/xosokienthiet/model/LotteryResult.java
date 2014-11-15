@@ -39,6 +39,7 @@ public class LotteryResult {
 
             JSONObject resultObj = new JSONObject(jsonResult);
 
+            Log.d(TAG, jsonResult);
             // ketqua contains datetime and all prizes
             JSONObject ketqua = (JSONObject) resultObj.get("ketqua");
 

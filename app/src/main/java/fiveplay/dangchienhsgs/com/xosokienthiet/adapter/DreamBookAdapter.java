@@ -1,4 +1,4 @@
-package fiveplay.dangchienhsgs.com.xosokienthiet.data;
+package fiveplay.dangchienhsgs.com.xosokienthiet.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Adapter for Dream Book Activity 's ListView
  */
-public class DreamBookAdapter extends ArrayAdapter<String>{
+public class DreamBookAdapter extends ArrayAdapter<String> {
     List<String> list;
 
     public DreamBookAdapter(Context context, int resource, int textViewResourceId, List<String> list) {
@@ -20,8 +20,8 @@ public class DreamBookAdapter extends ArrayAdapter<String>{
         setList(list);
     }
 
-    public void setList(List<String> list){
-        this.list=list;
+    public void setList(List<String> list) {
+        this.list = list;
     }
 
 

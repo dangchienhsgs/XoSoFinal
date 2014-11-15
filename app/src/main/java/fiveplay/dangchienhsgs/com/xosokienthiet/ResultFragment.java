@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
@@ -26,7 +28,7 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TwoColumnArrayAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
 
-public class ResultFragment extends Fragment implements MyDatePickerDialogs.DatePickerListener, Button.OnClickListener {
+public class ResultFragment extends Fragment implements Button.OnClickListener {
     private Button buttonNorth;
     private Button buttonMiddle;
     private Button buttonSouth;
@@ -43,13 +45,16 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
 
     private int choosingButton = 0;
 
+    private String[] choosingCompanies;
+    private String[] choosingCompaniesID;
+
     private String choosingArea;
-    private String choosingCompany;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_result, container, false);
+
         initComponents(view);
 
         return view;
@@ -73,43 +78,55 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
 
     }
 
-    @Override
-    public void onDatePickerReturn(int year, int month, int day) {
-        Toast.makeText(getActivity(), "" + year + month + day, Toast.LENGTH_SHORT).show();
+    public void setDate(int year, int month, int day) {
+        this.day = day;
+        this.month = month;
+        this.year = year;
     }
 
     @Override
     public void onClick(View view) {
-        String[] companies = Common.COMPANIES_IN_NORTH;
         switch (view.getId()) {
+
             case R.id.button_area_north:
-                choosingButton = 0;
-                companies = Common.COMPANIES_IN_NORTH;
+                choosingCompanies = Common.COMPANIES_IN_NORTH;
+                choosingCompaniesID = Common.COMPANIES_IN_NORTH_ID;
                 break;
             case R.id.button_area_middle:
-                choosingButton = 1;
-                companies = Common.COMPANIES_IN_MIDDLE;
+                choosingCompanies = Common.COMPANIES_IN_MIDDLE;
+                choosingCompaniesID = Common.COMPANIES_IN_MIDDLE_ID;
                 break;
             case R.id.button_area_south:
-                choosingButton = 2;
-                companies = Common.COMPANIES_IN_SOUTH;
+                choosingCompanies = Common.COMPANIES_IN_SOUTH;
+                choosingCompaniesID = Common.COMPANIES_IN_SOUTH_ID;
                 break;
         }
 
         layoutGroupCompanies.removeAllViews();
-        for (final String company : companies) {
+
+        for (int i = 0; i < choosingCompanies.length; i++) {
+
+            final String company = choosingCompanies[i];
+
+            // Add button to the row
             Button button = new Button(getActivity());
             button.setText(company);
+            button.setTag(choosingCompaniesID[i]);
+
+            // Set onClickListener for the Button
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     // Reset title for the activity
                     getActivity().getActionBar().setTitle(company);
-                    choosingCompany = company;
+
+                    // Get the company code
+                    String code = (String) view.getTag();
 
                     // load Result
-                    loadResult();
+                    loadResult(code);
+
                 }
             });
 
@@ -117,20 +134,32 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
         }
     }
 
-    public void loadResult(){
-        new DownloadResultTask().execute();
+    public void loadResult(String code) {
+        new DownloadResultTask(code).execute();
     }
 
-    class DownloadResultTask extends AsyncTask<Void, String, String> {
+    private class DownloadResultTask extends AsyncTask<Void, String, String> {
         private static final String TAG = "Download Result Task";
+
+        private String code;
+
+        DownloadResultTask(String code) {
+            this.code = code;
+        }
 
         @Override
         protected String doInBackground(Void... voids) {
             URLBuilder urlBuilder = new URLBuilder(URLBuilder.URL_KET_QUA);
-            urlBuilder.append(Common.LOCATION_CODE, "mienbac");
-            urlBuilder.append(Common.DATE, "2014-10-1");
+            urlBuilder.append(
+                    //Common.LOCATION_CODE,
+                    "mienbac",
+                    code);
+            urlBuilder.append(Common.DATE, year + "-" + month + "-" + day);
 
             String url = urlBuilder.create();
+
+            Log.d(TAG, url);
+
             String result = ServiceUtilities.sendGet(url, null);
             return result;
         }
@@ -147,6 +176,7 @@ public class ResultFragment extends Fragment implements MyDatePickerDialogs.Date
                     Arrays.asList(Common.PRIZE_NAME),
                     lottoResult.getPrize()
             );
+
             Log.d(TAG, Arrays.asList(lottoResult.getPrize()).toString());
 
             listResult.setAdapter(resultAdapter);

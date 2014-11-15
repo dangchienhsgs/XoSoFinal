@@ -10,49 +10,120 @@ import java.util.List;
 public class Common {
     public static final int NUMBER_DIGIT_LOTTO_VALUE=5;
 
-    public static final String LOTTO_HOST[]={
-            "Mien Bac",
-            "Mien Nam",
-            "Mien Trung"
-    };
-
-    public static final String LOTTO_HOST_ID[]={
-            "mienbac",
-            "mientrung",
-            "hochiminh"
-    };
-
-    public static final String[] COMPANIES_IN_NORTH = {
-            "Quảng Ninh",
+    public static final String COMPANIES_IN_NORTH[] = {
             "Hà Nội",
-            "Bắc Ninh"
+            "Hải Phòng",
+            "Nam Định",
+            "Thái Bình",
+            "Quảng Ninh",
+            "Bắc Ninh",
+    };
+
+    public static final String COMPANIES_IN_NORTH_ID[] = {
+            "mienbac",
+            "haiphong",
+            "namdinh",
+            "thaibinh",
+            "quangninh",
+            "bacninh"
     };
 
     public static final String[] COMPANIES_IN_MIDDLE = {
-            "Bắc Kinh",
-            "Quảng Ninh",
-            "Hà Nội",
-            "Bắc Ninh",
-            "Thanh Hóa"
+            "Đà Nẵng",
+            "Khánh Hòa",
+            "Đắk Lắk",
+            "Quảng Nam",
+            "Phú Yên",
+            "Huế",
+            "Khánh Hòa",
+            "Kon Tum",
+            "Đắk Nông",
+            "Quảng Ngãi",
+            "Gia Lai",
+            "Ninh Thuận",
+            "Bình Định",
+            "Quảng Bình",
+            "Quảng Trị"
     };
+
+    public static final String[] COMPANIES_IN_MIDDLE_ID = {
+            "danang",
+            "khanhhoa",
+            "daklak",
+            "quangnam",
+            "phuyen",
+            "hue",
+            "khanhhoa",
+            "kontum",
+            "daknong",
+            "quangngai",
+            "gialai",
+            "ninhthuan",
+            "binhdinh",
+            "quangbinh",
+            "quangtri"
+    };
+
 
     public static final String[] COMPANIES_IN_SOUTH = {
+            "TP.HCM",
+            "Cần Thơ",
+            "Đồng Nai",
+            "Sóc Trăng",
+            "Bạc Liêu",
+            "Bến Tre",
+            "Vũng Tàu",
+            "Cà Mau",
+            "Đồng Tháp",
+            "Đà Lạt",
+            "Kiên Giang",
+            "Tiền Giang",
             "Bình Phước",
-            "Quảng Ninh",
-            "Hà Nội",
-            "Bắc Ninh",
-            "Quảng Bình"
+            "Hậu Giang",
+            "Long An",
+            "Bình Dương",
+            "Trà Vinh",
+            "Vĩnh Long",
+            "An Giang",
+            "Bình Thuận",
+            "Tây Ninh"
     };
 
+    public static final String[] COMPANIES_IN_SOUTH_ID = {
+            "hochiminh",
+            "cantho",
+            "dongnai",
+            "soctrang",
+            "baclieu",
+            "bentre",
+            "vungtau",
+            "camau",
+            "dongthap",
+            "dalat",
+            "kiengiang",
+            "tienggiang",
+            "binhphuoc",
+            "haugiang",
+            "longan",
+            "binhduong",
+            "travinh",
+            "vinhlong",
+            "angiang",
+            "binhthuan",
+            "tayninh"
+
+    };
+
+
     public static final String PRIZE_NAME[]={
-            "prize0",
-            "prize1",
-            "prize2",
-            "prize3",
-            "prize4",
-            "prize5",
-            "prize6",
-            "prize7",
+            "Giải đặc biệt",
+            "Giải nhất",
+            "Giải nhì",
+            "Giải ba",
+            "Giải tư",
+            "Giải năm",
+            "Giải sáu",
+            "Giải b",
     };
     public static final String LOCATION_CODE="code";
     public static final String DATE="date";

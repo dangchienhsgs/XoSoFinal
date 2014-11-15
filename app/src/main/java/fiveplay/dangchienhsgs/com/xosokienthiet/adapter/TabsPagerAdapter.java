@@ -19,15 +19,9 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.VanTrinhFragment;
 public class TabsPagerAdapter extends FragmentPagerAdapter {
     List<Fragment> listFragment;
 
-    public TabsPagerAdapter(FragmentManager fm) {
+    public TabsPagerAdapter(FragmentManager fm, List<Fragment> listFragment) {
         super(fm);
-
-        listFragment = new ArrayList<Fragment>();
-
-        listFragment.add(new ResultFragment());
-        listFragment.add(new VanTrinhFragment());
-        listFragment.add(new ScheduleFragment());
-        listFragment.add(new UtilitiesFragment());
+        this.listFragment = listFragment;
 
     }
 

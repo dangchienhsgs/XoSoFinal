@@ -17,9 +17,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import fiveplay.dangchienhsgs.com.xosokienthiet.R;
-import fiveplay.dangchienhsgs.com.xosokienthiet.data.DreamBookAdapter;
-import fiveplay.dangchienhsgs.com.xosokienthiet.data.DreamBookReader;
+import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.DreamBookAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.utils.DreamBookReader;
 
 public class DreamBookFragment extends Fragment {
     private final String TAG = "Dream Book Activity";

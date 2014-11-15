@@ -1,74 +1,83 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="fiveplay.dangchienhsgs.com.xosokienthiet.ResultFragment">
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+    android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:id="@+id/layout_group_area"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layout_group_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:id="@+id/button_area_north"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true">
+                android:text="Miền Bắc" />
 
-                <Button
-                    android:id="@+id/button_area_north"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:text="Miền Bắc" />
-
-                <Button
-                    android:id="@+id/button_area_middle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_toRightOf="@+id/button_area_north"
-                    android:text="Miền Trung" />
-
-                <Button
-                    android:id="@+id/button_area_south"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_toRightOf="@+id/button_area_middle"
-                    android:text="Miền Nam" />
-            </RelativeLayout>
-
-
-            <HorizontalScrollView
-                android:id="@+id/horizontal_companies_view"
-                android:layout_width="fill_parent"
-                android:layout_height="?android:attr/listPreferredItemHeight"
-                android:layout_below="@+id/layout_group_area">
-
-                <LinearLayout
-                    android:id="@+id/layout_group_companies"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-
-            <ListView
-                android:id="@+id/list_prize_and_value"
-                android:layout_width="fill_parent"
+            <Button
+                android:id="@+id/button_area_middle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/horizontal_companies_view"></ListView>
+                android:layout_toRightOf="@+id/button_area_north"
+                android:text="Miền Trung" />
 
-            <ListView
-                android:id="@+id/list_lotto_head_tail"
-                android:layout_width="fill_parent"
+            <Button
+                android:id="@+id/button_area_south"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/list_prize_and_value"></ListView>
+                android:layout_toRightOf="@+id/button_area_middle"
+                android:text="Miền Nam" />
         </RelativeLayout>
-    </ScrollView>
 
-</RelativeLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/horizontal_companies_view"
+            android:layout_width="fill_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:layout_below="@+id/layout_group_area">
+
+            <LinearLayout
+                android:id="@+id/layout_group_companies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"></LinearLayout>
+        </HorizontalScrollView>
+
+
+        <TextView
+            android:id="@+id/text_title_lotto_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/horizontal_companies_view"
+            android:text="Kết quả xổ số" />
+
+        <ListView
+            android:id="@+id/list_prize_and_value"
+            android:layout_width="fill_parent"
+            android:layout_height="400dp"
+            android:layout_below="@+id/text_title_lotto_result">
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/text_title_lo_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/list_prize_and_value"
+            android:text="Kết quả lo to" />
+
+        <ListView
+            android:id="@+id/list_lotto_head_tail"
+            android:layout_width="fill_parent"
+            android:layout_height="400dp"
+            android:layout_below="@+id/text_title_lo_result"></ListView>
+
+    </LinearLayout>
+</ScrollView>
+
+
