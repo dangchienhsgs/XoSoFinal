@@ -10,6 +10,11 @@ import java.util.List;
 public class Common {
     public static final int NUMBER_DIGIT_LOTTO_VALUE=5;
 
+    public static final int INDEX_RESULT_FRAGMENT = 0;
+    public static final int INDEX_STATISTIC_FRAGMENT = 1;
+    public static final int INDEX_SCHEDULE_FRAGMENT = 2;
+    public static final int INDEX_UTILITIES_FRAGMENT = 3;
+
     public static final String COMPANIES_IN_NORTH[] = {
             "Hà Nội",
             "Hải Phòng",
@@ -21,11 +26,11 @@ public class Common {
 
     public static final String COMPANIES_IN_NORTH_ID[] = {
             "mienbac",
-            "haiphong",
-            "namdinh",
-            "thaibinh",
-            "quangninh",
-            "bacninh"
+            "mienbac",
+            "mienbac",
+            "mienbac",
+            "mienbac",
+            "mienbac"
     };
 
     public static final String[] COMPANIES_IN_MIDDLE = {
@@ -34,7 +39,7 @@ public class Common {
             "Đắk Lắk",
             "Quảng Nam",
             "Phú Yên",
-            "Huế",
+            "Thừa Thiên Huế",
             "Khánh Hòa",
             "Kon Tum",
             "Đắk Nông",
@@ -52,7 +57,7 @@ public class Common {
             "daklak",
             "quangnam",
             "phuyen",
-            "hue",
+            "thuathienhue",
             "khanhhoa",
             "kontum",
             "daknong",
@@ -101,7 +106,7 @@ public class Common {
             "dongthap",
             "dalat",
             "kiengiang",
-            "tienggiang",
+            "tiengiang",
             "binhphuoc",
             "haugiang",
             "longan",
@@ -123,8 +128,10 @@ public class Common {
             "Giải tư",
             "Giải năm",
             "Giải sáu",
-            "Giải b",
+            "Giải bảy",
     };
+
+    public static final String RANGE = "range";
     public static final String LOCATION_CODE="code";
     public static final String DATE="date";
 
@@ -138,6 +145,18 @@ public class Common {
             "Chủ Nhật"
     };
 
+    public static final String[] DIGITS = {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"
+    };
 
     public static final String[] AREAS={
             "Mien Bac",
@@ -197,6 +216,16 @@ public class Common {
             "Truyện Cười",
     };
 
+    public static final String[] SCHEDULE_TYPES = {
+            "Thống kê logan",
+            "Thống kê 00-99",
+            "Thống kê it nhieu",
+            "Thống kê xuat hien"
+    };
+
+    public static String[] DEFAULT_NUM_TIMES = {
+            "30", "60", "100", "Số khác"
+    };
 
     public static List<String> getDay() {
         return Arrays.asList(DAY_IN_WEEK);

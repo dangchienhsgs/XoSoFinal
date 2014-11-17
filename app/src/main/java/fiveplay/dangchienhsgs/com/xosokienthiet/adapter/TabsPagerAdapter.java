@@ -13,16 +13,17 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.ScheduleFragment;
 import fiveplay.dangchienhsgs.com.xosokienthiet.UtilitiesFragment;
 import fiveplay.dangchienhsgs.com.xosokienthiet.VanTrinhFragment;
 
-/**
- * Created by dangchienbn on 08/11/2014.
- */
+
 public class TabsPagerAdapter extends FragmentPagerAdapter {
+
     List<Fragment> listFragment;
+    FragmentManager fragmentManager;
+
 
     public TabsPagerAdapter(FragmentManager fm, List<Fragment> listFragment) {
         super(fm);
         this.listFragment = listFragment;
-
+        fragmentManager = fm;
     }
 
     @Override
@@ -34,4 +35,5 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return listFragment.size();
     }
+
 }

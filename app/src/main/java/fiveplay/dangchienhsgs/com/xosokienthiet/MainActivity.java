@@ -1,15 +1,14 @@
 package fiveplay.dangchienhsgs.com.xosokienthiet;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,24 +18,32 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TabsPagerAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MyDatePickerDialogs.DatePickerListener {
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, MyDatePickerDialogs.DatePickerListener {
     private String TAG = "Main Activity";
 
     private ViewPager mViewPager;
     private ActionBar actionBar;
-    private TabsPagerAdapter adapter;
+    private TabsPagerAdapter tabAdapter;
+
+    private ResultFragment resultFragment;
+
+    private ScheduleFragment scheduleFragment;
+    private UtilitiesFragment utilitiesFragment;
+
+    private StatisticRootFragment statisticRootFragment;
+    private StatisticTypeFragment statisticTypeFragment;
+
 
     private List<Fragment> listFragment;
 
-    private int INDEX_RESULT_FRAGMENT = 0;
-    private int INDEX_STATISTIC_FRAGMENT = 1;
-    private int INDEX_SCHEDULE_FRAGMENT = 2;
 
     private int day;
 
     private int month;
 
     private int year;
+
+    private int indexStatisticFragment = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +54,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         initTabs();
         initDate();
 
-    }
+        tabAdapter.notifyDataSetChanged();
 
+
+    }
 
     public void initFragment() {
         listFragment = new ArrayList<Fragment>();
 
-        listFragment.add(new ResultFragment());
-        listFragment.add(new VanTrinhFragment());
-        listFragment.add(new ScheduleFragment());
-        listFragment.add(new UtilitiesFragment());
+        resultFragment = new ResultFragment();
+        statisticTypeFragment = new StatisticTypeFragment();
+        scheduleFragment = new ScheduleFragment();
+        utilitiesFragment = new UtilitiesFragment();
+        statisticRootFragment = new StatisticRootFragment();
+
+        listFragment.add(resultFragment);
+        listFragment.add(statisticRootFragment);
+        listFragment.add(scheduleFragment);
+        listFragment.add(utilitiesFragment);
+
 
     }
+
 
     public void initDate() {
         Calendar calendar = Calendar.getInstance();
@@ -73,14 +90,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 
     private void initTabs() {
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
 
-        adapter = new TabsPagerAdapter(getSupportFragmentManager(), listFragment);
+        tabAdapter = new TabsPagerAdapter(getSupportFragmentManager(), listFragment);
 
 
-        mViewPager.setAdapter(adapter);
+        mViewPager.setAdapter(tabAdapter);
 
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -109,7 +126,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             @Override
             public void onPageSelected(int i) {
-                getActionBar().setSelectedNavigationItem(i);
+                getSupportActionBar().setSelectedNavigationItem(i);
             }
 
             @Override
@@ -150,17 +167,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    public void onTabSelected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
         int position = tab.getPosition();
         mViewPager.setCurrentItem(position);
     }
 
     @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    public void onTabUnselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
+
     }
 
     @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    public void onTabReselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
 
     }
 
@@ -170,7 +188,40 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         this.month = month;
         this.year = year;
 
-        ResultFragment resultFragment = (ResultFragment) listFragment.get(INDEX_RESULT_FRAGMENT);
+        ResultFragment resultFragment = (ResultFragment) listFragment.get(Common.INDEX_RESULT_FRAGMENT);
         resultFragment.setDate(year, month, day);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG, getSupportActionBar().getSelectedNavigationIndex() + "");
+//        Toast.makeText(getApplicationContext(), getSupportActionBar().getSelectedNavigationIndex(), Toast.LENGTH_SHORT).show();
+        switch (getSupportActionBar().getSelectedNavigationIndex()) {
+            case Common.INDEX_RESULT_FRAGMENT:
+                super.onBackPressed();
+                break;
+            case Common.INDEX_STATISTIC_FRAGMENT:
+                if (indexStatisticFragment == -1) {
+                    super.onBackPressed();
+                } else {
+                    indexStatisticFragment = -1;
+                    replaceFragment(R.id.fragment_statistic_root, statisticTypeFragment);
+                }
+                break;
+            case Common.INDEX_SCHEDULE_FRAGMENT:
+                break;
+            case Common.INDEX_UTILITIES_FRAGMENT:
+                break;
+        }
+    }
+
+    public void replaceFragment(int currentFragmentID, Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(currentFragmentID, fragment);
+        fragmentTransaction.commit();
+    }
+
+    public void setIndexStatisticFragment(int indexStatisticFragment) {
+        this.indexStatisticFragment = indexStatisticFragment;
     }
 }

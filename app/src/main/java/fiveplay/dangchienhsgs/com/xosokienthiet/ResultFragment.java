@@ -22,6 +22,7 @@ import java.util.Date;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
+import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.FourColumnArrayAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.LotteryResult;
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TwoColumnArrayAdapter;
@@ -39,28 +40,30 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
     private ListView listHeadTail;
 
 
+    private String[] choosingCompanies;
+    private String[] choosingCompaniesID;
+
+
     private int day;
     private int month;
     private int year;
 
     private int choosingButton = 0;
 
-    private String[] choosingCompanies;
-    private String[] choosingCompaniesID;
 
     private String choosingArea;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_result, container, false);
+        View view = inflater.inflate(R.layout.fragment_result, container, false);
 
         initComponents(view);
 
         return view;
     }
 
-    public void initComponents(View view){
+    public void initComponents(View view) {
 
         buttonNorth = (Button) view.findViewById(R.id.button_area_north);
         buttonMiddle = (Button) view.findViewById(R.id.button_area_middle);
@@ -151,8 +154,7 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
         protected String doInBackground(Void... voids) {
             URLBuilder urlBuilder = new URLBuilder(URLBuilder.URL_KET_QUA);
             urlBuilder.append(
-                    //Common.LOCATION_CODE,
-                    "mienbac",
+                    Common.LOCATION_CODE,
                     code);
             urlBuilder.append(Common.DATE, year + "-" + month + "-" + day);
 
@@ -169,7 +171,10 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
             Log.d(TAG, result);
 
             LotteryResult lottoResult = new LotteryResult(result);
-            TwoColumnArrayAdapter resultAdapter = new TwoColumnArrayAdapter(
+            Log.d(TAG, lottoResult.getLottoHeadTail().size() + "");
+            Log.d(TAG, lottoResult.getLottoTailHead().size() + "");
+
+            TwoColumnArrayAdapter lottoAdapter = new TwoColumnArrayAdapter(
                     getActivity(),
                     R.layout.row_two_columns,
                     R.id.text_first_column,
@@ -177,10 +182,26 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
                     lottoResult.getPrize()
             );
 
-            Log.d(TAG, Arrays.asList(lottoResult.getPrize()).toString());
 
-            listResult.setAdapter(resultAdapter);
-            resultAdapter.notifyDataSetChanged();
+            Log.d(TAG, lottoResult.getLottoHeadTail().toString());
+            Log.d(TAG, lottoResult.getLottoTailHead().toString());
+
+            FourColumnArrayAdapter loAdapter = new FourColumnArrayAdapter(
+                    getActivity(),
+                    R.layout.row_four_columns,
+                    R.id.text_first_column,
+                    Arrays.asList(Common.DIGITS),
+                    lottoResult.getLottoHeadTail(),
+                    lottoResult.getLottoTailHead(),
+                    Arrays.asList(Common.DIGITS)
+            );
+
+
+            listHeadTail.setAdapter(loAdapter);
+            loAdapter.notifyDataSetChanged();
+
+            listResult.setAdapter(lottoAdapter);
+            lottoAdapter.notifyDataSetChanged();
         }
     }
 }

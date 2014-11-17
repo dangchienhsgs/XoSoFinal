@@ -10,25 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LotteryResult {
-    private String TAG = "LotteryResult";
-
+    private final String EMPTY_STRING = "rỗng";
+    private String TAG = "Lottery Result";
     private int DEFAULT_NUMBER_PRIZE = 11;
-
     private List<String> prize;
-
     private List<String> lottoHeadTail;
     private List<String> lottoTailHead;
-
     private String datetime;
-
-    public LotteryResult() {
-        prize = new ArrayList<String>();
-        lottoHeadTail = new ArrayList<String>();
-        lottoTailHead = new ArrayList<String>();
-    }
 
 
     public LotteryResult(String json) {
+        prize = new ArrayList<String>();
+        lottoHeadTail = new ArrayList<String>();
+        lottoTailHead = new ArrayList<String>();
+
         analyze(json);
     }
 
@@ -39,10 +34,10 @@ public class LotteryResult {
 
             JSONObject resultObj = new JSONObject(jsonResult);
 
-            Log.d(TAG, jsonResult);
+
             // ketqua contains datetime and all prizes
             JSONObject ketqua = (JSONObject) resultObj.get("ketqua");
-
+            Log.d(TAG, resultObj.getJSONArray("loto").toString());
 
             // Get datetime from ketqua and set it to lottResult
             this.setDatetime(ketqua.getString("dateOpen"));
@@ -59,10 +54,16 @@ public class LotteryResult {
 
             // Read lottoHeadTail from JSON
             lottoHeadTail = new ArrayList<String>();
-            JSONArray array = ketqua.getJSONArray("lotto");
+            JSONArray array = resultObj.getJSONArray("loto");
+
 
             for (int i = 0; i < array.length(); i++) {
-                lottoHeadTail.add(array.get(i).toString());
+                if (array.get(i).toString().trim() == "null") {
+                    lottoHeadTail.add(EMPTY_STRING);
+                } else {
+                    lottoHeadTail.add(array.get(i).toString());
+                }
+
             }
 
             // Convert lottoHeadTail to lottoTailHead
@@ -93,22 +94,25 @@ public class LotteryResult {
 
             // Init the result list
             for (int i = 0; i < 10; i++) {
-                result.add(i, "");
+                result.add(i, EMPTY_STRING);
             }
 
             // Run i from 0 to 9
             for (int i = 0; i < list.size(); i++) {
+
                 // Convert Ith element to array
                 String value[] = list.get(i).split("-");
 
                 // If digit in that array then result[digit] added by i
                 for (String digit : value) {
-                    int temp = Integer.parseInt(digit);
+                    if (!digit.equals(EMPTY_STRING)) {
+                        int temp = Integer.parseInt(digit);
 
-                    if (result.get(temp).isEmpty()) {
-                        result.add(temp, String.valueOf(i));
-                    } else {
-                        result.add(temp, result.get(temp) + "," + i);
+                        if (result.get(temp).equals(EMPTY_STRING)) {
+                            result.add(temp, String.valueOf(i));
+                        } else {
+                            result.add(temp, result.get(temp) + "," + i);
+                        }
                     }
                 }
             }
