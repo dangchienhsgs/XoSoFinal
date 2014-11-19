@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spinner_pick_num_times"
-            android:text="Các số vé về nhiều nhấ trong 30 lần quay xổ số" />
+            android:text="Các số vé về nhiều nhất trong 30 lần quay xổ số" />
 
         <ListView
             android:id="@+id/list_max"
@@ -75,7 +75,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_max"
-            android:text="Sample2" />
+            android:text="Các số về ít nhất trong 30 lần quay xổ số" />
 
         <ListView
             android:id="@+id/list_min"

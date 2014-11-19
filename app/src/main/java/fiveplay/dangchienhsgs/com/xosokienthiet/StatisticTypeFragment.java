@@ -16,9 +16,10 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TabsPagerAdapter;
 
 
 public class StatisticTypeFragment extends Fragment implements AdapterView.OnItemClickListener {
-    private static final int TAN_SUAT = 0;
+    private static final int LO_GAN = 0;
     private static final int DIGIT_00_99 = 1;
-    private static final int LOGAN = 2;
+    private static final int LESS_MORE = 2;
+    private static final int XUAT_HIEN = 3;
     private ListView listType;
     private ArrayAdapter<String> mAdapter;
     private TabsPagerAdapter mTabsAdapter;
@@ -47,12 +48,16 @@ public class StatisticTypeFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.setIndexStatisticFragment(i);
         switch (i) {
             case DIGIT_00_99:
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.setIndexStatisticFragment(i);
                 mainActivity.replaceFragment(R.id.fragment_statistic_root, new Statistic0099Fragment());
                 break;
+            case LESS_MORE:
+                mainActivity.replaceFragment(R.id.fragment_statistic_root, new StatisticLessMoreFragment());
+                break;
+
         }
     }
 }

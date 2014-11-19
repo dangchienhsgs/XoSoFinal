@@ -16,9 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
@@ -186,14 +188,22 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
             Log.d(TAG, lottoResult.getLottoHeadTail().toString());
             Log.d(TAG, lottoResult.getLottoTailHead().toString());
 
+            List<String> listDigits = new ArrayList<String>();
+            for (String str : Common.DIGITS) {
+                listDigits.add(str);
+            }
+
+            listDigits.add(0, "Đầu");
+            lottoResult.getLottoHeadTail().add(0, "Đuôi");
+            lottoResult.getLottoTailHead().add(0, "Đuôi");
             FourColumnArrayAdapter loAdapter = new FourColumnArrayAdapter(
                     getActivity(),
                     R.layout.row_four_columns,
                     R.id.text_first_column,
-                    Arrays.asList(Common.DIGITS),
+                    listDigits,
                     lottoResult.getLottoHeadTail(),
                     lottoResult.getLottoTailHead(),
-                    Arrays.asList(Common.DIGITS)
+                    listDigits
             );
 
 

@@ -52,7 +52,6 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
     private TwoColumnArrayAdapter mAdapter;
     private ArrayAdapter<String> mSpinnerAdapter;
 
-
     private ListView list0099;
 
     @Override
@@ -75,13 +74,16 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
 
 
         layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
+
+
         list0099 = (ListView) view.findViewById(R.id.list_lotto_statistic_00_99);
         spinnerNumberPicker = (Spinner) view.findViewById(R.id.spinner_pick_num_times);
 
         listSpinnerItems = new ArrayList<String>();
-        for (String temp : Common.DEFAULT_NUM_TIMES) {
-            listSpinnerItems.add(temp);
+        for (String str : Common.DEFAULT_NUM_TIMES) {
+            listSpinnerItems.add(str);
         }
+
 
         mSpinnerAdapter = new ArrayAdapter<String>(
                 getActivity(),
