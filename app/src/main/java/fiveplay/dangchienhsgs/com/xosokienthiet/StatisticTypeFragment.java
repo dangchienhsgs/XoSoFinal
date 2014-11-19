@@ -57,6 +57,9 @@ public class StatisticTypeFragment extends Fragment implements AdapterView.OnIte
             case LESS_MORE:
                 mainActivity.replaceFragment(R.id.fragment_statistic_root, new StatisticLessMoreFragment());
                 break;
+            case LO_GAN:
+                mainActivity.replaceFragment(R.id.fragment_statistic_root, new StatisticLohanFragment());
+                break;
 
         }
     }

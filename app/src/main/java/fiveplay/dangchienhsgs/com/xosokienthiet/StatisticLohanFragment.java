@@ -104,6 +104,6 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
     }
 
     public void loadResult(String code) {
-
+        
     }
 }
