@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fiveplay.dangchienhsgs.com.xosokienthiet.VanTrinhFragment">
+    tools:context="fiveplay.dangchienhsgs.com.xosokienthiet.VanTrinhResultFragment">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -13,38 +13,9 @@
             android:layout_height="fill_parent">
 
             <TextView
-                android:id="@+id/text_choose_birthday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chọn ngày sinh" />
-
-            <EditText
-                android:id="@+id/edit_choose_birthday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_toRightOf="@+id/text_choose_birthday" />
-
-            <Button
-                android:id="@+id/button_view_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edit_choose_birthday"
-                android:layout_centerInParent="true"
-                android:onClick="onClickSearch"
-                android:text="Tra cứu" />
-
-            <TextView
                 android:id="@+id/text_result_van_trinh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/button_view_result"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="New Text" />
 
         </RelativeLayout>

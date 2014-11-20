@@ -17,15 +17,15 @@ import android.widget.Toast;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.VanTrinh;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
+import fiveplay.dangchienhsgs.com.xosokienthiet.utils.PreferencesHandler;
 
 
-public class VanTrinhFragment extends Fragment implements MyDatePickerDialogs.DatePickerListener {
-    private int year = 1994;
-    private int month = 19;
-    private int day = 11;
+public class VanTrinhResultFragment extends Fragment {
+    private int year;
+    private int month;
+    private int day;
 
-    private Button buttonSearch;
-    private EditText editBirth;
+
     private TextView textVanTrinh;
 
     @Override
@@ -33,42 +33,21 @@ public class VanTrinhFragment extends Fragment implements MyDatePickerDialogs.Da
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_van_trinh, container, false);
 
-        editBirth = (EditText) view.findViewById(R.id.edit_choose_birthday);
-        buttonSearch = (Button) view.findViewById(R.id.button_view_result);
-
-        editBirth.setFocusable(false);
-        editBirth.setText("19/11/1994");
-        editBirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialogs();
-            }
-        });
-
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new UrlDownloadTask(year, month, day).execute();
-            }
-        });
+        initComponents(view);
 
         return view;
     }
 
-    public void showDatePickerDialogs() {
-        MyDatePickerDialogs myDatePickerDialogs = new MyDatePickerDialogs();
-        myDatePickerDialogs.setDatePickerListener(this);
-        myDatePickerDialogs.show(getFragmentManager(), null);
+    public void initComponents(View view) {
+        textVanTrinh = (TextView) view.findViewById(R.id.text_result_van_trinh);
+
+        year = Integer.parseInt(PreferencesHandler.getValueFromPreferences(Common.KEY_VAN_TRINH_YEAR, getActivity()));
+        month = Integer.parseInt(PreferencesHandler.getValueFromPreferences(Common.KEY_VAN_TRINH_MONTH, getActivity()));
+        day = Integer.parseInt(PreferencesHandler.getValueFromPreferences(Common.KEY_VAN_TRINH_DAY, getActivity()));
+
+        new UrlDownloadTask(year, month, day).execute();
     }
 
-    @Override
-    public void onDatePickerReturn(int year, int month, int day) {
-        this.year = year;
-        this.month = month;
-        this.day = day;
-
-        editBirth.setText(day + "/" + month + "/" + year);
-    }
 
     private class UrlDownloadTask extends AsyncTask<String, String, String> {
         private int year;
@@ -83,8 +62,7 @@ public class VanTrinhFragment extends Fragment implements MyDatePickerDialogs.Da
 
         @Override
         protected String doInBackground(String[] urls) {
-            String result = ServiceUtilities.getVanTrinh(day, month, year);
-            Log.d("Van Trinh Task", result);
+            String result = ServiceUtilities.getVanTrinh(year, month, day);
             return result;
         }
 
@@ -99,7 +77,6 @@ public class VanTrinhFragment extends Fragment implements MyDatePickerDialogs.Da
                     Toast.makeText(getActivity(), "Server is error !", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    textVanTrinh = (TextView) getView().findViewById(R.id.text_result_van_trinh);
                     textVanTrinh.setText(Html.fromHtml(vanTrinh.getVantrinhTongThe()));
                 }
             }

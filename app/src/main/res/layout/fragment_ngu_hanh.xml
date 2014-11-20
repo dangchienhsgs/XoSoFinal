@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fiveplay.dangchienhsgs.com.xosokienthiet.NguHanhResultFragment">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/text_result_ngu_hanh"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="New Text" />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

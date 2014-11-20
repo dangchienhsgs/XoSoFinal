@@ -26,4 +26,8 @@ public class NguHanh {
             return null;
         }
     }
+
+    public String getContent() {
+        return content;
+    }
 }

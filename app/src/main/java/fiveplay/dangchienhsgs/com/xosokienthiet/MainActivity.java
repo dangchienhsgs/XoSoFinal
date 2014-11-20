@@ -28,11 +28,19 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private ResultFragment resultFragment;
 
     private ScheduleFragment scheduleFragment;
+
+    private UtilitiesRootFragment utilitiesRootFragment;
     private UtilitiesFragment utilitiesFragment;
 
     private StatisticRootFragment statisticRootFragment;
     private StatisticTypeFragment statisticTypeFragment;
 
+    private NguHanhRootFragment nguHanhRootFragment;
+    private NguHanhResultFragment nguHanhFragment;
+    private NguHanhDayPickerFragment nguHanhDayPickerFragment;
+
+    private VanTrinhRootFragment vanTrinhRootFragment;
+    private VanTrinhResultFragment vanTrinhFragment;
 
     private List<Fragment> listFragment;
 
@@ -43,7 +51,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     private int year;
 
+    private int indexFragment;
+
     private int indexStatisticFragment = -1;
+    private int indexNguHanhFragment = -1;
+    private int indexVanTrinhFragment = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +76,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         listFragment = new ArrayList<Fragment>();
 
         resultFragment = new ResultFragment();
+
         statisticTypeFragment = new StatisticTypeFragment();
-        scheduleFragment = new ScheduleFragment();
-        utilitiesFragment = new UtilitiesFragment();
         statisticRootFragment = new StatisticRootFragment();
+
+        scheduleFragment = new ScheduleFragment();
+
+        utilitiesRootFragment = new UtilitiesRootFragment();
+        utilitiesFragment = new UtilitiesFragment();
+
 
         listFragment.add(resultFragment);
         listFragment.add(statisticRootFragment);
         listFragment.add(scheduleFragment);
-        listFragment.add(utilitiesFragment);
+        listFragment.add(utilitiesRootFragment);
 
 
     }
@@ -168,8 +186,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
+
         int position = tab.getPosition();
+        indexFragment = position;
         mViewPager.setCurrentItem(position);
+
     }
 
     @Override
@@ -194,13 +215,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     @Override
     public void onBackPressed() {
-        Log.d(TAG, getSupportActionBar().getSelectedNavigationIndex() + "");
-//        Toast.makeText(getApplicationContext(), getSupportActionBar().getSelectedNavigationIndex(), Toast.LENGTH_SHORT).show();
-        switch (getSupportActionBar().getSelectedNavigationIndex()) {
+
+        switch (indexFragment) {
             case Common.INDEX_RESULT_FRAGMENT:
+                // Currently in ResultFragment
+
                 super.onBackPressed();
                 break;
+
+
             case Common.INDEX_STATISTIC_FRAGMENT:
+                // Currently in Statistic Fragment
+
                 if (indexStatisticFragment == -1) {
                     super.onBackPressed();
                 } else {
@@ -208,12 +234,58 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     replaceFragment(R.id.fragment_statistic_root, statisticTypeFragment);
                 }
                 break;
+
             case Common.INDEX_SCHEDULE_FRAGMENT:
+                // Currently in Schedule Fragment
+
+                super.onBackPressed();
                 break;
+
             case Common.INDEX_UTILITIES_FRAGMENT:
+                // Currently in Utilities Fragment
+                super.onBackPressed();
+                break;
+
+            case Common.INDEX_DREAM_BOOK_FRAGMENT:
+                // Currently in DreamBook Fragment
+                replaceFragment(R.id.fragment_utilities_root, utilitiesFragment);
+                indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
+                break;
+
+            case Common.INDEX_TRY_PLAY_FRAGMENT:
+                replaceFragment(R.id.fragment_utilities_root, utilitiesFragment);
+                indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
+                break;
+
+            case Common.INDEX_GOLD_PRICE_FRAGMENT:
+                replaceFragment(R.id.fragment_utilities_root, utilitiesFragment);
+                indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
+                break;
+
+            case Common.INDEX_VAN_TRINH_FRAGMENT:
+                if (indexVanTrinhFragment == -1) {
+                    replaceFragment(R.id.fragment_utilities_root, utilitiesFragment);
+                    indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
+                    break;
+                } else {
+                    replaceFragment(R.id.fragment_utilities_root, new VanTrinhRootFragment());
+                    indexVanTrinhFragment = -1;
+                }
+                break;
+
+            case Common.INDEX_NGU_HANH_FRAGMENT:
+                if (indexNguHanhFragment == -1) {
+                    replaceFragment(R.id.fragment_utilities_root, utilitiesFragment);
+                    indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
+                    break;
+                } else {
+                    replaceFragment(R.id.fragment_utilities_root, new NguHanhRootFragment());
+                    indexNguHanhFragment = -1;
+                }
                 break;
         }
     }
+
 
     public void replaceFragment(int currentFragmentID, Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -221,7 +293,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         fragmentTransaction.commit();
     }
 
+
+    public void setIndexFragment(int indexFragment) {
+        this.indexFragment = indexFragment;
+    }
+
     public void setIndexStatisticFragment(int indexStatisticFragment) {
         this.indexStatisticFragment = indexStatisticFragment;
     }
+
+    public void setIndexVanTrinhFragment(int indexVanTrinhFragment) {
+        this.indexVanTrinhFragment = indexVanTrinhFragment;
+    }
+
+    public void setIndexNguHanhFragment(int indexNguHanhFragment) {
+        this.indexNguHanhFragment = indexNguHanhFragment;
+    }
+
 }

@@ -8,12 +8,29 @@ import java.util.List;
  * Created by dangchienhsgs on 05/11/2014.
  */
 public class Common {
-    public static final int NUMBER_DIGIT_LOTTO_VALUE=5;
+    public static final int NUMBER_DIGIT_LOTTO_VALUE = 5;
+
 
     public static final int INDEX_RESULT_FRAGMENT = 0;
     public static final int INDEX_STATISTIC_FRAGMENT = 1;
     public static final int INDEX_SCHEDULE_FRAGMENT = 2;
     public static final int INDEX_UTILITIES_FRAGMENT = 3;
+    public static final int INDEX_DREAM_BOOK_FRAGMENT = 4;
+    public static final int INDEX_TRY_PLAY_FRAGMENT = 5;
+    public static final int INDEX_GOLD_PRICE_FRAGMENT = 6;
+    public static final int INDEX_VAN_TRINH_FRAGMENT = 7;
+    public static final int INDEX_NGU_HANH_FRAGMENT = 8;
+    public static final int INDEX_FUN_STORY_FRAGMENT = 9;
+
+
+    public static final String KEY_NGU_HANH_YEAR = "ngu_hanh_year";
+    public static final String KEY_NGU_HANH_MONTH = "ngu_hanh_month";
+    public static final String KEY_NGU_HANH_DAY = "ngu_hanh_day";
+
+    public static final String KEY_VAN_TRINH_YEAR = "key_van_trinh_year";
+    public static final String KEY_VAN_TRINH_MONTH = "key_van_trinh_month";
+    public static final String KEY_VAN_TRINH_DAY = "key_van_trinh_day";
+
 
     public static final String COMPANIES_IN_NORTH[] = {
             "Hà Nội",
@@ -120,7 +137,7 @@ public class Common {
     };
 
 
-    public static final String PRIZE_NAME[]={
+    public static final String PRIZE_NAME[] = {
             "Giải đặc biệt",
             "Giải nhất",
             "Giải nhì",
@@ -132,10 +149,10 @@ public class Common {
     };
 
     public static final String RANGE = "range";
-    public static final String LOCATION_CODE="code";
-    public static final String DATE="date";
+    public static final String LOCATION_CODE = "code";
+    public static final String DATE = "date";
 
-    public static final String[] DAY_IN_WEEK={
+    public static final String[] DAY_IN_WEEK = {
             "Thứ Hai",
             "Thứ Ba",
             "Thứ Tư",
@@ -158,50 +175,50 @@ public class Common {
             "9"
     };
 
-    public static final String[] AREAS={
+    public static final String[] AREAS = {
             "Mien Bac",
             "Mien Trung",
             "Mien Nam"
     };
 
 
-    public static final String[] COMPANY_IN_MON_DAY={
+    public static final String[] COMPANY_IN_MON_DAY = {
             "Ha Noi ,Hai Phong",
             "Bac Ninh ,Lao Cai",
             "Bac Ninh,  Lao Cai",
     };
 
-    public static final String[] COMPANY_IN_TUESDAY={
+    public static final String[] COMPANY_IN_TUESDAY = {
             "Ha Noi , Hai Phong",
             "Bac Ninh , Lao Cai",
             "Bac Ninh ,Lao Cai",
     };
 
-    public static final String[] COMPANY_IN_WEDNESDAY={
+    public static final String[] COMPANY_IN_WEDNESDAY = {
             "Ha Noi \n Hai Phong",
             "Bac Ninh \n Lao Cai",
             "Bac Ninh \n Lao Cai",
     };
 
-    public static final String[] COMPANY_IN_THURSDAY={
+    public static final String[] COMPANY_IN_THURSDAY = {
             "Ha Noi \n Hai Phong",
             "Bac Ninh \n Lao Cai",
             "Bac Ninh \n Lao Cai",
     };
 
-    public static final String[] COMPANY_IN_FRIDAY={
+    public static final String[] COMPANY_IN_FRIDAY = {
             "Ha Noi , Hai Phong",
             "Bac Ninh , Lao Cai",
             "Bac Ninh , Lao Cai",
     };
 
-    public static final String[] COMPANY_IN_SATURDAY={
+    public static final String[] COMPANY_IN_SATURDAY = {
             "Ha Noi \n Hai Phong",
             "Bac Ninh \n Lao Cai",
             "Bac Ninh \n Lao Cai",
     };
 
-    public static final String[] COMPANY_IN_SUNDAY={
+    public static final String[] COMPANY_IN_SUNDAY = {
             "Ha Noi \n Hai Phong",
             "Bac Ninh \n Lao Cai",
             "Bac Ninh \n Lao Cai",
@@ -209,6 +226,7 @@ public class Common {
 
 
     public static final String[] UTILITIES = {
+            "Sổ mơ",
             "Chơi thử",
             "Giá vàng",
             "Xem Vận Trình",

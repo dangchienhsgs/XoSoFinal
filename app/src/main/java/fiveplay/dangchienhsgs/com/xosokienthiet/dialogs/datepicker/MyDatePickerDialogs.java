@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -13,7 +14,7 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 
 
 public class MyDatePickerDialogs extends DialogFragment {
-    private final String TAG="My Date Picker Dialogs";
+    private final String TAG = "My Date Picker Dialogs";
 
     private int day;
     private int month;
@@ -35,6 +36,8 @@ public class MyDatePickerDialogs extends DialogFragment {
 
         datePicker.updateDate(year, month, day);
 
+        Log.d(TAG, "" + datePicker.getMonth());
+
         builder.setView(view);
 
         builder.setPositiveButton("Choose", new DialogInterface.OnClickListener() {
@@ -42,7 +45,7 @@ public class MyDatePickerDialogs extends DialogFragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 mListener.onDatePickerReturn(
                         datePicker.getYear(),
-                        datePicker.getMonth(),
+                        datePicker.getMonth() + 1,
                         datePicker.getDayOfMonth()
                 );
             }

@@ -18,11 +18,11 @@ import java.net.URLConnection;
 import java.util.Scanner;
 
 public class ServiceUtilities {
-    private static final String TAG="Service Utilities";
+    private static final String TAG = "Service Utilities";
 
     // HTTP GET request
-    public static String sendGet(String url, String parameter)  {
-        try{
+    public static String sendGet(String url, String parameter) {
+        try {
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -32,7 +32,7 @@ public class ServiceUtilities {
 
 
             // Send get request
-            if (parameter!=null){
+            if (parameter != null) {
                 con.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
                 wr.writeBytes(parameter);
@@ -55,31 +55,33 @@ public class ServiceUtilities {
             return response.toString();
 
 
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
     // HTTP POST request
-    public static String sendPost(String url, String urlParameters){
-        try{
+    public static String sendPost(String url, String urlParameters) {
+        Log.i(TAG, url + "\t" + urlParameters);
+        try {
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
             //add request header
             con.setRequestMethod("POST");
-            con.setRequestProperty( "Content-Type", "application/json");
+            con.setRequestProperty("Content-Type", "application/json");
 
 
             // Send post request
-            if (urlParameters!=null){
+            if (urlParameters != null) {
                 con.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
                 wr.writeBytes(urlParameters);
                 wr.flush();
                 wr.close();
             }
+
 
             // Read response
             BufferedReader in = new BufferedReader(
@@ -92,48 +94,49 @@ public class ServiceUtilities {
             }
             in.close();
 
+            Log.d(TAG, response.toString());
             return response.toString();
 
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
     //
-    private static JsonObject getData(String data){
-        try{
-            JsonParser jsonParser=new JsonParser();
-            JsonObject jsonObject=(JsonObject) jsonParser.parse(data);
+    private static JsonObject getData(String data) {
+        try {
+            JsonParser jsonParser = new JsonParser();
+            JsonObject jsonObject = (JsonObject) jsonParser.parse(data);
             return jsonObject;
-        } catch (JsonIOException e){
+        } catch (JsonIOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static String getVanTrinh(int day, int month, int year){
-        String data="{\"MethodName\":\"GetNguHanhInfo\",\"ParamsList\":null,\"ApplicationId\":1,\"PlatformId\":3,\"Identifier\":\"619117091256443\",\"RequestTime\":\"20141104205744\",\"AppKey\":\"411537a8ae6d8a5b77bc335a6fd4f9ca\",\"AppChargeTypeId\":0,\"AppPlatformId\":21,\"AppVersion\":\"1_0_5\",\"BusinessPartnerId\":4,\"BusinessApplicationPlatformId\":16,\"CustomerId\":702795,\"FunctionId\":0}";
-        String url="http://xoso24h.icsoft.vn/webservices/UtilityService.svc/"+day+"-"+month+"-"+year+"/GetBoiVanTrinhInfo";
+    public static String getVanTrinh(int year, int month, int day) {
+        String data = "{\"MethodName\":\"GetNguHanhInfo\",\"ParamsList\":null,\"ApplicationId\":1,\"PlatformId\":3,\"Identifier\":\"619117091256443\",\"RequestTime\":\"20141104205744\",\"AppKey\":\"411537a8ae6d8a5b77bc335a6fd4f9ca\",\"AppChargeTypeId\":0,\"AppPlatformId\":21,\"AppVersion\":\"1_0_5\",\"BusinessPartnerId\":4,\"BusinessApplicationPlatformId\":16,\"CustomerId\":702795,\"FunctionId\":0}";
+        String url = "http://xoso24h.icsoft.vn/webservices/UtilityService.svc/" + day + "-" + month + "-" + year + "/GetBoiVanTrinhInfo";
 
         return sendPost(url, getData(data).toString());
     }
 
-    public static String getNguHanh(int day, int month, int year){
-        String data="{\"MethodName\":\"GetNguHanhInfo\",\"ParamsList\":null,\"ApplicationId\":1,\"PlatformId\":3,\"Identifier\":\"619117091256443\",\"RequestTime\":\"20141104205744\",\"AppKey\":\"411537a8ae6d8a5b77bc335a6fd4f9ca\",\"AppChargeTypeId\":0,\"AppPlatformId\":21,\"AppVersion\":\"1_0_5\",\"BusinessPartnerId\":4,\"BusinessApplicationPlatformId\":16,\"CustomerId\":702795,\"FunctionId\":0}";
-        String url="http://xoso24h.icsoft.vn/webservices/UtilityService.svc/"+day+"-"+month+"-"+year+"/GetNguHanhInfo";
+    public static String getNguHanh(int year, int month, int day) {
+        String data = "{\"MethodName\":\"GetNguHanhInfo\",\"ParamsList\":null,\"ApplicationId\":1,\"PlatformId\":3,\"Identifier\":\"619117091256443\",\"RequestTime\":\"20141104205744\",\"AppKey\":\"411537a8ae6d8a5b77bc335a6fd4f9ca\",\"AppChargeTypeId\":0,\"AppPlatformId\":21,\"AppVersion\":\"1_0_5\",\"BusinessPartnerId\":4,\"BusinessApplicationPlatformId\":16,\"CustomerId\":702795,\"FunctionId\":0}";
+        String url = "http://xoso24h.icsoft.vn/webservices/UtilityService.svc/" + day + "-" + month + "-" + year + "/GetNguHanhInfo";
 
         return sendPost(url, getData(data).toString());
     }
 
-    public static String getGiaVang(int day, int month, int year){
-        String data="{\"MethodName\":\"GetNguHanhInfo\",\"ParamsList\":null,\"ApplicationId\":1,\"PlatformId\":3,\"Identifier\":\"619117091256443\",\"RequestTime\":\"20141104205744\",\"AppKey\":\"411537a8ae6d8a5b77bc335a6fd4f9ca\",\"AppChargeTypeId\":0,\"AppPlatformId\":21,\"AppVersion\":\"1_0_5\",\"BusinessPartnerId\":4,\"BusinessApplicationPlatformId\":16,\"CustomerId\":702795,\"FunctionId\":0}";
-        String url="http://xoso24h.icsoft.vn/webservices/UtilityService.svc/"+day+month+year+"/GetGoldAndRateInfoByDate";
+    public static String getGiaVang(int year, int month, int day) {
+        String data = "{\"MethodName\":\"GetNguHanhInfo\",\"ParamsList\":null,\"ApplicationId\":1,\"PlatformId\":3,\"Identifier\":\"619117091256443\",\"RequestTime\":\"20141104205744\",\"AppKey\":\"411537a8ae6d8a5b77bc335a6fd4f9ca\",\"AppChargeTypeId\":0,\"AppPlatformId\":21,\"AppVersion\":\"1_0_5\",\"BusinessPartnerId\":4,\"BusinessApplicationPlatformId\":16,\"CustomerId\":702795,\"FunctionId\":0}";
+        String url = "http://xoso24h.icsoft.vn/webservices/UtilityService.svc/" + day + month + year + "/GetGoldAndRateInfoByDate";
 
         return sendPost(url, getData(data).toString());
     }
 
-    public static void main(String args[]){
-        System.out.println (getVanTrinh(10, 10, 2013));
+    public static void main(String args[]) {
+        System.out.println(getVanTrinh(1994, 11, 19));
     }
 }

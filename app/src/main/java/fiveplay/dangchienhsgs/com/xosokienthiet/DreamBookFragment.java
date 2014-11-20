@@ -41,8 +41,14 @@ public class DreamBookFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_dream_book, container, false);
 
-        listView = (ListView) getView().findViewById(R.id.list_dream);
-        editSearch = (EditText) getView().findViewById(R.id.edit_search);
+        initComponent(view);
+        return view;
+    }
+
+    public void initComponent(View view) {
+
+        listView = (ListView) view.findViewById(R.id.list_dream);
+        editSearch = (EditText) view.findViewById(R.id.edit_search);
 
         // get all data from asset/dream_book.txt
         // No filter
@@ -105,7 +111,6 @@ public class DreamBookFragment extends Fragment {
             }
         });
 
-        return view;
     }
 
 }

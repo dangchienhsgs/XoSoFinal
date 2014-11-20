@@ -3,15 +3,8 @@ package fiveplay.dangchienhsgs.com.xosokienthiet.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import fiveplay.dangchienhsgs.com.xosokienthiet.ResultFragment;
-import fiveplay.dangchienhsgs.com.xosokienthiet.ScheduleFragment;
-import fiveplay.dangchienhsgs.com.xosokienthiet.UtilitiesFragment;
-import fiveplay.dangchienhsgs.com.xosokienthiet.VanTrinhFragment;
 
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {

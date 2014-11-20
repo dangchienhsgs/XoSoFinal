@@ -111,7 +111,8 @@ public class TryPlayFragment extends Fragment implements Button.OnClickListener 
             // Update Table
 
             Log.d(TAG, "Update list value");
-            listValue.add(currentPlayPosition, textResult.getText().toString());
+            listValue.set(currentPlayPosition, textResult.getText().toString());
+            currentPlayPosition++;
             mAdapter.notifyDataSetChanged();
 
             Log.d(TAG, "Finish update list value");
