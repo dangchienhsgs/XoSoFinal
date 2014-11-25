@@ -36,6 +36,8 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
     private Button buttonMiddle;
     private Button buttonSouth;
 
+    private String code = "mienbac";
+
     private LinearLayout layoutGroupCompanies;
 
     private ListView listResult;
@@ -127,7 +129,7 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
                     getActivity().getActionBar().setTitle(company);
 
                     // Get the company code
-                    String code = (String) view.getTag();
+                    code = (String) view.getTag();
 
                     // load Result
                     loadResult(code);
@@ -139,6 +141,10 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
         }
     }
 
+    public String getCode() {
+        return code;
+    }
+
     public void loadResult(String code) {
         new DownloadResultTask(code).execute();
     }
@@ -148,7 +154,7 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
 
         private String code;
 
-        DownloadResultTask(String code) {
+        private DownloadResultTask(String code) {
             this.code = code;
         }
 
@@ -214,4 +220,6 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
             lottoAdapter.notifyDataSetChanged();
         }
     }
+
+
 }

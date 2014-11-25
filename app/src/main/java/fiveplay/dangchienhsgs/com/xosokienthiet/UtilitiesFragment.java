@@ -69,6 +69,10 @@ public class UtilitiesFragment extends Fragment {
                         mainActivity.replaceFragment(R.id.fragment_utilities_root, new NguHanhRootFragment());
                         mainActivity.setIndexFragment(Common.INDEX_NGU_HANH_FRAGMENT);
                         break;
+                    case INDEX_FUN_STORY:
+                        mainActivity.replaceFragment(R.id.fragment_utilities_root, new FunStoryRootFragment());
+                        mainActivity.setIndexFragment(Common.INDEX_FUN_STORY_FRAGMENT);
+                        break;
                 }
             }
         });

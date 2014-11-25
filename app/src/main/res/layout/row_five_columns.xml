@@ -17,9 +17,10 @@
         android:id="@+id/layout_second_and_third"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/text_first_column"
-        android:layout_toLeftOf="@+id/text_four_column"
         android:layout_toRightOf="@+id/text_first_column"
         android:orientation="horizontal"
         android:weightSum="1">
@@ -28,35 +29,38 @@
             android:id="@+id/text_second_column"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.5"
+            android:layout_weight="0.25"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Second"
+            android:text="second"
             android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/text_third_column"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.5"
+            android:layout_weight="0.25"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="third" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/text_four_column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="four" />
 
-    <TextView
-        android:id="@+id/text_four_column"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="four" />
+        <TextView
+            android:id="@+id/text_five_column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="five" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

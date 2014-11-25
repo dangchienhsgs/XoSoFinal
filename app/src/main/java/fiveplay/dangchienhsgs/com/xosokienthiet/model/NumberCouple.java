@@ -12,6 +12,7 @@ public class NumberCouple {
         this.value = value;
     }
 
+
     public int getIndex() {
 
         return index;

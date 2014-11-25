@@ -50,25 +50,25 @@
 
 
         <TextView
-            android:id="@+id/text_title_lotto_result"
+            android:id="@+id/text_title_logan_lotto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/horizontal_companies_view"
             android:text="Kết quả xổ số" />
 
         <ListView
-            android:id="@+id/list_prize_and_value"
+            android:id="@+id/list_logan_lotto"
             android:layout_width="fill_parent"
             android:layout_height="400dp"
-            android:layout_below="@+id/text_title_lotto_result">
+            android:layout_below="@+id/text_title_logan_lotto">
 
         </ListView>
 
         <ListView
-            android:id="@+id/list_lotto_head_tail"
+            android:id="@+id/list_logan_couple"
             android:layout_width="fill_parent"
             android:layout_height="400dp"
-            android:layout_below="@+id/text_title_lo_result"></ListView>
+            android:layout_below="@+id/list_logan_lotto" />
 
     </LinearLayout>
 </ScrollView>

@@ -9,8 +9,6 @@ public class URLBuilder {
     public static final String URL_THONG_KE_LO_GAN="http://play.dommedia.vn/appapi/api_xoso/thongke_logan";
 
 
-
-
     private String url;
 
     private boolean isModified;

@@ -1,0 +1,286 @@
+package fiveplay.dangchienhsgs.com.xosokienthiet;
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Spinner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.ThreeColumnArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.numberpicker.MyDialogNumberPicker;
+import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
+import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
+
+
+public class StatisticFrequentFragment extends Fragment implements Button.OnClickListener, MyDialogNumberPicker.NumberPickerListener {
+
+    private final String TAG = "Statistic Frequent Fragment";
+    private Button buttonNorth;
+    private Button buttonMiddle;
+    private Button buttonSouth;
+
+    private LinearLayout layoutGroupCompanies;
+    private String[] choosingCompanies;
+    private String[] choosingCompaniesID;
+
+    private Spinner spinnerNumberPicker;
+    private List<String> listSpinnerItems;
+    private ArrayAdapter<String> mSpinnerAdapter;
+
+    private ThreeColumnArrayAdapter specialAdapter;
+    private ThreeColumnArrayAdapter lottoAdapter;
+    private ListView listSpecialView;
+    private ListView listLottoView;
+
+    private int range = 30;
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        View view = inflater.inflate(R.layout.fragment_statistic_frequent, container, false);
+
+        initComponents(view);
+
+        return view;
+    }
+
+    public void initComponents(View view) {
+        buttonNorth = (Button) view.findViewById(R.id.button_area_north);
+        buttonMiddle = (Button) view.findViewById(R.id.button_area_middle);
+        buttonSouth = (Button) view.findViewById(R.id.button_area_south);
+
+        buttonNorth.setOnClickListener(this);
+        buttonMiddle.setOnClickListener(this);
+        buttonSouth.setOnClickListener(this);
+
+
+        layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
+
+        spinnerNumberPicker = (Spinner) view.findViewById(R.id.spinner_pick_num_times);
+
+        listSpinnerItems = new ArrayList<String>();
+        for (String str : Common.DEFAULT_NUM_TIMES) {
+            listSpinnerItems.add(str);
+        }
+
+
+        listSpecialView = (ListView) view.findViewById(R.id.list_special_view);
+        listLottoView = (ListView) view.findViewById(R.id.list_lotto_view);
+
+
+        mSpinnerAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                listSpinnerItems
+        );
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerNumberPicker.setAdapter(mSpinnerAdapter);
+
+        range = Integer.parseInt(listSpinnerItems.get(0));
+
+        spinnerNumberPicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == listSpinnerItems.size() - 1) {
+                    MyDialogNumberPicker dialogNumberPicker = new MyDialogNumberPicker();
+                    dialogNumberPicker.setListener(StatisticFrequentFragment.this);
+                    dialogNumberPicker.show(getFragmentManager(), "Nothing");
+                } else {
+                    range = (Integer.parseInt(listSpinnerItems.get(i)));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onNumberPickerReturn(int value) {
+        Log.d(TAG, listSpinnerItems.toString());
+        listSpinnerItems.add(listSpinnerItems.size() - 1, value + "");
+
+        mSpinnerAdapter.notifyDataSetChanged();
+        spinnerNumberPicker.setSelection(listSpinnerItems.size() - 2);
+
+        this.range = value;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.button_area_north:
+                choosingCompanies = Common.COMPANIES_IN_NORTH;
+                choosingCompaniesID = Common.COMPANIES_IN_NORTH_ID;
+                break;
+            case R.id.button_area_middle:
+                choosingCompanies = Common.COMPANIES_IN_MIDDLE;
+                choosingCompaniesID = Common.COMPANIES_IN_MIDDLE_ID;
+                break;
+            case R.id.button_area_south:
+                choosingCompanies = Common.COMPANIES_IN_SOUTH;
+                choosingCompaniesID = Common.COMPANIES_IN_SOUTH_ID;
+                break;
+        }
+
+        layoutGroupCompanies.removeAllViews();
+
+        for (int i = 0; i < choosingCompanies.length; i++) {
+
+            final String company = choosingCompanies[i];
+
+            // Add button to the row
+            Button button = new Button(getActivity());
+            button.setText(company);
+            button.setTag(choosingCompaniesID[i]);
+
+            // Set onClickListener for the Button
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    // Reset title for the activity
+                    getActivity().getActionBar().setTitle(company);
+
+                    // Get the company code
+                    String code = (String) view.getTag();
+
+                    // Download Info
+                    new DownloadInfoTask(code).execute();
+
+                }
+            });
+
+            layoutGroupCompanies.addView(button);
+        }
+
+    }
+
+    public void loadResult(String result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+
+            JSONArray headLottoArray = jsonObject.getJSONArray("loto_dau");
+            JSONArray tailLottoArray = jsonObject.getJSONArray("loto_duoi");
+            JSONArray headSpecialArray = jsonObject.getJSONArray("dacbiet_dau");
+            JSONArray tailSpecialArray = jsonObject.getJSONArray("dacbiet_duoi");
+
+            List<String> listDigit = new ArrayList<String>();
+            List<String> listLottoHead = convertJSONArrayToList(headLottoArray);
+            List<String> listLottoTail = convertJSONArrayToList(tailLottoArray);
+            List<String> listSpecialHead = convertJSONArrayToList(headSpecialArray);
+            List<String> listSpecialTail = convertJSONArrayToList(tailSpecialArray);
+
+            for (int i = 0; i < 10; i++) {
+                listDigit.add(String.valueOf(i));
+            }
+
+            specialAdapter = new ThreeColumnArrayAdapter(
+                    getActivity(),
+                    R.layout.row_five_columns,
+                    R.id.text_first_column,
+                    listDigit,
+                    listSpecialHead,
+                    listSpecialTail
+            );
+
+            lottoAdapter = new ThreeColumnArrayAdapter(
+                    getActivity(),
+                    R.layout.row_five_columns,
+                    R.id.text_first_column,
+                    listDigit,
+                    listLottoHead,
+                    listLottoTail
+            );
+
+
+            listSpecialView.setAdapter(specialAdapter);
+            listLottoView.setAdapter(lottoAdapter);
+
+        } catch (JSONException e) {
+            Log.d(TAG, "JSON from server is error: " + result);
+        }
+    }
+
+    private List<String> convertJSONArrayToList(JSONArray jsonArray) {
+
+        List<Integer> listInteger = new ArrayList<Integer>();
+        List<String> listString = new ArrayList<String>();
+        try {
+
+            int sum = 0;
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Integer temp = (Integer) jsonArray.get(i);
+
+                listInteger.add(temp);
+                sum = sum + temp;
+            }
+
+            for (int i = 0; i < listInteger.size(); i++) {
+                float percent = (float) listInteger.get(i) / sum;
+                String element = listInteger.get(i) + " (" + String.format("%.2f", percent) + "%)";
+                listString.add(element);
+            }
+
+            Log.d(TAG, listString.toString());
+            return listString;
+
+        } catch (JSONException e) {
+            Log.d(TAG, "JSON Convert fail " + jsonArray.toString());
+
+            return null;
+        }
+
+    }
+
+
+    private class DownloadInfoTask extends AsyncTask<Void, String, String> {
+        private String code;
+
+        private DownloadInfoTask(String code) {
+            this.code = code;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            URLBuilder builder = new URLBuilder(URLBuilder.URL_THONG_KE_TAN_SUAT);
+            builder.append(Common.LOCATION_CODE, code);
+            builder.append(Common.RANGE, String.valueOf(range));
+
+            String url = builder.create();
+            Log.d(TAG, url);
+            String result = ServiceUtilities.sendGet(url, null);
+
+            Log.d(TAG, result);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            loadResult(result);
+        }
+    }
+}
+

@@ -56,6 +56,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private int indexStatisticFragment = -1;
     private int indexNguHanhFragment = -1;
     private int indexVanTrinhFragment = -1;
+    private int indexFunStoryFragment = -1;
 
 
     @Override
@@ -179,6 +180,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 dialogs.show(getSupportFragmentManager(), "DatePicker");
                 break;
 
+            case R.id.action_today:
+                initDate();
+
+                resultFragment.setDate(year, month, day);
+                resultFragment.loadResult(resultFragment.getCode());
         }
 
         return super.onOptionsItemSelected(item);
@@ -277,11 +283,23 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 if (indexNguHanhFragment == -1) {
                     replaceFragment(R.id.fragment_utilities_root, utilitiesFragment);
                     indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
-                    break;
                 } else {
                     replaceFragment(R.id.fragment_utilities_root, new NguHanhRootFragment());
                     indexNguHanhFragment = -1;
                 }
+                break;
+
+            case Common.INDEX_FUN_STORY_FRAGMENT:
+
+                if (indexFunStoryFragment == -1) {
+                    replaceFragment(R.id.fragment_statistic_root, utilitiesFragment);
+                    indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
+
+                } else {
+                    replaceFragment(R.id.fragment_utilities_root, new FunStoryRootFragment());
+                    indexFunStoryFragment = -1;
+                }
+
                 break;
         }
     }
@@ -310,4 +328,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         this.indexNguHanhFragment = indexNguHanhFragment;
     }
 
+    public void setIndexFunStoryFragment(int indexFunStoryFragment) {
+        this.indexFunStoryFragment = indexFunStoryFragment;
+    }
 }

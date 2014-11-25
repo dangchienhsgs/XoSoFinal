@@ -1,8 +1,10 @@
 package fiveplay.dangchienhsgs.com.xosokienthiet;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +12,24 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
-import fiveplay.dangchienhsgs.com.xosokienthiet.R;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TwoColumnArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.model.NumberCouple;
+import fiveplay.dangchienhsgs.com.xosokienthiet.model.StringCouple;
+import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
+import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
 
 /**
  * Created by dangchienbn on 15/11/2014.
  */
 public class StatisticLohanFragment extends Fragment implements Button.OnClickListener {
+    private static final String TAG = "Statistic Lohan Fragment";
 
     private Button buttonNorth;
     private Button buttonMiddle;
@@ -26,6 +39,9 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
 
     private String[] choosingCompanies;
     private String[] choosingCompaniesID;
+
+    private ListView listViewLotto;
+    private ListView listViewCouple;
 
 
     @Override
@@ -50,6 +66,9 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
 
 
         layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
+
+        listViewLotto = (ListView) view.findViewById(R.id.list_logan_lotto);
+        listViewCouple = (ListView) view.findViewById(R.id.list_logan_couple);
     }
 
     @Override
@@ -93,7 +112,7 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
                     String code = (String) view.getTag();
 
                     // load Result
-                    loadResult(code);
+                    new DownloadInfoTask(code).execute();
 
                 }
             });
@@ -104,6 +123,181 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
     }
 
     public void loadResult(String code) {
-        
+        try {
+            JSONObject jsonObject = new JSONObject(code);
+            JSONArray jsonLotto = jsonObject.getJSONArray("loto");
+
+            Log.d(TAG, jsonLotto.toString());
+
+            List<NumberCouple> listLotto = new ArrayList<NumberCouple>();
+            List<StringCouple> listCouple = new ArrayList<StringCouple>();
+
+
+            // Read list lotto
+            for (int i = 0; i < jsonLotto.length(); i++) {
+                JSONObject element = (JSONObject) jsonLotto.get(i);
+
+                NumberCouple numberCouple = new NumberCouple(
+                        Integer.parseInt((String) element.get("number")),
+                        element.getInt("lastOpenDateInDays")
+                );
+
+                listLotto.add(numberCouple);
+            }
+
+            // Read list Couple
+            for (int i = 0; i < jsonLotto.length(); i++) {
+                JSONObject element = (JSONObject) jsonLotto.get(i);
+                String keyElement = element.getString("number");
+                String reverseKeyElement = new StringBuilder(keyElement).reverse().toString();
+
+                // Check element if exist in listCouple
+                // check=true if exist
+
+                boolean check = false;
+                for (int j = 0; j < listCouple.size(); j++) {
+                    String keyCouple = String.valueOf(listCouple.get(j).getKey());
+
+                    if (keyElement.equals(keyCouple) || reverseKeyElement.equals(keyCouple)) {
+                        check = true;
+                    }
+                }
+
+                if (!check) {
+
+                    JSONObject reverseElement = null;
+
+                    // Find JSON inverse of the element
+                    for (int j = 0; j < listLotto.size(); j++) {
+                        JSONObject temp = (JSONObject) jsonLotto.get(j);
+                        String key = temp.getString("number");
+
+                        if (key.equals(reverseKeyElement)) {
+                            reverseElement = temp;
+                        }
+                    }
+
+                    // Finish find
+
+                    int elementValue = element.getInt("lastOpenDateInDays");
+                    int reverseValue = reverseElement.getInt("lastOpenDateInDays");
+
+                    Log.d(TAG, keyElement + " " + elementValue + " " + reverseValue);
+                    int value = 0;
+
+                    if (elementValue < reverseValue) {
+                        value = elementValue;
+                    } else {
+                        value = reverseValue;
+                    }
+
+                    listCouple.add(new StringCouple(
+                            keyElement,
+                            value
+                    ));
+                }
+
+            }
+
+            // Sort list
+            for (int i = 0; i < listLotto.size(); i++) {
+                for (int j = i + 1; j < listLotto.size(); j++) {
+                    NumberCouple temp1 = listLotto.get(i);
+                    NumberCouple temp2 = listLotto.get(j);
+
+                    if (temp1.getValue() < temp2.getValue()) {
+                        NumberCouple temp3 = temp1;
+                        listLotto.set(i, temp2);
+                        listLotto.set(j, temp3);
+                    }
+                }
+            }
+
+
+            // SortList
+
+            for (int i = 0; i < listCouple.size(); i++) {
+                for (int j = i + 1; j < listCouple.size(); j++) {
+                    StringCouple temp1 = listCouple.get(i);
+                    StringCouple temp2 = listCouple.get(j);
+
+                    if (temp1.getValue() < temp2.getValue()) {
+                        StringCouple temp3 = temp1;
+                        listCouple.set(i, temp2);
+                        listCouple.set(j, temp3);
+                    }
+                }
+            }
+
+
+            // Create adapter for the listview
+
+            List<String> indexLotto = new ArrayList<String>();
+            List<String> valueLotto = new ArrayList<String>();
+            List<String> indexCouple = new ArrayList<String>();
+            List<String> valueCouple = new ArrayList<String>();
+
+            for (int i = 0; i < 10; i++) {
+                NumberCouple lottoElement = listLotto.get(i);
+                StringCouple coupleElement = listCouple.get(i);
+
+                indexLotto.add(String.valueOf(lottoElement.getIndex()));
+                valueLotto.add(String.valueOf(lottoElement.getValue()));
+
+                String coupleKey = String.valueOf(coupleElement.getKey());
+                indexCouple.add(coupleKey + "-" + new StringBuilder(coupleKey).reverse());
+                valueCouple.add(String.valueOf(coupleElement.getValue()));
+            }
+
+
+            TwoColumnArrayAdapter lottoAdapter = new TwoColumnArrayAdapter(
+                    getActivity(),
+                    R.layout.row_two_columns,
+                    R.id.text_first_column,
+                    indexLotto,
+                    valueLotto
+            );
+
+            TwoColumnArrayAdapter coupleAdapter = new TwoColumnArrayAdapter(
+                    getActivity(),
+                    R.layout.row_two_columns,
+                    R.id.text_first_column,
+                    indexCouple,
+                    valueCouple
+            );
+
+            listViewLotto.setAdapter(lottoAdapter);
+            listViewCouple.setAdapter(coupleAdapter);
+
+
+        } catch (JSONException e) {
+            Log.d(TAG, "Json from server is error: " + code);
+        }
+    }
+
+    private class DownloadInfoTask extends AsyncTask<Void, String, String> {
+        private String code;
+
+        private DownloadInfoTask(String code) {
+            this.code = code;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            loadResult(result);
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            URLBuilder urlBuilder = new URLBuilder(URLBuilder.URL_THONG_KE_LO_GAN);
+            urlBuilder.append(Common.LOCATION_CODE, code);
+
+            String url = urlBuilder.create();
+            String result = ServiceUtilities.sendGet(url, null);
+
+            return result;
+
+        }
     }
 }

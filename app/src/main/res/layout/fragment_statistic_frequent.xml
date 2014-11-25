@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -48,36 +48,34 @@
                 android:orientation="horizontal"></LinearLayout>
         </HorizontalScrollView>
 
+        <Spinner
+            android:id="@+id/spinner_pick_num_times"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/horizontal_companies_view" />
+
 
         <TextView
             android:id="@+id/text_title_lotto_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/horizontal_companies_view"
+            android:layout_below="@+id/spinner_pick_num_times"
             android:text="Kết quả xổ số" />
 
-        <ListView
-            android:id="@+id/list_prize_and_value"
-            android:layout_width="fill_parent"
-            android:layout_height="400dp"
-            android:layout_below="@+id/text_title_lotto_result">
-
-        </ListView>
-
-        <TextView
-            android:id="@+id/text_title_lo_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/list_prize_and_value"
-            android:text="Kết quả lo to" />
 
         <ListView
-            android:id="@+id/list_lotto_head_tail"
+            android:id="@+id/list_special_view"
             android:layout_width="fill_parent"
-            android:layout_height="400dp"
-            android:layout_below="@+id/text_title_lo_result"></ListView>
+            android:layout_height="600dp"
+            android:layout_below="@+id/text_title_lotto_result" />
 
-    </LinearLayout>
+        <ListView
+            android:id="@+id/list_lotto_view"
+            android:layout_width="fill_parent"
+            android:layout_height="600dp"
+            android:layout_below="@+id/list_special_view" />
+    </RelativeLayout>
 </ScrollView>
 
 

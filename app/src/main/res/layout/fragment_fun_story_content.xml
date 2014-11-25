@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/list_fun_story"
+    <TextView
+        android:id="@+id/text_fun_story_content"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></ListView>
+        android:layout_height="fill_parent" />
 
 </LinearLayout>
