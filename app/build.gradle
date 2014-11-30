@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:support-v4:20.0.0'
     compile project(':library')
     compile 'com.android.support:appcompat-v7:20.0.0'
+    compile project(':library_sliding_menu')
 }

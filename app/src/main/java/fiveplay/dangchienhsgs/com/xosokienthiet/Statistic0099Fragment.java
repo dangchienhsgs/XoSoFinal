@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,14 +85,15 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
             listSpinnerItems.add(str);
         }
 
-
+        spinnerNumberPicker.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.popup_lanthongke));
         mSpinnerAdapter = new ArrayAdapter<String>(
                 getActivity(),
-                android.R.layout.simple_list_item_1,
+                R.layout.spinner_current_item,
                 listSpinnerItems
         );
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNumberPicker.setAdapter(mSpinnerAdapter);
+
 
         range = Integer.parseInt(listSpinnerItems.get(0));
 
@@ -132,27 +134,32 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
                 break;
         }
 
-        layoutGroupCompanies.removeAllViews();
-
         for (int i = 0; i < choosingCompanies.length; i++) {
 
-            final String company = choosingCompanies[i];
+            String company = choosingCompanies[i];
 
             // Add button to the row
-            Button button = new Button(getActivity());
-            button.setText(company);
-            button.setTag(choosingCompaniesID[i]);
+            View companyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_text_company, null);
+            ((TextView) companyView.findViewById(R.id.text_company)).setText(company);
+            companyView.setTag(String.valueOf(i));
 
             // Set onClickListener for the Button
-            button.setOnClickListener(new View.OnClickListener() {
+            companyView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     // Reset title for the activity
-                    getActivity().getActionBar().setTitle(company);
+                    for (int j = 0; j < layoutGroupCompanies.getChildCount(); j++) {
+                        View temp = layoutGroupCompanies.getChildAt(j);
+                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(android.R.color.black));
+                    }
 
-                    // Get the company code
-                    String code = (String) view.getTag();
+                    ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
+
+                    String code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
+                    String company = choosingCompanies[Integer.parseInt((String) view.getTag())];
+
+                    getActivity().getActionBar().setTitle(company);
 
                     // load Result
                     loadResult(code);
@@ -160,9 +167,8 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
                 }
             });
 
-            layoutGroupCompanies.addView(button);
+            layoutGroupCompanies.addView(companyView);
         }
-
     }
 
     @Override

@@ -45,6 +45,11 @@ public class ScheduleFragment extends Fragment {
 
         listDay.setAdapter(mAdapter);
 
+        listDay.setGroupIndicator(getResources().getDrawable(R.drawable.icon_expandable_indicator));
+        listDay.setIndicatorBounds(10, 10);
+        listDay.setFooterDividersEnabled(false);
+        listDay.setHeaderDividersEnabled(false);
+
         return view;
     }
 }

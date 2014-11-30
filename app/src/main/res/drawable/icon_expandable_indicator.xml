@@ -1,0 +1,16 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_empty="true">
+        <layer-list>
+            <item android:bottom="28dp" android:drawable="@drawable/icon_open" android:left="10dp" android:right="10dp" android:top="28dp"></item>
+        </layer-list>
+    </item>
+
+    <item android:state_expanded="true">
+        <layer-list>
+            <item android:bottom="28dp" android:drawable="@drawable/icon_close" android:left="10dp" android:right="10dp" android:top="28dp"></item>
+        </layer-list>
+    </item>
+
+    <item android:drawable="@drawable/icon_open"></item>
+</selector> 

@@ -62,6 +62,7 @@ public class ScheduleArrayAdapter extends BaseExpandableListAdapter {
         textArea.setText(areaTitle);
         textCompany.setText(companyTitle);
 
+
         return view;
     }
 

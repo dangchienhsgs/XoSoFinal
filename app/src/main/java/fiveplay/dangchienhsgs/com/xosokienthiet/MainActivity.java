@@ -9,6 +9,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.astuetz.PagerSlidingTabStrip;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,7 +23,7 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TabsPagerAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, MyDatePickerDialogs.DatePickerListener {
+public class MainActivity extends ActionBarActivity implements MyDatePickerDialogs.DatePickerListener {
     private String TAG = "Main Activity";
 
     private ViewPager mViewPager;
@@ -44,6 +49,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     private List<Fragment> listFragment;
 
+    private SlidingMenu menu;
+
 
     private int day;
 
@@ -67,10 +74,43 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         initFragment();
         initTabs();
         initDate();
+        initMenu();
 
-        tabAdapter.notifyDataSetChanged();
+    }
 
+    public void initMenu() {
+        menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidthRes(R.dimen.shadow_width);
+        //menu.setShadowDrawable(R.drawable.bg_grey);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.sliding_menu_drawer);
 
+    }
+
+    public void onDrawerItemClick(View view) {
+        switch (view.getId()) {
+            case R.id.image_ketqua:
+                indexFragment = Common.INDEX_RESULT_FRAGMENT;
+                mViewPager.setCurrentItem(Common.INDEX_RESULT_FRAGMENT);
+                break;
+            case R.id.image_thongke:
+                indexFragment = Common.INDEX_STATISTIC_FRAGMENT;
+                mViewPager.setCurrentItem(Common.INDEX_STATISTIC_FRAGMENT);
+                break;
+            case R.id.image_lichquay:
+                indexFragment = Common.INDEX_SCHEDULE_FRAGMENT;
+                mViewPager.setCurrentItem(Common.INDEX_SCHEDULE_FRAGMENT);
+                break;
+            case R.id.image_tienich:
+                indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
+                mViewPager.setCurrentItem(Common.INDEX_UTILITIES_FRAGMENT);
+                break;
+        }
+        menu.toggle(true);
     }
 
     public void initFragment() {
@@ -119,23 +159,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         mViewPager.setAdapter(tabAdapter);
 
 
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setHomeButtonEnabled(false);
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.topbar));
 
-        String[] titles = getResources().getStringArray(R.array.tab_titles);
-
-        for (String title : titles) {
-            ActionBar.Tab tab = actionBar.newTab();
-
-            tab.setText(title);
-            tab.setTabListener(this);
-            actionBar.addTab(tab);
-        }
-
-        ActionBar.Tab utilTab = actionBar.newTab();
-        utilTab.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_more));
-        utilTab.setTabListener(this);
-        actionBar.addTab(utilTab);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -145,7 +171,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             @Override
             public void onPageSelected(int i) {
-                getSupportActionBar().setSelectedNavigationItem(i);
+                indexFragment = i;
+                mViewPager.setCurrentItem(i);
             }
 
             @Override
@@ -188,25 +215,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
-
-        int position = tab.getPosition();
-        indexFragment = position;
-        mViewPager.setCurrentItem(position);
-
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
-
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
-
     }
 
     @Override

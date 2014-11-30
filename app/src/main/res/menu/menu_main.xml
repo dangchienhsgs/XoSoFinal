@@ -2,20 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_today"
-        android:icon="@android:drawable/ic_menu_today"
+        android:icon="@drawable/background_icon_homnay"
         android:title="Today"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_calendar"
-        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:icon="@drawable/background_icon_chonngay"
         android:title="Calendar"
         app:showAsAction="always" />
 

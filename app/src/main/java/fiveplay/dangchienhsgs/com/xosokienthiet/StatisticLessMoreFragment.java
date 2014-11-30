@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -130,27 +131,32 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
                 break;
         }
 
-        layoutGroupCompanies.removeAllViews();
-
         for (int i = 0; i < choosingCompanies.length; i++) {
 
-            final String company = choosingCompanies[i];
+            String company = choosingCompanies[i];
 
             // Add button to the row
-            Button button = new Button(getActivity());
-            button.setText(company);
-            button.setTag(choosingCompaniesID[i]);
+            View companyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_text_company, null);
+            ((TextView) companyView.findViewById(R.id.text_company)).setText(company);
+            companyView.setTag(String.valueOf(i));
 
             // Set onClickListener for the Button
-            button.setOnClickListener(new View.OnClickListener() {
+            companyView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     // Reset title for the activity
-                    getActivity().getActionBar().setTitle(company);
+                    for (int j = 0; j < layoutGroupCompanies.getChildCount(); j++) {
+                        View temp = layoutGroupCompanies.getChildAt(j);
+                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(android.R.color.black));
+                    }
 
-                    // Get the company code
-                    String code = (String) view.getTag();
+                    ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
+
+                    String code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
+                    String company = choosingCompanies[Integer.parseInt((String) view.getTag())];
+
+                    getActivity().getActionBar().setTitle(company);
 
                     // load Result
                     loadResult(code);
@@ -158,9 +164,8 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
                 }
             });
 
-            layoutGroupCompanies.addView(button);
+            layoutGroupCompanies.addView(companyView);
         }
-
     }
 
     public void loadResult(String code) {

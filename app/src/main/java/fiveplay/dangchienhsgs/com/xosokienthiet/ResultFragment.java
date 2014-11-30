@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -83,6 +84,9 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
         listResult = (ListView) view.findViewById(R.id.list_prize_and_value);
         listHeadTail = (ListView) view.findViewById(R.id.list_lotto_head_tail);
 
+        listResult.setVisibility(View.INVISIBLE);
+        listHeadTail.setVisibility(View.INVISIBLE);
+
     }
 
     public void setDate(int year, int month, int day) {
@@ -113,23 +117,30 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
 
         for (int i = 0; i < choosingCompanies.length; i++) {
 
-            final String company = choosingCompanies[i];
+            String company = choosingCompanies[i];
 
             // Add button to the row
-            Button button = new Button(getActivity());
-            button.setText(company);
-            button.setTag(choosingCompaniesID[i]);
+            View companyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_text_company, null);
+            ((TextView) companyView.findViewById(R.id.text_company)).setText(company);
+            companyView.setTag(String.valueOf(i));
 
             // Set onClickListener for the Button
-            button.setOnClickListener(new View.OnClickListener() {
+            companyView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     // Reset title for the activity
-                    getActivity().getActionBar().setTitle(company);
+                    for (int j = 0; j < layoutGroupCompanies.getChildCount(); j++) {
+                        View temp = layoutGroupCompanies.getChildAt(j);
+                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(android.R.color.black));
+                    }
 
-                    // Get the company code
-                    code = (String) view.getTag();
+                    ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
+
+                    String code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
+                    String company = choosingCompanies[Integer.parseInt((String) view.getTag())];
+
+                    getActivity().getActionBar().setTitle(company);
 
                     // load Result
                     loadResult(code);
@@ -137,7 +148,7 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
                 }
             });
 
-            layoutGroupCompanies.addView(button);
+            layoutGroupCompanies.addView(companyView);
         }
     }
 
@@ -191,9 +202,6 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
             );
 
 
-            Log.d(TAG, lottoResult.getLottoHeadTail().toString());
-            Log.d(TAG, lottoResult.getLottoTailHead().toString());
-
             List<String> listDigits = new ArrayList<String>();
             for (String str : Common.DIGITS) {
                 listDigits.add(str);
@@ -218,6 +226,9 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
 
             listResult.setAdapter(lottoAdapter);
             lottoAdapter.notifyDataSetChanged();
+
+            listHeadTail.setVisibility(View.VISIBLE);
+            listResult.setVisibility(View.VISIBLE);
         }
     }
 
