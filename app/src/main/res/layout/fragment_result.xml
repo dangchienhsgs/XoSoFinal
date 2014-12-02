@@ -68,7 +68,9 @@
                 android:id="@+id/horizontal_companies_view"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/layout_group_area">
+                android:layout_below="@+id/layout_group_area"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <LinearLayout
                     android:id="@+id/layout_group_companies"
@@ -87,15 +89,17 @@
                 android:layout_marginRight="5dp"
                 android:text="Kết quả xổ số"
                 android:textColor="#fd7139"
-                android:textSize="39px" />
+                android:textSize="30px" />
+
 
             <ListView
                 android:id="@+id/list_prize_and_value"
                 android:layout_width="fill_parent"
-                android:layout_height="400dp"
+                android:layout_height="320dp"
                 android:layout_below="@+id/text_title_lotto_result"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/table_background">
 
             </ListView>
@@ -105,9 +109,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/list_prize_and_value"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
-                android:text="Kết quả lo to" />
+                android:layout_marginTop="10dp"
+                android:text="Kết quả lo to"
+                android:textColor="#fd7139"
+                android:textSize="30px" />
 
             <ListView
                 android:id="@+id/list_lotto_head_tail"

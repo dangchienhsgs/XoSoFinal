@@ -160,7 +160,8 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
 
 
         actionBar.setHomeButtonEnabled(false);
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.topbar));
+
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_topbar));
 
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

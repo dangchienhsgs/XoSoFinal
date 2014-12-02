@@ -42,7 +42,7 @@ public class FourColumnArrayAdapter extends ArrayAdapter<String> {
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.row_four_columns, parent, false);
+            convertView = inflater.inflate(R.layout.row_giavang, parent, false);
         }
 
         TextView textFirstColumn = (TextView) convertView.findViewById(R.id.text_first_column);

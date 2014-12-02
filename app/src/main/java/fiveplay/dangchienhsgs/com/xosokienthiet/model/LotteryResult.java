@@ -48,7 +48,7 @@ public class LotteryResult {
                 String temp = ketqua.getString("prize" + i);
 
                 if (temp != null) {
-                    prize.add(temp);
+                    prize.add(temp.trim());
                 }
             }
 
@@ -61,7 +61,7 @@ public class LotteryResult {
                 if (array.get(i).toString().trim() == "null") {
                     lottoHeadTail.add(EMPTY_STRING);
                 } else {
-                    lottoHeadTail.add(array.get(i).toString());
+                    lottoHeadTail.add(array.get(i).toString().trim());
                 }
 
             }
@@ -109,9 +109,9 @@ public class LotteryResult {
                         int temp = Integer.parseInt(digit);
 
                         if (result.get(temp).equals(EMPTY_STRING)) {
-                            result.add(temp, String.valueOf(i));
+                            result.add(temp, String.valueOf(i).trim());
                         } else {
-                            result.add(temp, result.get(temp) + "," + i);
+                            result.add(temp, (result.get(temp) + "," + i).trim());
                         }
                     }
                 }

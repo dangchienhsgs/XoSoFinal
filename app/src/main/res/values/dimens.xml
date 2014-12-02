@@ -7,5 +7,8 @@
     <dimen name="list_padding">10dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
 
+    <dimen name="table_height_row">40dp</dimen>
+    <dimen name="text_size_title">20px</dimen>
+
     <integer name="num_cols">1</integer>
 </resources>

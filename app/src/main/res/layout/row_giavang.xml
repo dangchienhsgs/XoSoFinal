@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="35dp">
+
+    <TextView
+        android:id="@+id/text_first_column"
+        android:layout_width="45dp"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="First"
+        android:textColor="@color/text_table_color"
+        android:textSize="20px" />
+
+    <TextView
+        android:id="@+id/text_second_column"
+        android:layout_width="45dp"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@+id/text_first_column"
+        android:gravity="center"
+        android:text="Second"
+        android:textColor="@color/text_table_color"
+        android:textSize="20px" />
+
+    <LinearLayout
+        android:id="@+id/layout_second_and_third"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/text_second_column"
+        android:layout_toRightOf="@+id/text_second_column"
+        android:orientation="horizontal"
+        android:textColor="@color/text_table_color"
+        android:weightSum="2">
+
+
+        <TextView
+            android:id="@+id/text_third_column"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="third"
+            android:textColor="@color/text_table_color"
+            android:textSize="20px" />
+
+        <TextView
+            android:id="@+id/text_four_column"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="four"
+            android:textColor="@color/text_table_color"
+            android:textSize="20px" />
+    </LinearLayout>
+
+
+</RelativeLayout>

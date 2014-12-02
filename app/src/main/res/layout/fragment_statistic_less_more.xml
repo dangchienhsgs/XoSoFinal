@@ -82,10 +82,12 @@
 
             <Spinner
                 android:id="@+id/spinner_pick_num_times"
-                android:layout_width="200dp"
+                android:layout_width="140dp"
                 android:layout_height="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/horizontal_companies_view" />
+                android:layout_below="@+id/horizontal_companies_view"
+                android:layout_marginLeft="170dp"
+                android:background="@drawable/background_spinner_current_item"
+                android:gravity="center" />
 
 
             <TextView
@@ -93,7 +95,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spinner_pick_num_times"
-                android:text="Các số vé về nhiều nhất trong 30 lần quay xổ số" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="Các số vé về nhiều nhất trong 30 lần quay xổ số"
+                android:textColor="@color/orange_color"
+                android:textSize="20px" />
 
             <ListView
                 android:id="@+id/list_max"
@@ -109,13 +116,22 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/list_max"
-                android:text="Các số về ít nhất trong 30 lần quay xổ số" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:text="Các số về ít nhất trong 30 lần quay xổ số"
+                android:textColor="@color/orange_color"
+                android:textSize="20px" />
 
             <ListView
                 android:id="@+id/list_min"
                 android:layout_width="fill_parent"
                 android:layout_height="400dp"
-                android:layout_below="@+id/text_title_explain_min" />
+                android:layout_below="@+id/text_title_explain_min"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/table_background" />
 
         </RelativeLayout>
     </ScrollView>

@@ -6,17 +6,23 @@
     <TextView
         android:id="@+id/text_first_column"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/table_height_row"
         android:gravity="center"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="First"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/text_table_color" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/table_height_row"
+        android:layout_toRightOf="@+id/text_first_column"
+        android:src="@drawable/line_vertical" />
 
     <LinearLayout
         android:id="@+id/layout_second_and_third"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/table_height_row"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -34,7 +40,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="Second"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/text_table_color" />
 
         <TextView
             android:id="@+id/text_third_column"
@@ -44,7 +50,8 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="third" />
+            android:text="third"
+            android:textColor="@color/text_table_color" />
 
     </LinearLayout>
 

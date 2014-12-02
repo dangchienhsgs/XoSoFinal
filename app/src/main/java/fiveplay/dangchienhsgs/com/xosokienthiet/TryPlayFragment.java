@@ -12,9 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +33,6 @@ public class TryPlayFragment extends Fragment implements Button.OnClickListener 
     private final String TAG = "Try Play Activity";
 
     private ListView listResultView;
-    private TextView textResult;
 
     private TwoColumnArrayAdapter mAdapter;
 
@@ -41,8 +43,14 @@ public class TryPlayFragment extends Fragment implements Button.OnClickListener 
 
     private int[] randomNumbers;
 
-
+    private Spinner companySpinner;
     private boolean isPlaying = false;
+
+    private TextView textDigit1;
+    private TextView textDigit2;
+    private TextView textDigit3;
+    private TextView textDigit4;
+    private TextView textDigit5;
 
     private int currentPlayPosition = 0;
 
@@ -63,8 +71,23 @@ public class TryPlayFragment extends Fragment implements Button.OnClickListener 
     public void initComponent(View view) {
         //Get ListView of the table
         listResultView = (ListView) view.findViewById(R.id.list_prize_and_value);
-        textResult = (TextView) view.findViewById(R.id.text_result);
         buttonPlay = (Button) view.findViewById(R.id.button_play);
+
+        companySpinner = (Spinner) view.findViewById(R.id.spinner_lotto_companies);
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                R.layout.spinner_current_item,
+                Common.COMPANIES
+        );
+
+        mAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        companySpinner.setAdapter(mAdapter);
+
+        textDigit1 = (TextView) view.findViewById(R.id.digit_1);
+        textDigit2 = (TextView) view.findViewById(R.id.digit_2);
+        textDigit3 = (TextView) view.findViewById(R.id.digit_3);
+        textDigit4 = (TextView) view.findViewById(R.id.digit_4);
+        textDigit5 = (TextView) view.findViewById(R.id.digit_5);
     }
 
     public void initData(View view) {
@@ -111,12 +134,30 @@ public class TryPlayFragment extends Fragment implements Button.OnClickListener 
             // Update Table
 
             Log.d(TAG, "Update list value");
-            listValue.set(currentPlayPosition, textResult.getText().toString());
+
+            String temp = textDigit1.getText().toString() + textDigit2.getText().toString() + textDigit3.getText().toString() +
+                    textDigit4.getText().toString() + textDigit5.getText().toString();
+            listValue.set(currentPlayPosition, temp);
             currentPlayPosition++;
+
+            if (currentPlayPosition == 8) {
+                Toast.makeText(getActivity(), "Finish !", Toast.LENGTH_SHORT).show();
+                initData(getView());
+                currentPlayPosition = 0;
+            }
             mAdapter.notifyDataSetChanged();
 
             Log.d(TAG, "Finish update list value");
         }
+    }
+
+    public void updateTextResult(String text) {
+        textDigit1.setText(String.valueOf(text.charAt(0)));
+        textDigit2.setText(String.valueOf(text.charAt(1)));
+        textDigit3.setText(String.valueOf(text.charAt(2)));
+        textDigit4.setText(String.valueOf(text.charAt(3)));
+        textDigit5.setText(String.valueOf(text.charAt(4)));
+
     }
 
     /**
@@ -148,7 +189,7 @@ public class TryPlayFragment extends Fragment implements Button.OnClickListener 
                         }
 
                         publishProgress(results);
-                        Thread.sleep(300);
+                        Thread.sleep(100);
                     } else {
                         break;
                     }
@@ -164,8 +205,7 @@ public class TryPlayFragment extends Fragment implements Button.OnClickListener 
 
         @Override
         protected void onProgressUpdate(String... results) {
-            textResult.setText(results[0]);
-            Log.d(TAG, results[0]);
+            updateTextResult(results[0]);
         }
     }
 }

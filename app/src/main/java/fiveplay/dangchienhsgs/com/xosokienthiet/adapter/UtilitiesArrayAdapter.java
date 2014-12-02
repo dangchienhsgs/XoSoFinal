@@ -29,8 +29,6 @@ public class UtilitiesArrayAdapter extends ArrayAdapter<String> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_list_utilities, parent, false);
         }
 
-        ImageView icon = (ImageView) convertView.findViewById(R.id.image_utility_icon);
-        icon.setImageResource(R.drawable.ic_launcher);
         TextView text = (TextView) convertView.findViewById(R.id.text_utility_title);
 
         text.setText(getItem(position));

@@ -87,8 +87,8 @@ public class FunStoryFragment extends Fragment {
         FunStoryArrayAdapter adapter = new FunStoryArrayAdapter(
                 getActivity(),
                 R.layout.row_list_fun_story,
-                listIntro,
-                listTitle
+                listTitle,
+                listIntro
         );
 
         listView.setAdapter(adapter);

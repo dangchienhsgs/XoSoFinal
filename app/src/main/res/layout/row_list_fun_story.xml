@@ -9,7 +9,12 @@
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
-        android:gravity="center_vertical" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center_vertical"
+        android:text="Asdad"
+        android:textColor="@color/text_table_color"
+        android:textSize="15dp" />
 
     <TextView
         android:id="@+id/text_intro_story"
@@ -18,8 +23,12 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/text_title_story"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:text="Asdad"
+        android:textColor="@color/text_table_color"
+        android:textSize="10dp" />
 
 
 </RelativeLayout>

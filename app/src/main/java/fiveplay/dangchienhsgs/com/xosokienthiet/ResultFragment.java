@@ -44,6 +44,9 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
     private ListView listResult;
     private ListView listHeadTail;
 
+    private TextView textTitleLotto;
+    private TextView textTitleSpecial;
+
 
     private String[] choosingCompanies;
     private String[] choosingCompaniesID;
@@ -78,6 +81,8 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
         buttonMiddle.setOnClickListener(this);
         buttonSouth.setOnClickListener(this);
 
+        textTitleLotto = (TextView) view.findViewById(R.id.text_title_lotto_result);
+        textTitleSpecial = (TextView) view.findViewById(R.id.text_title_lo_result);
 
         layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
 
@@ -86,6 +91,9 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
 
         listResult.setVisibility(View.INVISIBLE);
         listHeadTail.setVisibility(View.INVISIBLE);
+
+        textTitleLotto.setVisibility(View.INVISIBLE);
+        textTitleSpecial.setVisibility(View.INVISIBLE);
 
     }
 
@@ -121,7 +129,9 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
 
             // Add button to the row
             View companyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_text_company, null);
-            ((TextView) companyView.findViewById(R.id.text_company)).setText(company);
+            TextView textCompany = (TextView) companyView.findViewById(R.id.text_company);
+            textCompany.setTextColor(getResources().getColor(R.color.text_table_color));
+            textCompany.setText(company);
             companyView.setTag(String.valueOf(i));
 
             // Set onClickListener for the Button
@@ -132,7 +142,7 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
                     // Reset title for the activity
                     for (int j = 0; j < layoutGroupCompanies.getChildCount(); j++) {
                         View temp = layoutGroupCompanies.getChildAt(j);
-                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(android.R.color.black));
+                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.text_table_color));
                     }
 
                     ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
@@ -229,6 +239,8 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
 
             listHeadTail.setVisibility(View.VISIBLE);
             listResult.setVisibility(View.VISIBLE);
+            textTitleLotto.setVisibility(View.VISIBLE);
+            textTitleSpecial.setVisibility(View.VISIBLE);
         }
     }
 

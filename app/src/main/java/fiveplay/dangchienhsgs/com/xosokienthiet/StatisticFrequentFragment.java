@@ -44,6 +44,9 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
     private List<String> listSpinnerItems;
     private ArrayAdapter<String> mSpinnerAdapter;
 
+    private String code = "mienbac";
+    private TextView textTitle;
+
     private ThreeColumnArrayAdapter specialAdapter;
     private ThreeColumnArrayAdapter lottoAdapter;
     private ListView listSpecialView;
@@ -75,7 +78,11 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
 
         layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
 
+        textTitle = (TextView) view.findViewById(R.id.text_title_lotto_result);
+
+
         spinnerNumberPicker = (Spinner) view.findViewById(R.id.spinner_pick_num_times);
+        spinnerNumberPicker.setVisibility(View.INVISIBLE);
 
         listSpinnerItems = new ArrayList<String>();
         for (String str : Common.DEFAULT_NUM_TIMES) {
@@ -86,13 +93,16 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
         listSpecialView = (ListView) view.findViewById(R.id.list_special_view);
         listLottoView = (ListView) view.findViewById(R.id.list_lotto_view);
 
-
+        spinnerNumberPicker.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.popup_lanthongke));
         mSpinnerAdapter = new ArrayAdapter<String>(
                 getActivity(),
-                android.R.layout.simple_list_item_1,
+                R.layout.spinner_current_item,
                 listSpinnerItems
         );
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        mSpinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
         spinnerNumberPicker.setAdapter(mSpinnerAdapter);
 
         range = Integer.parseInt(listSpinnerItems.get(0));
@@ -115,6 +125,10 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
             }
         });
 
+
+        textTitle.setVisibility(View.INVISIBLE);
+        listLottoView.setVisibility(View.INVISIBLE);
+        listSpecialView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -126,10 +140,12 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
         spinnerNumberPicker.setSelection(listSpinnerItems.size() - 2);
 
         this.range = value;
+        new DownloadInfoTask(code, range).execute();
     }
 
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
 
             case R.id.button_area_north:
@@ -145,6 +161,9 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
                 choosingCompaniesID = Common.COMPANIES_IN_SOUTH_ID;
                 break;
         }
+        spinnerNumberPicker.setVisibility(View.VISIBLE);
+
+        layoutGroupCompanies.removeAllViews();
 
         for (int i = 0; i < choosingCompanies.length; i++) {
 
@@ -152,7 +171,9 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
 
             // Add button to the row
             View companyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_text_company, null);
-            ((TextView) companyView.findViewById(R.id.text_company)).setText(company);
+            TextView textCompany = (TextView) companyView.findViewById(R.id.text_company);
+            textCompany.setTextColor(getResources().getColor(R.color.text_table_color));
+            textCompany.setText(company);
             companyView.setTag(String.valueOf(i));
 
             // Set onClickListener for the Button
@@ -163,18 +184,18 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
                     // Reset title for the activity
                     for (int j = 0; j < layoutGroupCompanies.getChildCount(); j++) {
                         View temp = layoutGroupCompanies.getChildAt(j);
-                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(android.R.color.black));
+                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.text_table_color));
                     }
 
                     ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
 
-                    String code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
+                    code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
                     String company = choosingCompanies[Integer.parseInt((String) view.getTag())];
 
                     getActivity().getActionBar().setTitle(company);
 
                     // load Result
-                    loadResult(code);
+                    new DownloadInfoTask(code, range).execute();
 
                 }
             });
@@ -225,6 +246,10 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
             listSpecialView.setAdapter(specialAdapter);
             listLottoView.setAdapter(lottoAdapter);
 
+
+            textTitle.setVisibility(View.VISIBLE);
+            listLottoView.setVisibility(View.VISIBLE);
+            listSpecialView.setVisibility(View.VISIBLE);
         } catch (JSONException e) {
             Log.d(TAG, "JSON from server is error: " + result);
         }
@@ -264,9 +289,11 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
 
     private class DownloadInfoTask extends AsyncTask<Void, String, String> {
         private String code;
+        private int range;
 
-        private DownloadInfoTask(String code) {
+        private DownloadInfoTask(String code, int range) {
             this.code = code;
+            this.range = range;
         }
 
         @Override

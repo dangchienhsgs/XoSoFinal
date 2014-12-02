@@ -32,23 +32,21 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
 
 public class StatisticLessMoreFragment extends Fragment implements Button.OnClickListener, MyDialogNumberPicker.NumberPickerListener {
     private final String TAG = "Statistic Less More Fragment";
+    TextView textTitleMax;
+    TextView textTitleMin;
     private Button buttonNorth;
     private Button buttonMiddle;
     private Button buttonSouth;
-
     private LinearLayout layoutGroupCompanies;
     private String[] choosingCompanies;
     private String[] choosingCompaniesID;
-
     private Spinner spinnerNumberPicker;
     private List<String> listSpinnerItems;
     private ArrayAdapter<String> mSpinnerAdapter;
-
     private int range;
-
+    private String code = "mienbac";
     private List<NumberCouple> listSpecial;
     private List<NumberCouple> listLotto;
-
     private ListView listViewMax;
     private ListView listViewMin;
 
@@ -73,9 +71,13 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
         listViewMax = (ListView) view.findViewById(R.id.list_max);
         listViewMin = (ListView) view.findViewById(R.id.list_min);
 
+        textTitleMax = (TextView) view.findViewById(R.id.text_title_explain_max);
+        textTitleMin = (TextView) view.findViewById(R.id.text_title_explain_min);
+
         layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
 
         spinnerNumberPicker = (Spinner) view.findViewById(R.id.spinner_pick_num_times);
+        spinnerNumberPicker.setVisibility(View.INVISIBLE);
 
         listSpinnerItems = new ArrayList<String>();
         for (String str : Common.DEFAULT_NUM_TIMES) {
@@ -83,12 +85,16 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
         }
 
 
+        spinnerNumberPicker.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.popup_lanthongke));
         mSpinnerAdapter = new ArrayAdapter<String>(
                 getActivity(),
-                android.R.layout.simple_list_item_1,
+                R.layout.spinner_current_item,
                 listSpinnerItems
         );
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        mSpinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
         spinnerNumberPicker.setAdapter(mSpinnerAdapter);
 
         range = Integer.parseInt(listSpinnerItems.get(0));
@@ -111,6 +117,10 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
             }
         });
 
+        textTitleMin.setVisibility(View.INVISIBLE);
+        textTitleMax.setVisibility(View.INVISIBLE);
+        listViewMax.setVisibility(View.INVISIBLE);
+        listViewMin.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -131,13 +141,19 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
                 break;
         }
 
+        spinnerNumberPicker.setVisibility(View.VISIBLE);
+
+        layoutGroupCompanies.removeAllViews();
+
         for (int i = 0; i < choosingCompanies.length; i++) {
 
             String company = choosingCompanies[i];
 
             // Add button to the row
             View companyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_text_company, null);
-            ((TextView) companyView.findViewById(R.id.text_company)).setText(company);
+            TextView textCompany = (TextView) companyView.findViewById(R.id.text_company);
+            textCompany.setTextColor(getResources().getColor(R.color.text_table_color));
+            textCompany.setText(company);
             companyView.setTag(String.valueOf(i));
 
             // Set onClickListener for the Button
@@ -148,12 +164,12 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
                     // Reset title for the activity
                     for (int j = 0; j < layoutGroupCompanies.getChildCount(); j++) {
                         View temp = layoutGroupCompanies.getChildAt(j);
-                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(android.R.color.black));
+                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.text_table_color));
                     }
 
                     ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
 
-                    String code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
+                    code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
                     String company = choosingCompanies[Integer.parseInt((String) view.getTag())];
 
                     getActivity().getActionBar().setTitle(company);
@@ -181,6 +197,8 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
         spinnerNumberPicker.setSelection(listSpinnerItems.size() - 2);
 
         this.range = value;
+
+        loadResult(code);
     }
 
     public void updateResult() {
@@ -253,6 +271,12 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
 
         listViewMax.setAdapter(maxAdapter);
         listViewMin.setAdapter(minAdapter);
+
+
+        textTitleMin.setVisibility(View.VISIBLE);
+        textTitleMax.setVisibility(View.VISIBLE);
+        listViewMax.setVisibility(View.VISIBLE);
+        listViewMin.setVisibility(View.VISIBLE);
     }
 
     public List<NumberCouple> analyzeResult(JSONArray jsonArray) {

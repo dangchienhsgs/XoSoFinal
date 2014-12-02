@@ -22,6 +22,7 @@ public class FunStoryContentFragment extends Fragment {
 
     private int storyID;
     private TextView textContent;
+    private TextView textTitle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class FunStoryContentFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_fun_story_content, container, false);
         textContent = (TextView) view.findViewById(R.id.text_fun_story_content);
+        textTitle = (TextView) view.findViewById(R.id.text_title_fun_story);
+
 
         return view;
     }
@@ -43,9 +46,13 @@ public class FunStoryContentFragment extends Fragment {
             JSONObject jsonObject = (JSONObject) jsonArray.get(0);
 
             String content = jsonObject.getString("Content");
+
             String imageUrl = jsonObject.getString("ImgUrl");
 
+            String title = jsonObject.getString("Title");
+
             textContent.setText(Html.fromHtml(content));
+            textTitle.setText(title);
 
 
         } catch (JSONException e) {

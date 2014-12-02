@@ -3,19 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight">
 
-    <ImageView
-        android:id="@+id/image_utility_icon"
-        android:layout_width="?android:attr/listPreferredItemHeight"
-        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/text_utility_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/image_utility_icon"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/open_narrow"
         android:gravity="center"
-        android:text="Sample" />
+        android:text="Sample"
+        android:textColor="@color/text_table_color" />
+
+    <ImageView
+        android:id="@+id/open_narrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/open_arrow" />
 
 </RelativeLayout>

@@ -44,6 +44,8 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
 
     private LinearLayout layoutGroupCompanies;
 
+    private TextView textTitle;
+
     private int range;
 
     private String[] choosingCompanies;
@@ -74,6 +76,8 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
         buttonSouth.setOnClickListener(this);
 
 
+        textTitle = (TextView) view.findViewById(R.id.text_title_explain_result);
+
         layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
 
 
@@ -91,7 +95,10 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
                 R.layout.spinner_current_item,
                 listSpinnerItems
         );
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        mSpinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
         spinnerNumberPicker.setAdapter(mSpinnerAdapter);
 
 
@@ -114,6 +121,11 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
 
             }
         });
+
+        list0099.setVisibility(View.INVISIBLE);
+        textTitle.setVisibility(View.INVISIBLE);
+        spinnerNumberPicker.setVisibility(View.INVISIBLE);
+        layoutGroupCompanies.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -134,13 +146,20 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
                 break;
         }
 
+        layoutGroupCompanies.setVisibility(View.VISIBLE);
+        spinnerNumberPicker.setVisibility(View.VISIBLE);
+
+        layoutGroupCompanies.removeAllViews();
+
         for (int i = 0; i < choosingCompanies.length; i++) {
 
             String company = choosingCompanies[i];
 
             // Add button to the row
             View companyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_text_company, null);
-            ((TextView) companyView.findViewById(R.id.text_company)).setText(company);
+            TextView textCompany = (TextView) companyView.findViewById(R.id.text_company);
+            textCompany.setTextColor(getResources().getColor(R.color.text_table_color));
+            textCompany.setText(company);
             companyView.setTag(String.valueOf(i));
 
             // Set onClickListener for the Button
@@ -151,7 +170,7 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
                     // Reset title for the activity
                     for (int j = 0; j < layoutGroupCompanies.getChildCount(); j++) {
                         View temp = layoutGroupCompanies.getChildAt(j);
-                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(android.R.color.black));
+                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.text_table_color));
                     }
 
                     ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
@@ -244,6 +263,10 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
                 mAdapter.setListSecondColumn(listValue);
 
                 list0099.setAdapter(mAdapter);
+
+
+                list0099.setVisibility(View.VISIBLE);
+                textTitle.setVisibility(View.VISIBLE);
 
             } catch (JSONException e) {
                 Log.d(TAG, "JSON error from url: " + s);

@@ -93,7 +93,7 @@ public class GoldPriceFragment extends Fragment {
 
         FourColumnArrayAdapter goldAdapter = new FourColumnArrayAdapter(
                 getActivity(),
-                R.layout.row_four_columns,
+                R.layout.row_giavang,
                 R.id.text_first_column,
                 listIndex,
                 goldCompanies,
@@ -119,7 +119,7 @@ public class GoldPriceFragment extends Fragment {
 
         FourColumnArrayAdapter moneyAdapter = new FourColumnArrayAdapter(
                 getActivity(),
-                R.layout.row_four_columns,
+                R.layout.row_giavang,
                 R.id.text_first_column,
                 countries,
                 moneyIn,

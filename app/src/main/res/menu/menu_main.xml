@@ -8,6 +8,13 @@
         android:icon="@drawable/background_icon_homnay"
         android:title="Today"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/actiton_drawer"
+        android:
+        android:icon="@drawable/icon_menu_pressed"
+        android:title="Open Action bar"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_calendar"
         android:icon="@drawable/background_icon_chonngay"

@@ -38,6 +38,9 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
 
     private LinearLayout layoutGroupCompanies;
 
+    private TextView textLogan;
+    private TextView textXoso;
+
     private String[] choosingCompanies;
     private String[] choosingCompaniesID;
 
@@ -66,10 +69,22 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
         buttonSouth.setOnClickListener(this);
 
 
+        textLogan = (TextView) view.findViewById(R.id.text_title_logan);
+        textXoso = (TextView) view.findViewById(R.id.text_title_logan_lotto);
+
+
         layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
 
         listViewLotto = (ListView) view.findViewById(R.id.list_logan_lotto);
         listViewCouple = (ListView) view.findViewById(R.id.list_logan_couple);
+
+
+        textLogan.setVisibility(View.INVISIBLE);
+        textXoso.setVisibility(View.INVISIBLE);
+
+
+        listViewCouple.setVisibility(View.INVISIBLE);
+        listViewLotto.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -90,13 +105,17 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
                 break;
         }
 
+        layoutGroupCompanies.removeAllViews();
+
         for (int i = 0; i < choosingCompanies.length; i++) {
 
             String company = choosingCompanies[i];
 
             // Add button to the row
             View companyView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_text_company, null);
-            ((TextView) companyView.findViewById(R.id.text_company)).setText(company);
+            TextView textCompany = (TextView) companyView.findViewById(R.id.text_company);
+            textCompany.setTextColor(getResources().getColor(R.color.text_table_color));
+            textCompany.setText(company);
             companyView.setTag(String.valueOf(i));
 
             // Set onClickListener for the Button
@@ -107,7 +126,7 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
                     // Reset title for the activity
                     for (int j = 0; j < layoutGroupCompanies.getChildCount(); j++) {
                         View temp = layoutGroupCompanies.getChildAt(j);
-                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(android.R.color.black));
+                        ((TextView) temp.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.text_table_color));
                     }
 
                     ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
@@ -118,7 +137,7 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
                     getActivity().getActionBar().setTitle(company);
 
                     // load Result
-                    loadResult(code);
+                    new DownloadInfoTask(code).execute();
 
                 }
             });
@@ -274,6 +293,10 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
             listViewLotto.setAdapter(lottoAdapter);
             listViewCouple.setAdapter(coupleAdapter);
 
+            listViewLotto.setVisibility(View.VISIBLE);
+            listViewCouple.setVisibility(View.VISIBLE);
+            textLogan.setVisibility(View.VISIBLE);
+            textXoso.setVisibility(View.VISIBLE);
 
         } catch (JSONException e) {
             Log.d(TAG, "Json from server is error: " + code);

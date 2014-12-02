@@ -33,7 +33,9 @@
                     android:layout_marginRight="-3dp"
                     android:layout_weight="1"
                     android:background="@drawable/background_button_mien_bac"
-                    android:text="Miền Bắc" />
+                    android:text="Miền Bắc"
+                    android:textColor="@color/text_table_color"
+                    android:textSize="22px" />
 
                 <Button
                     android:id="@+id/button_area_middle"
@@ -46,7 +48,9 @@
                     android:layout_toRightOf="@+id/button_area_north"
                     android:layout_weight="1"
                     android:background="@drawable/background_button_mien_trung"
-                    android:text="Miền Trung" />
+                    android:text="Miền Trung"
+                    android:textColor="@color/text_table_color"
+                    android:textSize="22px" />
 
                 <Button
                     android:id="@+id/button_area_south"
@@ -56,14 +60,19 @@
                     android:layout_toRightOf="@+id/button_area_middle"
                     android:layout_weight="1"
                     android:background="@drawable/background_button_mien_nam"
-                    android:text="Miền Nam" />
+                    android:text="Miền Nam"
+                    android:textColor="@color/text_table_color"
+                    android:textSize="22px" />
             </LinearLayout>
+
 
             <HorizontalScrollView
                 android:id="@+id/horizontal_companies_view"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/layout_group_area">
+                android:layout_below="@+id/layout_group_area"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <LinearLayout
                     android:id="@+id/layout_group_companies"
@@ -78,26 +87,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/horizontal_companies_view"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="Kết quả xổ số" />
+                android:text="Kết quả xổ số"
+                android:textColor="@color/orange_color"
+                android:textSize="20px" />
 
             <ListView
                 android:id="@+id/list_logan_lotto"
                 android:layout_width="fill_parent"
                 android:layout_height="400dp"
-                android:layout_below="@+id/text_title_logan_lotto"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp">
+                android:layout_below="@+id/text_title_lotto"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/table_background"
+                android:divider="@drawable/line_horizontal">
 
             </ListView>
+
+            <TextView
+                android:id="@+id/text_title_logan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:divider="@drawable/line_horizontal"
+                android:text="Thống kê logan: "
+                android:textColor="@color/orange_color"
+                android:textSize="20px" />
 
             <ListView
                 android:id="@+id/list_logan_couple"
                 android:layout_width="fill_parent"
                 android:layout_height="400dp"
                 android:layout_below="@+id/list_logan_lotto"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/table_background"
+                android:divider="@drawable/line_horizontal" />
 
         </LinearLayout>
     </ScrollView>

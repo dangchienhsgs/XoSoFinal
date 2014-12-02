@@ -11,6 +11,7 @@
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
         android:divider="@drawable/grey_line"></ExpandableListView>
 
 </RelativeLayout>
