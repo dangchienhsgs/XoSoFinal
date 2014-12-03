@@ -7,8 +7,7 @@
         <item>Lich</item>
     </string-array>
 
-    <string name="app_name">XoSoKienThiet</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Xổ số</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_date_picker">Chọn ngày</string>
     <string name="title_activity_schedule_rolling">Lịch Quay</string>

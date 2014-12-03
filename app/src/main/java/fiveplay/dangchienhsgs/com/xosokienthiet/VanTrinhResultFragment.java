@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.alerterror.NetworkErrorDialog;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.VanTrinh;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
@@ -68,18 +69,38 @@ public class VanTrinhResultFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            if (result.trim().isEmpty()) {
-                Toast.makeText(getActivity(), "Server is error !", Toast.LENGTH_SHORT).show();
-            } else {
-                VanTrinh vanTrinh = VanTrinh.parse(result);
-
-                if (vanTrinh == null) {
+            try {
+                if (result.trim().isEmpty()) {
                     Toast.makeText(getActivity(), "Server is error !", Toast.LENGTH_SHORT).show();
                 } else {
+                    VanTrinh vanTrinh = VanTrinh.parse(result);
 
-                    textVanTrinh.setText(Html.fromHtml(vanTrinh.getVantrinhTongThe()));
+                    if (vanTrinh == null) {
+                        Toast.makeText(getActivity(), "Server is error !", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        textVanTrinh.setText(Html.fromHtml(vanTrinh.getVantrinhTongThe()));
+                    }
                 }
+            } catch (Exception e) {
+                NetworkErrorDialog dialog = new NetworkErrorDialog();
+                dialog.setTitle("Thông báo");
+                dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");
+                dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
+                    @Override
+                    public void onDialogRetry() {
+                        new UrlDownloadTask(year, month, day).execute();
+                    }
+
+                    @Override
+                    public void onDialogClose() {
+                        getActivity().onBackPressed();
+                    }
+                });
+
+                dialog.show(VanTrinhResultFragment.this.getFragmentManager(), "Error Network Dialog");
             }
+
         }
     }
 }

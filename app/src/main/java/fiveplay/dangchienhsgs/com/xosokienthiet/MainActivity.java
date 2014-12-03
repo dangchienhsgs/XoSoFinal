@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,23 +95,29 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
     public void onDrawerItemClick(View view) {
         switch (view.getId()) {
             case R.id.image_ketqua:
+                menu.setSlidingEnabled(true);
                 indexFragment = Common.INDEX_RESULT_FRAGMENT;
                 mViewPager.setCurrentItem(Common.INDEX_RESULT_FRAGMENT);
                 break;
             case R.id.image_thongke:
+                menu.setSlidingEnabled(false);
                 indexFragment = Common.INDEX_STATISTIC_FRAGMENT;
                 mViewPager.setCurrentItem(Common.INDEX_STATISTIC_FRAGMENT);
                 break;
             case R.id.image_lichquay:
+                menu.setSlidingEnabled(false);
                 indexFragment = Common.INDEX_SCHEDULE_FRAGMENT;
                 mViewPager.setCurrentItem(Common.INDEX_SCHEDULE_FRAGMENT);
                 break;
             case R.id.image_tienich:
+                menu.setSlidingEnabled(false);
                 indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
                 mViewPager.setCurrentItem(Common.INDEX_UTILITIES_FRAGMENT);
                 break;
         }
         menu.toggle(true);
+
+        menu.setSlidingEnabled(false);
     }
 
     public void initFragment() {
@@ -153,6 +160,7 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
 
+
         tabAdapter = new TabsPagerAdapter(getSupportFragmentManager(), listFragment);
 
 
@@ -172,6 +180,12 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
 
             @Override
             public void onPageSelected(int i) {
+                if (i == 0) {
+                    menu.setSlidingEnabled(true);
+                } else {
+                    menu.setSlidingEnabled(false);
+                }
+
                 indexFragment = i;
                 mViewPager.setCurrentItem(i);
             }
@@ -188,7 +202,15 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        getActionBar().setCustomView(LayoutInflater.from(this).inflate(R.layout.menu_layout, null));
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setHomeButtonEnabled(false);
+        //disable application icon from ActionBar
+        getActionBar().setDisplayShowHomeEnabled(false);
+
+        //disable application name from ActionBar
+        getActionBar().setDisplayShowTitleEnabled(false);
         return true;
     }
 
@@ -200,7 +222,7 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_calendar:
+            case R.id.image_choose_day:
                 MyDatePickerDialogs dialogs = new MyDatePickerDialogs();
 
                 dialogs.setInitDate(year, month, day);
@@ -208,16 +230,55 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
                 dialogs.show(getSupportFragmentManager(), "DatePicker");
                 break;
 
-            case R.id.action_today:
+            case R.id.image_today:
                 initDate();
 
                 resultFragment.setDate(year, month, day);
                 resultFragment.loadResult(resultFragment.getCode());
+
+                break;
+            case R.id.image_open_drawer:
+
+                if (menu.isMenuShowing()) {
+                    menu.showMenu();
+                } else {
+                    menu.toggle(true);
+                }
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+
+    public void onMenuItemClicked(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.image_choose_day:
+                MyDatePickerDialogs dialogs = new MyDatePickerDialogs();
+
+                dialogs.setInitDate(year, month, day);
+                dialogs.setDatePickerListener(this);
+                dialogs.show(getSupportFragmentManager(), "DatePicker");
+                break;
+
+            case R.id.image_today:
+                initDate();
+
+                resultFragment.setDate(year, month, day);
+                resultFragment.loadResult(resultFragment.getCode());
+
+                break;
+            case R.id.image_open_drawer:
+
+                if (menu.isMenuShowing()) {
+                    menu.showMenu();
+                } else {
+                    menu.toggle(true);
+                }
+                break;
+        }
+    }
     @Override
     public void onDatePickerReturn(int year, int month, int day) {
         this.day = day;
@@ -301,7 +362,7 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
             case Common.INDEX_FUN_STORY_FRAGMENT:
 
                 if (indexFunStoryFragment == -1) {
-                    replaceFragment(R.id.fragment_statistic_root, utilitiesFragment);
+                    replaceFragment(R.id.fragment_utilities_root, utilitiesFragment);
                     indexFragment = Common.INDEX_UTILITIES_FRAGMENT;
 
                 } else {

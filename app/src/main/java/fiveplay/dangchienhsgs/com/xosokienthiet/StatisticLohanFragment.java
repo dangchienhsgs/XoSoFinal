@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TwoColumnArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.alerterror.NetworkErrorDialog;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.NumberCouple;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.StringCouple;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
@@ -43,6 +44,8 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
 
     private String[] choosingCompanies;
     private String[] choosingCompaniesID;
+
+    private String code;
 
     private ListView listViewLotto;
     private ListView listViewCouple;
@@ -131,7 +134,7 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
 
                     ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
 
-                    String code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
+                    code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
                     String company = choosingCompanies[Integer.parseInt((String) view.getTag())];
 
                     getActivity().getActionBar().setTitle(company);
@@ -146,9 +149,9 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
         }
     }
 
-    public void loadResult(String code) {
+    public void loadResult(String result) {
         try {
-            JSONObject jsonObject = new JSONObject(code);
+            JSONObject jsonObject = new JSONObject(result);
             JSONArray jsonLotto = jsonObject.getJSONArray("loto");
 
             Log.d(TAG, jsonLotto.toString());
@@ -298,8 +301,23 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
             textLogan.setVisibility(View.VISIBLE);
             textXoso.setVisibility(View.VISIBLE);
 
-        } catch (JSONException e) {
-            Log.d(TAG, "Json from server is error: " + code);
+        } catch (Exception e) {
+            NetworkErrorDialog dialog = new NetworkErrorDialog();
+            dialog.setTitle("Thông báo");
+            dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");
+            dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
+                @Override
+                public void onDialogRetry() {
+                    new DownloadInfoTask(code).execute();
+                }
+
+                @Override
+                public void onDialogClose() {
+
+                }
+            });
+
+            dialog.show(StatisticLohanFragment.this.getFragmentManager(), "Error Network Dialog");
         }
     }
 

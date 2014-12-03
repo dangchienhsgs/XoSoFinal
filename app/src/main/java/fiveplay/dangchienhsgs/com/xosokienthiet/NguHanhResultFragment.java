@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.alerterror.NetworkErrorDialog;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.NguHanh;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
@@ -65,27 +66,34 @@ public class NguHanhResultFragment extends Fragment {
 
         @Override
         protected String doInBackground(String[] urls) {
-            Log.d(TAG, year + " " + month + " " + day);
             String result = ServiceUtilities.getNguHanh(year, month, day);
-            Log.d(TAG, result);
             return result;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            Log.d(TAG, result);
-            if (result.trim().isEmpty()) {
-                Toast.makeText(getActivity(), "Server is error !", Toast.LENGTH_SHORT).show();
-            } else {
+            try {
                 NguHanh nguHanh = NguHanh.parse(result);
 
-                Log.d(TAG, result);
+                textNguHanh.setText(Html.fromHtml(nguHanh.getContent()));
 
-                if (nguHanh == null) {
-                    Toast.makeText(getActivity(), "Server is error !", Toast.LENGTH_SHORT).show();
-                } else {
-                    textNguHanh.setText(Html.fromHtml(nguHanh.getContent()));
-                }
+            } catch (Exception e) {
+                NetworkErrorDialog dialog = new NetworkErrorDialog();
+                dialog.setTitle("Thông báo");
+                dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");
+                dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
+                    @Override
+                    public void onDialogRetry() {
+                        new UrlDownloadTask(year, month, day).execute();
+                    }
+
+                    @Override
+                    public void onDialogClose() {
+                        getActivity().onBackPressed();
+                    }
+                });
+
+                dialog.show(NguHanhResultFragment.this.getFragmentManager(), "Error Network Dialog");
             }
         }
     }

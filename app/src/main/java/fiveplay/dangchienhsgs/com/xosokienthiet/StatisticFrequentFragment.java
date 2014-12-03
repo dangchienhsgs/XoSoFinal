@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.ThreeColumnArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.alerterror.NetworkErrorDialog;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.numberpicker.MyDialogNumberPicker;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
@@ -252,7 +253,25 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
             listSpecialView.setVisibility(View.VISIBLE);
         } catch (JSONException e) {
             Log.d(TAG, "JSON from server is error: " + result);
+        } catch (NullPointerException e) {
+            NetworkErrorDialog dialog = new NetworkErrorDialog();
+            dialog.setTitle("Thông báo");
+            dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");
+            dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
+                @Override
+                public void onDialogRetry() {
+                    new DownloadInfoTask(code, range).execute();
+                }
+
+                @Override
+                public void onDialogClose() {
+
+                }
+            });
+
+            dialog.show(StatisticFrequentFragment.this.getFragmentManager(), "Error Network Dialog");
         }
+
     }
 
     private List<String> convertJSONArrayToList(JSONArray jsonArray) {
@@ -283,7 +302,6 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
 
             return null;
         }
-
     }
 
 

@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.alerterror.NetworkErrorDialog;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
 
 public class FunStoryContentFragment extends Fragment {
@@ -55,8 +56,23 @@ public class FunStoryContentFragment extends Fragment {
             textTitle.setText(title);
 
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            NetworkErrorDialog dialog = new NetworkErrorDialog();
+            dialog.setTitle("Thông báo");
+            dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");
+            dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
+                @Override
+                public void onDialogRetry() {
+                    new UrlDownloadContent(storyID).execute();
+                }
+
+                @Override
+                public void onDialogClose() {
+
+                }
+            });
+
+            dialog.show(FunStoryContentFragment.this.getFragmentManager(), "Error Network Dialog");
         }
     }
 

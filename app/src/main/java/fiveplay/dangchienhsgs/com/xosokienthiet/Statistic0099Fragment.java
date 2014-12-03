@@ -26,6 +26,7 @@ import java.util.List;
 import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TwoColumnArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.alerterror.NetworkErrorDialog;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.numberpicker.MyDialogNumberPicker;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
@@ -270,6 +271,23 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
 
             } catch (JSONException e) {
                 Log.d(TAG, "JSON error from url: " + s);
+            } catch (NullPointerException e) {
+                NetworkErrorDialog dialog = new NetworkErrorDialog();
+                dialog.setTitle("Thông báo");
+                dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");
+                dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
+                    @Override
+                    public void onDialogRetry() {
+                        loadResult(code);
+                    }
+
+                    @Override
+                    public void onDialogClose() {
+
+                    }
+                });
+
+                dialog.show(Statistic0099Fragment.this.getFragmentManager(), "Error Network Dialog");
             }
         }
     }

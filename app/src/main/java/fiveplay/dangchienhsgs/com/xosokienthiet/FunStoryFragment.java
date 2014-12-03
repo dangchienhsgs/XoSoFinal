@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.FunStoryArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.alerterror.NetworkErrorDialog;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
 
 
@@ -120,25 +121,39 @@ public class FunStoryFragment extends Fragment {
         protected String doInBackground(Void... voids) {
             String url = "http://xs.icsoft.vn/NewsJsonServices/NewsService.svc/GetArticlesByCate/164," + indexPage + "," + numStoryInPage + ",4,livexs,zyz";
 
-            Log.d(TAG, url);
-
             String content = ServiceUtilities.sendGet(url, null);
-            content = content.substring(1, content.length() - 1);
 
-            Log.d(TAG, content);
-
-            content = content.replace("\\\\", "\\");
-            content = content.replace("\\\"", "\"");
-
-            Log.d(TAG, content);
 
             return content;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            analyzeResult(result);
-            updateView();
+            try {
+                result = result.substring(1, result.length() - 1);
+                result = result.replace("\\\\", "\\");
+                result = result.replace("\\\"", "\"");
+
+                analyzeResult(result);
+                updateView();
+            } catch (Exception e) {
+                NetworkErrorDialog dialog = new NetworkErrorDialog();
+                dialog.setTitle("Thông báo");
+                dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");
+                dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
+                    @Override
+                    public void onDialogRetry() {
+                        new DownloadUrlTask(0, 20).execute();
+                    }
+
+                    @Override
+                    public void onDialogClose() {
+                        getActivity().onBackPressed();
+                    }
+                });
+
+                dialog.show(FunStoryFragment.this.getFragmentManager(), "Error Network Dialog");
+            }
         }
     }
 

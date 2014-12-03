@@ -227,45 +227,44 @@ public class Common {
 
 
     public static final String[] COMPANY_IN_MON_DAY = {
-            "Ha Noi ,Hai Phong",
-            "Bac Ninh ,Lao Cai",
-            "Bac Ninh,  Lao Cai",
+            "Hà Nội",
+            "Huế\n Phú Yên",
+            "Đồng Tháp \n TP Hồ Chí Minh",
     };
 
     public static final String[] COMPANY_IN_TUESDAY = {
-            "Ha Noi , Hai Phong",
-            "Bac Ninh , Lao Cai",
-            "Bac Ninh ,Lao Cai",
+            "Quảng Ninh",
+            "Quảng Nam \n Đắk Lắk",
+            "Vũng Tàu \n Bến Tre \n Bạc Liêu"
     };
 
     public static final String[] COMPANY_IN_WEDNESDAY = {
-            "Ha Noi \n Hai Phong",
-            "Bac Ninh \n Lao Cai",
-            "Bac Ninh \n Lao Cai",
+            "Bắc Ninh",
+            "Khánh Hòa \n Đà Nẵng",
+            "Cần Thơ \n Sóc Trăng \n Đồng Nai",
     };
-
     public static final String[] COMPANY_IN_THURSDAY = {
-            "Ha Noi \n Hai Phong",
-            "Bac Ninh \n Lao Cai",
-            "Bac Ninh \n Lao Cai",
+            "Hà Nội",
+            "Bình Định \n Quảng Bình \n Quảng Trị",
+            "An Giang \n Tây Ninh \n Bình Thuận"
     };
 
     public static final String[] COMPANY_IN_FRIDAY = {
-            "Ha Noi , Hai Phong",
-            "Bac Ninh , Lao Cai",
-            "Bac Ninh , Lao Cai",
+            "Hải Phòng",
+            "Vĩnh Long \n Bình Dương \n Trà Vinh",
+            "Ninh Thuận \n Gia Lai",
     };
 
     public static final String[] COMPANY_IN_SATURDAY = {
-            "Ha Noi \n Hai Phong",
-            "Bac Ninh \n Lao Cai",
-            "Bac Ninh \n Lao Cai",
+            "Nam Định",
+            "Quảng Ngãi \n Đăk Nông \n Đà Nẵng",
+            "Long An \n Bình Phước \n Hậu Giang \n TP Hồ Chí Minh",
     };
 
     public static final String[] COMPANY_IN_SUNDAY = {
-            "Ha Noi \n Hai Phong",
-            "Bac Ninh \n Lao Cai",
-            "Bac Ninh \n Lao Cai",
+            "Thái Bình",
+            "Kon Tum \n Khánh Hòa",
+            "Kiên Giang \n Tiền Giang \n Đà Lạt",
     };
 
 
@@ -281,8 +280,8 @@ public class Common {
     public static final String[] SCHEDULE_TYPES = {
             "Thống kê logan",
             "Thống kê 00-99",
-            "Thống kê it nhieu",
-            "Thống kê xuat hien"
+            "Thống kê ít nhiều",
+            "Thống kê xuất hiện"
     };
 
     public static String[] DEFAULT_NUM_TIMES = {

@@ -26,6 +26,7 @@ import java.util.List;
 import fiveplay.dangchienhsgs.com.xosokienthiet.Common;
 import fiveplay.dangchienhsgs.com.xosokienthiet.R;
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.FourColumnArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.alerterror.NetworkErrorDialog;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 import fiveplay.dangchienhsgs.com.xosokienthiet.model.LotteryResult;
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TwoColumnArrayAdapter;
@@ -197,50 +198,69 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
 
         @Override
         protected void onPostExecute(String result) {
-            Log.d(TAG, result);
+            try {
+                Log.d(TAG, result);
 
-            LotteryResult lottoResult = new LotteryResult(result);
-            Log.d(TAG, lottoResult.getLottoHeadTail().size() + "");
-            Log.d(TAG, lottoResult.getLottoTailHead().size() + "");
+                LotteryResult lottoResult = new LotteryResult(result);
+                Log.d(TAG, lottoResult.getLottoHeadTail().size() + "");
+                Log.d(TAG, lottoResult.getLottoTailHead().size() + "");
 
-            TwoColumnArrayAdapter lottoAdapter = new TwoColumnArrayAdapter(
-                    getActivity(),
-                    R.layout.row_two_columns,
-                    R.id.text_first_column,
-                    Arrays.asList(Common.PRIZE_NAME),
-                    lottoResult.getPrize()
-            );
+                TwoColumnArrayAdapter lottoAdapter = new TwoColumnArrayAdapter(
+                        getActivity(),
+                        R.layout.row_two_columns,
+                        R.id.text_first_column,
+                        Arrays.asList(Common.PRIZE_NAME),
+                        lottoResult.getPrize()
+                );
 
 
-            List<String> listDigits = new ArrayList<String>();
-            for (String str : Common.DIGITS) {
-                listDigits.add(str);
+                List<String> listDigits = new ArrayList<String>();
+                for (String str : Common.DIGITS) {
+                    listDigits.add(str);
+                }
+
+                listDigits.add(0, "Đầu");
+                lottoResult.getLottoHeadTail().add(0, "Đuôi");
+                lottoResult.getLottoTailHead().add(0, "Đuôi");
+                FourColumnArrayAdapter loAdapter = new FourColumnArrayAdapter(
+                        getActivity(),
+                        R.layout.row_four_columns,
+                        R.id.text_first_column,
+                        listDigits,
+                        lottoResult.getLottoHeadTail(),
+                        lottoResult.getLottoTailHead(),
+                        listDigits
+                );
+
+
+                listHeadTail.setAdapter(loAdapter);
+                loAdapter.notifyDataSetChanged();
+
+                listResult.setAdapter(lottoAdapter);
+                lottoAdapter.notifyDataSetChanged();
+
+                listHeadTail.setVisibility(View.VISIBLE);
+                listResult.setVisibility(View.VISIBLE);
+                textTitleLotto.setVisibility(View.VISIBLE);
+                textTitleSpecial.setVisibility(View.VISIBLE);
+            } catch (NullPointerException e) {
+                NetworkErrorDialog dialog = new NetworkErrorDialog();
+                dialog.setTitle("Thông báo");
+                dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");
+                dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
+                    @Override
+                    public void onDialogRetry() {
+                        loadResult(code);
+                    }
+
+                    @Override
+                    public void onDialogClose() {
+
+                    }
+                });
+
+                dialog.show(ResultFragment.this.getFragmentManager(), "Error Network Dialog");
             }
-
-            listDigits.add(0, "Đầu");
-            lottoResult.getLottoHeadTail().add(0, "Đuôi");
-            lottoResult.getLottoTailHead().add(0, "Đuôi");
-            FourColumnArrayAdapter loAdapter = new FourColumnArrayAdapter(
-                    getActivity(),
-                    R.layout.row_four_columns,
-                    R.id.text_first_column,
-                    listDigits,
-                    lottoResult.getLottoHeadTail(),
-                    lottoResult.getLottoTailHead(),
-                    listDigits
-            );
-
-
-            listHeadTail.setAdapter(loAdapter);
-            loAdapter.notifyDataSetChanged();
-
-            listResult.setAdapter(lottoAdapter);
-            lottoAdapter.notifyDataSetChanged();
-
-            listHeadTail.setVisibility(View.VISIBLE);
-            listResult.setVisibility(View.VISIBLE);
-            textTitleLotto.setVisibility(View.VISIBLE);
-            textTitleSpecial.setVisibility(View.VISIBLE);
         }
     }
 

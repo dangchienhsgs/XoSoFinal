@@ -17,10 +17,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.FourColumnArrayAdapter;
+import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.alerterror.NetworkErrorDialog;
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.StringUtils;
 
@@ -45,10 +47,16 @@ public class GoldPriceFragment extends Fragment {
         listGoldPrice = (ListView) view.findViewById(R.id.list_gold_price);
         listMoneyPrice = (ListView) view.findViewById(R.id.list_money_price);
 
-        new DownloadResultTask(2014, 11, 10).execute();
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        new DownloadResultTask(year, month, day).execute();
+
         return view;
 
     }
+
 
     public void analyzeResult(String result) {
         try {
@@ -65,8 +73,27 @@ public class GoldPriceFragment extends Fragment {
             moneyMap = StringUtils.analyzeGOLD(StringUtils.moneyCountries, moneyInfo);
 
             updateView();
-        } catch (JSONException e) {
-            Toast.makeText(getActivity(), "Server is error ", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            NetworkErrorDialog dialog = new NetworkErrorDialog();
+            dialog.setTitle("Thông báo");
+            dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");
+            dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
+                @Override
+                public void onDialogRetry() {
+                    Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH);
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+                    new DownloadResultTask(year, month, day).execute();
+                }
+
+                @Override
+                public void onDialogClose() {
+                    getActivity().onBackPressed();
+                }
+            });
+
+            dialog.show(GoldPriceFragment.this.getFragmentManager(), "Error Network Dialog");
         }
     }
 
@@ -151,7 +178,6 @@ public class GoldPriceFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
             analyzeResult(result);
         }
     }
