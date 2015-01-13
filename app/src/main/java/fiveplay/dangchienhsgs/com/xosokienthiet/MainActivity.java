@@ -1,5 +1,6 @@
 package fiveplay.dangchienhsgs.com.xosokienthiet;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
@@ -23,49 +25,66 @@ import java.util.List;
 import fiveplay.dangchienhsgs.com.xosokienthiet.adapter.TabsPagerAdapter;
 import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.datepicker.MyDatePickerDialogs;
 
+import org.apache.http.client.params.HttpClientParams;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+
+import android.app.ProgressDialog;
+
+import android.widget.Toast;
+
+import com.duongnd.android.appsetting.AdsSetting;
+import com.duongnd.android.appsetting.AppSetting;
+import com.duongnd.android.appsetting.BannerViewComb;
+import com.duongnd.android.appsetting.SettingManager;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.download.HttpClientImageDownloader;
+
 
 public class MainActivity extends ActionBarActivity implements MyDatePickerDialogs.DatePickerListener {
+    private static final String AD_UNIT_ID_BANNER = "ca-app-pub-8823501134821899/7709758362";
+    private static final String AD_UNIT_ID_POPUP = "ca-app-pub-8823501134821899/9186491569";
+    private final String SETTING_SERVER_URL = "http://5play.mobi/apps/batchu/batchu.setting.android.json";
+    ProgressDialog progress;
     private String TAG = "Main Activity";
-
     private ViewPager mViewPager;
     private ActionBar actionBar;
     private TabsPagerAdapter tabAdapter;
-
     private ResultFragment resultFragment;
-
     private ScheduleFragment scheduleFragment;
-
     private UtilitiesRootFragment utilitiesRootFragment;
     private UtilitiesFragment utilitiesFragment;
-
     private StatisticRootFragment statisticRootFragment;
     private StatisticTypeFragment statisticTypeFragment;
-
     private NguHanhRootFragment nguHanhRootFragment;
     private NguHanhResultFragment nguHanhFragment;
     private NguHanhDayPickerFragment nguHanhDayPickerFragment;
-
     private VanTrinhRootFragment vanTrinhRootFragment;
     private VanTrinhResultFragment vanTrinhFragment;
-
     private List<Fragment> listFragment;
-
     private SlidingMenu menu;
-
-
     private int day;
-
     private int month;
-
     private int year;
-
     private int indexFragment;
-
     private int indexStatisticFragment = -1;
     private int indexNguHanhFragment = -1;
     private int indexVanTrinhFragment = -1;
     private int indexFunStoryFragment = -1;
-
+    private AppSetting appSetting;
+    private AdsSetting adsSetting;
+    private BannerViewComb bannerViewComb;
+    private SettingManager settingManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +95,16 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
         initTabs();
         initDate();
         initMenu();
+
+        initAd();
+    }
+
+    public void initAd(){
+        initImageLoader();
+
+        settingManager = new SettingManager(MainActivity.this);
+
+        loadAppSetting(null);
 
     }
 
@@ -142,6 +171,19 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        EasyTracker.getInstance(this).activityStop(this);
+    }
 
     public void initDate() {
         Calendar calendar = Calendar.getInstance();
@@ -153,7 +195,6 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
         onDatePickerReturn(year, month, day);
         Log.d(TAG, "Today: " + month + " " + year + " " + day);
     }
-
 
     private void initTabs() {
         actionBar = getSupportActionBar();
@@ -197,7 +238,6 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
         });
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -250,7 +290,6 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
         return super.onOptionsItemSelected(item);
     }
 
-
     public void onMenuItemClicked(View view) {
         int id = view.getId();
         switch (id) {
@@ -279,6 +318,10 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
                 break;
         }
     }
+
+
+    // Ad
+
     @Override
     public void onDatePickerReturn(int year, int month, int day) {
         this.day = day;
@@ -374,13 +417,11 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
         }
     }
 
-
     public void replaceFragment(int currentFragmentID, Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(currentFragmentID, fragment);
         fragmentTransaction.commit();
     }
-
 
     public void setIndexFragment(int indexFragment) {
         this.indexFragment = indexFragment;
@@ -400,5 +441,144 @@ public class MainActivity extends ActionBarActivity implements MyDatePickerDialo
 
     public void setIndexFunStoryFragment(int indexFunStoryFragment) {
         this.indexFunStoryFragment = indexFunStoryFragment;
+    }
+
+    private void initImageLoader() {
+        HttpParams params = new BasicHttpParams();
+        // Turn off stale checking. Our connections break all the time anyway,
+        // and it's not worth it to pay the penalty of checking every time.
+        HttpConnectionParams.setStaleCheckingEnabled(params, false);
+        // Default connection and socket timeout of 10 seconds. Tweak to taste.
+        HttpConnectionParams.setConnectionTimeout(params, 10 * 1000);
+        HttpConnectionParams.setSoTimeout(params, 10 * 1000);
+        HttpConnectionParams.setSocketBufferSize(params, 8192);
+
+        // Don't handle redirects -- return them to the caller. Our code
+        // often wants to re-POST after a redirect, which we must do ourselves.
+        HttpClientParams.setRedirecting(params, false);
+        // Set the specified user agent and register standard protocols.
+        HttpProtocolParams.setUserAgent(params, "some_randome_user_agent");
+        SchemeRegistry schemeRegistry = new SchemeRegistry();
+        schemeRegistry.register(new Scheme("http", PlainSocketFactory
+                .getSocketFactory(), 80));
+        schemeRegistry.register(new Scheme("https", SSLSocketFactory
+                .getSocketFactory(), 443));
+
+        ClientConnectionManager manager = new ThreadSafeClientConnManager(
+                params, schemeRegistry);
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                this)
+                // .imageDownloader(new BaseImageDownloader(this, 20000, 40000))
+                .imageDownloader(
+                        new HttpClientImageDownloader(this,
+                                new DefaultHttpClient(manager, params)))
+                .denyCacheImageMultipleSizesInMemory().build();
+        // Initialize ImageLoader with configuration.
+        ImageLoader.getInstance().init(config);
+    }
+
+    public void loadAppSetting(View v) {
+        // TODO Auto-generated method stub
+        LoadSettingTask task = new LoadSettingTask();
+
+        task.execute();
+    }
+
+    public void initAds() {
+        // TODO Auto-generated method stub
+        // init image loader
+        adsSetting.initImageLoader();
+        // init add id
+        adsSetting.setAD_UNIT_ID_BANNER(AD_UNIT_ID_BANNER);
+        adsSetting.setAD_UNIT_ID_POPUP(AD_UNIT_ID_POPUP);
+
+        // init view
+        bannerViewComb = (BannerViewComb) findViewById(R.id.bannerComb);
+        bannerViewComb.setAD_UNIT_ID(adsSetting.getAD_UNIT_ID_BANNER());
+        bannerViewComb.loadData(adsSetting.getBanner(), this);
+        // pre load bitmap:
+        adsSetting.loadBitmapPopupVer();
+        adsSetting.loadInterstitial(this);
+    }
+
+    public void showBannerDef(View v) {
+        if (adsSetting != null) {
+            adsSetting.showBannerDef(bannerViewComb);
+        } else {
+            printToast("Chua load file setting");
+        }
+    }
+
+    public void showAdsInterDef(View v) {
+        if (adsSetting != null) {
+            adsSetting.showAdsInterDef(this);
+        } else {
+            printToast("Chua load file setting");
+        }
+    }
+
+    public void printToast(final String str) {
+        this.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                Toast.makeText(MainActivity.this, str, Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+
+    }
+
+    private class LoadSettingTask extends AsyncTask<Void, Void, AppSetting> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            progress = ProgressDialog.show(MainActivity.this, "Loading",
+                    "Đang load setting", true);
+        }
+
+        @Override
+        protected AppSetting doInBackground(Void... params) {
+            // TODO Auto-generated method stub
+            // Load setting from server
+            AppSetting result = settingManager
+                    .getSettingFromServer(SETTING_SERVER_URL);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(AppSetting result) {
+            // TODO Auto-generated method stub
+            if (progress != null) {
+                progress.dismiss();
+            }
+            // Error khi load tu server
+            if (result == null) {
+                Log.d(TAG, "Loi khi load setting tu server");
+                // Dung setting dc save tu lan truoc
+                settingManager.loadSavedAppSetting();
+                appSetting = settingManager.getAppSetting();
+                if (appSetting == null) {
+                    MainActivity.this
+                            .printToast("Khong the load appSetting tu local");
+                } else {
+                    Log.d(TAG, "Dung appSetting tu local");
+                }
+            } else {
+                // Load tu server thanh cong
+                Log.d(TAG, "load setting tu server thanh cong");
+                appSetting = result;
+                settingManager.saveAppSetting(appSetting);
+            }
+            if (appSetting != null) {
+                adsSetting = appSetting.getAds();
+                if (appSetting != null) {
+                    initAds();
+                }
+            }
+        }
     }
 }

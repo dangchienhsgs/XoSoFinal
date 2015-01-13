@@ -8,8 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,12 +29,13 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
 
 public class FunStoryFragment extends Fragment {
     private static final String TAG = "Fun Story Fragment";
+    FunStoryArrayAdapter adapter;
     private ListView listView;
-
     private List<Integer> listId;
     private List<String> listTitle;
     private List<String> listIntro;
     private List<String> listImageLinks;
+    private int indexPage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,6 +43,14 @@ public class FunStoryFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_fun_story, container, false);
         initComponents(view);
+
+
+        listId = new ArrayList<Integer>();
+        listIntro = new ArrayList<String>();
+        listTitle = new ArrayList<String>();
+        listImageLinks = new ArrayList<String>();
+
+        indexPage = 0;
 
         return view;
 
@@ -47,7 +60,7 @@ public class FunStoryFragment extends Fragment {
     public void initComponents(View view) {
         listView = (ListView) view.findViewById(R.id.list_fun_story);
 
-        new DownloadUrlTask(0, 20).execute();
+        new DownloadUrlTask(indexPage, 10).execute();
     }
 
 
@@ -56,12 +69,6 @@ public class FunStoryFragment extends Fragment {
             JSONArray jsonArray = new JSONArray(result);
 
             Log.d(TAG, jsonArray.length() + "");
-
-
-            listId = new ArrayList<Integer>();
-            listIntro = new ArrayList<String>();
-            listTitle = new ArrayList<String>();
-            listImageLinks = new ArrayList<String>();
 
             for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -85,26 +92,55 @@ public class FunStoryFragment extends Fragment {
     }
 
     public void updateView() {
-        FunStoryArrayAdapter adapter = new FunStoryArrayAdapter(
-                getActivity(),
-                R.layout.row_list_fun_story,
-                listTitle,
-                listIntro
-        );
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        } else {
+            adapter = new FunStoryArrayAdapter(
+                    getActivity(),
+                    R.layout.row_list_fun_story,
+                    listTitle,
+                    listIntro
+            );
 
-        listView.setAdapter(adapter);
+            listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FunStoryContentFragment funStoryContentFragment = new FunStoryContentFragment();
-                funStoryContentFragment.setStoryId(listId.get(i));
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    FunStoryContentFragment funStoryContentFragment = new FunStoryContentFragment();
+                    funStoryContentFragment.setStoryId(listId.get(i));
 
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.setIndexFunStoryFragment(0);
-                mainActivity.replaceFragment(R.id.fragment_fun_story_root, funStoryContentFragment);
-            }
-        });
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.setIndexFunStoryFragment(0);
+                    mainActivity.replaceFragment(R.id.fragment_fun_story_root, funStoryContentFragment);
+
+                    EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                            "Fun Story",
+                            "Fun Story View",
+                            "Fun Story",
+                            null).build());
+                }
+            });
+
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView absListView, int i) {
+
+                }
+
+                @Override
+                public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+                    int current = i + i2;
+
+                    // If at bottom, load more story
+                    if (current == i3) {
+                        indexPage = indexPage + 1;
+                        new DownloadUrlTask(indexPage, 10).execute();
+                    }
+                }
+            });
+        }
+
     }
 
 
@@ -134,8 +170,10 @@ public class FunStoryFragment extends Fragment {
                 result = result.replace("\\\\", "\\");
                 result = result.replace("\\\"", "\"");
 
-                analyzeResult(result);
-                updateView();
+                if (result.trim().length() > 5) {
+                    analyzeResult(result);
+                    updateView();
+                }
             } catch (Exception e) {
                 NetworkErrorDialog dialog = new NetworkErrorDialog();
                 dialog.setTitle("Thông báo");
@@ -143,7 +181,7 @@ public class FunStoryFragment extends Fragment {
                 dialog.setListener(new NetworkErrorDialog.OnRetryListener() {
                     @Override
                     public void onDialogRetry() {
-                        new DownloadUrlTask(0, 20).execute();
+                        new DownloadUrlTask(indexPage, 10).execute();
                     }
 
                     @Override

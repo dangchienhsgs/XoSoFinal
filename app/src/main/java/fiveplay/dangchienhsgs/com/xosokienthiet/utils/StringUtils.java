@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public class StringUtils {
     public static final String[] goldCompanies = {
-            "SJC", "PNJ", "PQJ", "BTMC", "VangTG(USD)"
+            "SJC", "PNJ", "PQJ", "BTMC", "Vang TG(USD)"
     };
 
     public static final String[] moneyCountries = {

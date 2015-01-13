@@ -45,8 +45,8 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/khungso_1" />
 
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@android:color/white"
-                android:textSize="11pt" />
+                android:textSize="9pt" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -65,8 +65,8 @@
             android:layout_marginRight="10dp">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/khungso_1" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@android:color/white"
-                android:textSize="11pt" />
+                android:textSize="9pt" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -84,8 +84,8 @@
             android:layout_marginLeft="10dp">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/khungso_2" />
 
             <TextView
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@android:color/white"
-                android:textSize="11pt" />
+                android:textSize="9pt" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -102,8 +102,8 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/khungso_2" />
 
             <TextView
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@android:color/white"
-                android:textSize="11pt" />
+                android:textSize="9pt" />
         </RelativeLayout>
 
 
@@ -136,8 +136,8 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/khungso_3" />
 
             <TextView
@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@android:color/white"
-                android:textSize="11pt" />
+                android:textSize="9pt" />
         </RelativeLayout>
 
 
@@ -155,8 +155,8 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/khungso_3" />
 
             <TextView
@@ -165,7 +165,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@android:color/white"
-                android:textSize="11pt" />
+                android:textSize="9pt" />
+
         </RelativeLayout>
 
 

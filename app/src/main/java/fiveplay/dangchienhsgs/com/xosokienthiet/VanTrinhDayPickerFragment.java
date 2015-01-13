@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import java.util.prefs.Preferences;
 
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.PreferencesHandler;
@@ -48,6 +51,12 @@ public class VanTrinhDayPickerFragment extends Fragment implements Button.OnClic
         buttonViewResult = (Button) view.findViewById(R.id.button_view_result);
         buttonViewResult.setOnClickListener(this);
 
+        EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                "Van Trinh " + year + "/" + month + "/" + day,
+                "View Button",
+                "Van Trinh Day Picker Fragment",
+                null).build());
+
     }
 
     @Override
@@ -64,5 +73,11 @@ public class VanTrinhDayPickerFragment extends Fragment implements Button.OnClic
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.setIndexVanTrinhFragment(0);
         mainActivity.replaceFragment(R.id.fragment_van_trinh_root, new VanTrinhResultFragment());
+
+        EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                "Van Trinh " + year + "/" + month + "/" + day,
+                "View Button",
+                "Van Trinh Day Picker Fragment",
+                null).build());
     }
 }

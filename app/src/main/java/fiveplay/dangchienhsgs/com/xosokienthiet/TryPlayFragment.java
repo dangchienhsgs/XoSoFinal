@@ -19,6 +19,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,6 +67,12 @@ public class TryPlayFragment extends Fragment implements Button.OnClickListener 
 
         initComponent(view);
         initData(view);
+
+        EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                "Choi Thu",
+                "Try Play",
+                "Try Play Fragment",
+                null).build());
 
         return view;
     }

@@ -16,6 +16,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,9 +34,6 @@ import fiveplay.dangchienhsgs.com.xosokienthiet.dialogs.numberpicker.MyDialogNum
 import fiveplay.dangchienhsgs.com.xosokienthiet.service.ServiceUtilities;
 import fiveplay.dangchienhsgs.com.xosokienthiet.utils.URLBuilder;
 
-/**
- * Created by dangchienbn on 15/11/2014.
- */
 public class Statistic0099Fragment extends Fragment implements Button.OnClickListener, MyDialogNumberPicker.NumberPickerListener {
     private String TAG = "Statistic 00 99 ";
 
@@ -58,14 +58,24 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
 
     private ListView list0099;
 
+    private String code;
+
+    private boolean isStarted=false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_statistic_00_99, container, false);
         initComponents(view);
+
+        // Send to server the action
+        EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                "Open Statistic 00-99",
+                "statistic-00-99",
+                "Statistic0099Fragment",
+                null).build());
         return view;
     }
-
 
     public void initComponents(View view) {
         buttonNorth = (Button) view.findViewById(R.id.button_area_north);
@@ -91,6 +101,7 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
         }
 
         spinnerNumberPicker.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.popup_lanthongke));
+
         mSpinnerAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.spinner_current_item,
@@ -114,6 +125,10 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
                     dialogNumberPicker.show(getFragmentManager(), "Nothing");
                 } else {
                     range = (Integer.parseInt(listSpinnerItems.get(i)));
+
+                    if (isStarted){
+                        loadResult(code);
+                    }
                 }
             }
 
@@ -176,13 +191,21 @@ public class Statistic0099Fragment extends Fragment implements Button.OnClickLis
 
                     ((TextView) view.findViewById(R.id.text_company)).setTextColor(getResources().getColor(R.color.orange_color));
 
-                    String code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
+                    code = choosingCompaniesID[Integer.parseInt((String) view.getTag())];
                     String company = choosingCompanies[Integer.parseInt((String) view.getTag())];
 
                     getActivity().getActionBar().setTitle(company);
 
                     // load Result
                     loadResult(code);
+
+                    EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                            "Choose area: " + code,
+                            "statistic-00-99",
+                            "Statistic0099Fragment",
+                            null).build());
+
+                    isStarted=true;
 
                 }
             });

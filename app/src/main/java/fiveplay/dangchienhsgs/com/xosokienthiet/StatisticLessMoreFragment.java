@@ -16,6 +16,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +41,7 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
     private Button buttonNorth;
     private Button buttonMiddle;
     private Button buttonSouth;
+
     private LinearLayout layoutGroupCompanies;
     private String[] choosingCompanies;
     private String[] choosingCompaniesID;
@@ -48,9 +52,12 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
     private String code = "mienbac";
     private List<NumberCouple> listSpecial;
     private List<NumberCouple> listLotto;
+
     private ListView listViewMax;
     private ListView listViewMin;
 
+
+    private boolean isStarted=false;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -109,6 +116,9 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
                     dialogNumberPicker.show(getFragmentManager(), "Nothing");
                 } else {
                     range = (Integer.parseInt(listSpinnerItems.get(i)));
+                    if (isStarted){
+                        loadResult(code);
+                    }
                 }
             }
 
@@ -175,8 +185,17 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
 
                     getActivity().getActionBar().setTitle(company);
 
+
+                    //
+                    isStarted=true;
                     // load Result
                     loadResult(code);
+
+                    EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                            "Choose area " + code,
+                            "company button",
+                            "Thong ke it nhieu",
+                            null).build());
 
                 }
             });
@@ -198,6 +217,7 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
         spinnerNumberPicker.setSelection(listSpinnerItems.size() - 2);
 
         this.range = value;
+
 
         loadResult(code);
     }
@@ -278,6 +298,10 @@ public class StatisticLessMoreFragment extends Fragment implements Button.OnClic
         textTitleMax.setVisibility(View.VISIBLE);
         listViewMax.setVisibility(View.VISIBLE);
         listViewMin.setVisibility(View.VISIBLE);
+
+        textTitleMax.setText("Các số vé về nhiều nhất trong "+range+" lần quay xổ số");
+        textTitleMin.setText("Các số vé về ít" +
+                " nhất trong "+range+" lần quay xổ số");
     }
 
     public List<NumberCouple> analyzeResult(JSONArray jsonArray) {

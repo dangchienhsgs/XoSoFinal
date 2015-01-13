@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,8 +56,14 @@ public class GoldPriceFragment extends Fragment {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         new DownloadResultTask(year, month, day).execute();
 
-        return view;
 
+        EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                "Gia vang " + year + "/" + month + "/" + day,
+                "View Button",
+                "Van Trinh Day Picker Fragment",
+                null).build());
+
+        return view;
     }
 
 
@@ -73,7 +82,8 @@ public class GoldPriceFragment extends Fragment {
             moneyMap = StringUtils.analyzeGOLD(StringUtils.moneyCountries, moneyInfo);
 
             updateView();
-        } catch (Exception e) {
+        } catch (JSONException e) {
+            Log.d(TAG, e.getMessage());
             NetworkErrorDialog dialog = new NetworkErrorDialog();
             dialog.setTitle("Thông báo");
             dialog.setContent("Lỗi mạng hoặc lỗi server, ấn retry để kết nối lại !");

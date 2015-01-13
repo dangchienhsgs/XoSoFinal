@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -141,6 +144,13 @@ public class StatisticLohanFragment extends Fragment implements Button.OnClickLi
 
                     // load Result
                     new DownloadInfoTask(code).execute();
+
+                    // send to server
+                    EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                            "Choose area " + code,
+                            "company button",
+                            "Thong ke Logan",
+                            null).build());
 
                 }
             });

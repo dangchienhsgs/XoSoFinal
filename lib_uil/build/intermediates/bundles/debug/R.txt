@@ -1,0 +1,2 @@
+int drawable empty 0x7f020000
+int layout empty 0x7f030000

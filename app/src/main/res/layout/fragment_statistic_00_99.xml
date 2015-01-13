@@ -104,7 +104,7 @@
             <ListView
                 android:id="@+id/list_lotto_statistic_00_99"
                 android:layout_width="fill_parent"
-                android:layout_height="4000dp"
+                android:layout_height="4200dp"
                 android:layout_below="@+id/text_title_explain_result"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"

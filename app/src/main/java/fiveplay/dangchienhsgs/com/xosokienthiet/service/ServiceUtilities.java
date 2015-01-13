@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Calendar;
 import java.util.Scanner;
 
 public class ServiceUtilities {
@@ -130,13 +131,36 @@ public class ServiceUtilities {
     }
 
     public static String getGiaVang(int year, int month, int day) {
+        String dayStr = "";
+        String monthStr = "";
+
+
+        if (day > 9) {
+            dayStr = String.valueOf(day);
+        } else {
+            dayStr = "0" + day;
+        }
+
+        if (month > 9) {
+            monthStr = String.valueOf(month);
+        } else {
+            monthStr = "0" + month;
+        }
+
         String data = "{\"MethodName\":\"GetNguHanhInfo\",\"ParamsList\":null,\"ApplicationId\":1,\"PlatformId\":3,\"Identifier\":\"619117091256443\",\"RequestTime\":\"20141104205744\",\"AppKey\":\"411537a8ae6d8a5b77bc335a6fd4f9ca\",\"AppChargeTypeId\":0,\"AppPlatformId\":21,\"AppVersion\":\"1_0_5\",\"BusinessPartnerId\":4,\"BusinessApplicationPlatformId\":16,\"CustomerId\":702795,\"FunctionId\":0}";
-        String url = "http://xoso24h.icsoft.vn/webservices/UtilityService.svc/" + day + month + year + "/GetGoldAndRateInfoByDate";
+        String url = "http://xoso24h.icsoft.vn/webservices/UtilityService.svc/" + dayStr + monthStr + year + "/GetGoldAndRateInfoByDate";
 
         return sendPost(url, getData(data).toString());
     }
 
     public static void main(String args[]) {
-        System.out.println(getVanTrinh(1994, 11, 19));
+        Calendar calendar = Calendar.getInstance();
+
+
+        System.out.println(getGiaVang(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        ));
     }
 }

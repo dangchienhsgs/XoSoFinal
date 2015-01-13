@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,6 +103,16 @@ public class DreamBookFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String dreamNumber = bookReader.getDreamsListNumber().get(i);
 
+                // clear existed
+                textDigitFirst1.setText("");
+                textDigitFirst2.setText("");
+
+                textDigitSecond1.setText("");
+                textDigitSecond2.setText("");
+
+                textDigitThird1.setText("");
+                textDigitThird2.setText("");
+
 
                 // Analyze dreamNumber to put in color circle
                 String values[] = dreamNumber.split("-");
@@ -144,6 +157,12 @@ public class DreamBookFragment extends Fragment {
 
                 mDreamAdapter.setList(listSearchContent);
                 mDreamAdapter.notifyDataSetChanged();
+
+                EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                        "Dream Book",
+                        "Tra cuu " + text,
+                        "So mo",
+                        null).build());
             }
 
             @Override

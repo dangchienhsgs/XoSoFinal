@@ -91,7 +91,7 @@
 
 
             <TextView
-                android:id="@+id/text_title_lotto_result"
+                android:id="@+id/text_title_special"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spinner_pick_num_times"
@@ -99,7 +99,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
-                android:text="Kết quả xổ số"
+                android:text="Thống kê đầu đuôi giải đặc biệt"
                 android:textColor="@color/orange_color"
                 android:textSize="@dimen/text_size_title" />
 
@@ -107,18 +107,30 @@
             <ListView
                 android:id="@+id/list_special_view"
                 android:layout_width="fill_parent"
-                android:layout_height="600dp"
-                android:layout_below="@+id/text_title_lotto_result"
+                android:layout_height="420dp"
+                android:layout_below="@+id/text_title_special"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/table_background"
                 android:divider="@drawable/line_horizontal" />
 
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="@dimen/text_size_title"
+                android:textColor="@color/orange_color"
+                android:layout_below="@+id/list_special_view"
+                android:id="@+id/text_title_lotto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <ListView
                 android:id="@+id/list_lotto_view"
                 android:layout_width="fill_parent"
-                android:layout_height="600dp"
-                android:layout_below="@+id/list_special_view"
+                android:layout_height="420dp"
+                android:layout_below="@+id/text_title_lotto"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/table_background" />

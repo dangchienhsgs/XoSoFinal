@@ -16,6 +16,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +49,8 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
     private ArrayAdapter<String> mSpinnerAdapter;
 
     private String code = "mienbac";
-    private TextView textTitle;
+    private TextView textTitleSpecial;
+    private TextView textTitleLotto;
 
     private ThreeColumnArrayAdapter specialAdapter;
     private ThreeColumnArrayAdapter lottoAdapter;
@@ -55,6 +59,7 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
 
     private int range = 30;
 
+    private boolean isStarted=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,7 +84,9 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
 
         layoutGroupCompanies = (LinearLayout) view.findViewById(R.id.layout_group_companies);
 
-        textTitle = (TextView) view.findViewById(R.id.text_title_lotto_result);
+        textTitleLotto = (TextView) view.findViewById(R.id.text_title_lotto);
+        textTitleSpecial = (TextView) view.findViewById(R.id.text_title_special);
+
 
 
         spinnerNumberPicker = (Spinner) view.findViewById(R.id.spinner_pick_num_times);
@@ -117,6 +124,10 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
                     dialogNumberPicker.show(getFragmentManager(), "Nothing");
                 } else {
                     range = (Integer.parseInt(listSpinnerItems.get(i)));
+
+                    if (isStarted){
+                        new DownloadInfoTask(code, range).execute();
+                    }
                 }
             }
 
@@ -127,9 +138,13 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
         });
 
 
-        textTitle.setVisibility(View.INVISIBLE);
+        textTitleSpecial.setVisibility(View.INVISIBLE);
+        textTitleLotto.setVisibility(View.INVISIBLE);
         listLottoView.setVisibility(View.INVISIBLE);
         listSpecialView.setVisibility(View.INVISIBLE);
+
+        textTitleSpecial.setText("Thống kê đầu đuôi giải đặc biệt sau "+range+" lần quay gần nhất");
+        textTitleLotto.setText("Thống kê đầu đuôi lotto sau "+range+" lần quay gần nhất");
     }
 
     @Override
@@ -198,6 +213,13 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
                     // load Result
                     new DownloadInfoTask(code, range).execute();
 
+                    EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                            "Thong ke: " + code + " so lan: " + range,
+                            "company button",
+                            "Thong ke tan suat",
+                            null).build());
+
+                    isStarted=true;
                 }
             });
 
@@ -220,6 +242,11 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
             List<String> listLottoTail = convertJSONArrayToList(tailLottoArray);
             List<String> listSpecialHead = convertJSONArrayToList(headSpecialArray);
             List<String> listSpecialTail = convertJSONArrayToList(tailSpecialArray);
+
+            listLottoHead.add(0, "Đầu");
+            listLottoTail.add(0, "Đuôi");
+            listSpecialHead.add(0, "Đầu");
+            listSpecialTail.add(0, "Đuôi");
 
             for (int i = 0; i < 10; i++) {
                 listDigit.add(String.valueOf(i));
@@ -248,7 +275,8 @@ public class StatisticFrequentFragment extends Fragment implements Button.OnClic
             listLottoView.setAdapter(lottoAdapter);
 
 
-            textTitle.setVisibility(View.VISIBLE);
+            textTitleSpecial.setVisibility(View.VISIBLE);
+            textTitleLotto.setVisibility(View.VISIBLE);
             listLottoView.setVisibility(View.VISIBLE);
             listSpecialView.setVisibility(View.VISIBLE);
         } catch (JSONException e) {

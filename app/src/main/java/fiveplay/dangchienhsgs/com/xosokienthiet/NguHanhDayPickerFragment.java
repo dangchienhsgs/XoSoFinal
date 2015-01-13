@@ -1,6 +1,5 @@
 package fiveplay.dangchienhsgs.com.xosokienthiet;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 import java.util.prefs.Preferences;
 
@@ -65,5 +67,11 @@ public class NguHanhDayPickerFragment extends Fragment implements Button.OnClick
 
         mainActivity.setIndexNguHanhFragment(0);
         mainActivity.replaceFragment(R.id.fragment_ngu_hanh_root, new NguHanhResultFragment());
+
+        EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                "Ngu Hanh " + year + "/" + month + "/" + day,
+                "View Button",
+                "Ngu Hanh Day Picker Fragment",
+                null).build());
     }
 }

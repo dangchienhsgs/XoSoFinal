@@ -5,6 +5,19 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/PagerSlidingTabStrip-master/library" />
+            <option value="$PROJECT_DIR$/PagerSlidingTabStrip-master/sample" />
+            <option value="$PROJECT_DIR$/adsLib" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/gson-2.3" />
+            <option value="$PROJECT_DIR$/libGoogleAnalyticsServices" />
+            <option value="$PROJECT_DIR$/lib_uil" />
+            <option value="$PROJECT_DIR$/library_sliding_menu" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

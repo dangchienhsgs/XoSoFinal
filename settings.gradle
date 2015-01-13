@@ -1,3 +1,5 @@
-include ':app', ':gson-2.3', ':library', ':sample', ':library_sliding_menu'
+include ':app', ':gson-2.3', ':library', ':sample', ':library_sliding_menu', ':libGoogleAnalyticsServices'
 project(':library').projectDir = new File('PagerSlidingTabStrip-master/library')
 project(':sample').projectDir = new File('PagerSlidingTabStrip-master/sample')
+include ':lib_uil'
+include ':adsLib'

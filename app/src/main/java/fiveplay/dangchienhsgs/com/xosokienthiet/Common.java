@@ -220,51 +220,51 @@ public class Common {
     };
 
     public static final String[] AREAS = {
-            "Mien Bac",
-            "Mien Trung",
-            "Mien Nam"
+            "Miền Bắc",
+            "Miền Trung",
+            "Miền Nam"
     };
 
 
     public static final String[] COMPANY_IN_MON_DAY = {
             "Hà Nội",
-            "Huế\n Phú Yên",
-            "Đồng Tháp \n TP Hồ Chí Minh",
+            "Huế\nPhú Yên",
+            "Đồng Tháp \nTP Hồ Chí Minh",
     };
 
     public static final String[] COMPANY_IN_TUESDAY = {
             "Quảng Ninh",
-            "Quảng Nam \n Đắk Lắk",
-            "Vũng Tàu \n Bến Tre \n Bạc Liêu"
+            "Quảng Nam \nĐắk Lắk",
+            "Vũng Tàu \nBến Tre \nBạc Liêu"
     };
 
     public static final String[] COMPANY_IN_WEDNESDAY = {
             "Bắc Ninh",
-            "Khánh Hòa \n Đà Nẵng",
-            "Cần Thơ \n Sóc Trăng \n Đồng Nai",
+            "Khánh Hòa \nĐà Nẵng",
+            "Cần Thơ \nSóc Trăng \nĐồng Nai",
     };
     public static final String[] COMPANY_IN_THURSDAY = {
             "Hà Nội",
-            "Bình Định \n Quảng Bình \n Quảng Trị",
-            "An Giang \n Tây Ninh \n Bình Thuận"
+            "Bình Định \nQuảng Bình \nQuảng Trị",
+            "An Giang \nTây Ninh \nBình Thuận"
     };
 
     public static final String[] COMPANY_IN_FRIDAY = {
             "Hải Phòng",
-            "Vĩnh Long \n Bình Dương \n Trà Vinh",
-            "Ninh Thuận \n Gia Lai",
+            "Vĩnh Long \nBình Dương \nTrà Vinh",
+            "Ninh Thuận \nGia Lai",
     };
 
     public static final String[] COMPANY_IN_SATURDAY = {
             "Nam Định",
-            "Quảng Ngãi \n Đăk Nông \n Đà Nẵng",
-            "Long An \n Bình Phước \n Hậu Giang \n TP Hồ Chí Minh",
+            "Quảng Ngãi \nĐăk Nông \nĐà Nẵng",
+            "Long An \nBình Phước \nHậu Giang \nTP Hồ Chí Minh",
     };
 
     public static final String[] COMPANY_IN_SUNDAY = {
             "Thái Bình",
-            "Kon Tum \n Khánh Hòa",
-            "Kiên Giang \n Tiền Giang \n Đà Lạt",
+            "Kon Tum \nKhánh Hòa",
+            "Kiên Giang \nTiền Giang \nĐà Lạt",
     };
 
 

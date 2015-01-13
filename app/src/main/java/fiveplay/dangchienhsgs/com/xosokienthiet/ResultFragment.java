@@ -17,6 +17,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -155,6 +158,12 @@ public class ResultFragment extends Fragment implements Button.OnClickListener {
 
                     // load Result
                     loadResult(code);
+
+                    EasyTracker.getInstance(getActivity()).send(MapBuilder.createEvent(
+                            "Choose area " + code,
+                            "company button",
+                            "ResultFragment",
+                            null).build());
 
                 }
             });
